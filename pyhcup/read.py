@@ -16,7 +16,7 @@ def read(target, meta_df=None, state=None, year=None, variety=None,
     Can optionally specify rows to skip (skiprows) or limit the number of rows to read (nrows).
     """
     import pandas as pd
-    from pyhcup import meta
+    import meta
     
     if meta_df is not None:
         assert type(meta_df) is pd.DataFrame, "If used, meta_df must be a pandas DataFrame object"

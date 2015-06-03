@@ -31,7 +31,8 @@ def meta_from_sas(target):
                 description_regex = re.compile(description_pattern_candidate)
     
     if description_regex == None:
-        raise Exception('Unable to find suitable description regex pattern for file.')
+        raise Exception('No suitable description regex pattern for {0}'\
+            .format(target))
             
     assignment_regex = re.compile('(@(?P<position>\d+)\s+(?P<field>\w+)\s+(?P<informat>\S+))')#works with legacy formats
     line_width_regex = re.compile('(LRECL = (?P<line_width>\d+))')
@@ -82,7 +83,7 @@ def meta_augment(meta_df):
     """
     
     #avoid a circular reference
-    from pyhcup.db import col_from_invalue
+    from .db import col_from_invalue
 
     meta_df['length'] = meta_df['informat'].map(lambda x: col_from_invalue(x)['length'])
     meta_df['data_type'] = meta_df['informat'].map(lambda x: col_from_invalue(x)['type'])
@@ -95,6 +96,6 @@ def df_from_sas(target, meta_df, skiprows=None, nrows=None, chunksize=None):
     """Deprecated. Use pyhcup.parser.read()"""
     print "WARNING: pyhcup.sas.df_from_sas() is deprecated and is scheduled for removal in pyhcup 0.1.6; use pyhcup.parser.read()"
     
-    from pyhcup.parser import read
+    from .parser import read
     result = read(target, meta_df, skiprows=skiprows, nrows=nrows, chunksize=chunksize)    
     return result

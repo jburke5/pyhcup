@@ -10,13 +10,7 @@ from pandas import DataFrame
 na_value = numpy.NaN
 re_match = re.match
 
-
-
-"""Lots of local config stuff"""
-# pathing information to reach bundled utilization flag definitions
-path = os.path.abspath(__file__)
-dir_path = os.path.dirname(path)
-BUNDLED_UFLAGDEF = os.path.join(dir_path, 'data', 'uflags', 'uflag_definitions.csv')
+from .config import BUNDLED_UFLAGDEF
 
 
 # Some files have bonus content, which should be skipped for loading

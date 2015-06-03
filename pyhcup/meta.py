@@ -2,10 +2,8 @@
 
 "High-level" module which imports other pyhcup modules as part of its work
 """
-import hachoir
-import sas
-import tx
-from parser import LONG_MAPS
+import hachoir, sas, tx
+from .parser import LONG_MAPS
 
 import pandas as pd
 

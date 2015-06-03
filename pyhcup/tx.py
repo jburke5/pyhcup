@@ -49,7 +49,7 @@ def get_meta(year, variety='base', split_base_portion=None):
         assert split_base_portion in [1, 2], "For 2011 and 2012 base files, must specify which portion (1 or 2)"
         filename = 'tx_pudf_%d_%s_definition_%d.txt' % (year, variety.lower(), split_base_portion)
     
-    from pyhcup.hachoir import BUNDLED_LOADFILE_DIR
+    from .hachoir import BUNDLED_LOADFILE_DIR
     target = os.path.join(BUNDLED_LOADFILE_DIR, 'tx_pudf', filename)
     
     return meta_from_txt(target)
