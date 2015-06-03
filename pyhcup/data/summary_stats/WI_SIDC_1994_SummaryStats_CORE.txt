@@ -1,0 +1,6256 @@
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+ 1
+Means of Continuous Data Elements
+ 09:28 Monday, August 22, 2005
+N
+Variable / Label
+N
+ Miss
+ Minimum Maximum
+ Mean
+ Std Dev
+SEQ_SID : I:HCUP-3 SID record sequence number
+ 625621
+ 0
+ 5.5002E12
+ 5.5151E12 5.5073E12 3.83372E9
+AGE : I:Age in years at admission
+ 625196
+ 425
+ 0.00
+ 105.00
+ 45.27
+ 28.03
+AGEDAY : I:Age in days (when < 1 year)
+ 76703 548918
+ 0.00
+ 364.00
+ 15.10
+ 55.55
+SEX : I:Sex
+ 625518
+ 103
+ 1.00
+ 2.00
+ 1.57
+ 0.49
+RACE : I:Race
+ 608893
+ 16728
+ 1.00
+ 6.00
+ 1.19
+ 0.65
+DQTR : I:Discharge quarter
+ 625621
+ 0
+ 1.00
+ 4.00
+ 2.49
+ 1.12
+LOS : I:Length of stay (cleaned)
+ 625144
+ 477
+ 0.00
+ 6846.00
+ 5.55
+ 24.39
+DISP : I:Disposition of patient
+ 625621
+ 0
+ 1.00
+ 20.00
+ 2.02
+ 3.06
+DIED : I:Died during hospitalization
+ 625621
+ 0
+ 0.00
+ 1.00
+ 0.02
+ 0.15
+ATYPE : I:Admission type
+ 625621
+ 0
+ 1.00
+ 4.00
+ 2.22
+ 0.91
+ASOURCE : I:Admission source
+ 622250
+ 3371
+ 1.00
+ 5.00
+ 3.54
+ 1.88
+NDX : I:Number of diagnoses on this discharge
+ 625621
+ 0
+ 0.00
+ 10.00
+ 4.20
+ 2.51
+DXV1 : I:Validity flag: principal diagnosis
+ 625504
+ 117
+ 0.00
+ 1.00
+ 0.00
+ 0.00
+DCCHPR1 : I:CCHPR: principal diagnosis
+ 625614
+ 7
+ 1.00
+ 259.00
+ 147.30
+ 65.53
+NPR : I:Number of procedures on this discharge
+ 625621
+ 0
+ 0.00
+ 6.00
+ 1.30
+ 1.47
+PRV1 : I:Validity flag: principal procedure
+ 385888 239733
+ 0.00
+ 1.00
+ 0.00
+ 0.02
+PCCHPR1 : I:CCHPR: principal procedure
+ 385704 239917
+ 1.00
+ 231.00
+ 124.27
+ 60.55
+DRG : I:DRG in effect on discharge date
+ 625621
+ 0
+ 1.00
+ 495.00
+ 270.41
+ 138.48
+MDC : I:MDC in effect on discharge date
+ 625621
+ 0
+ 0.00
+ 25.00
+ 10.33
+ 5.80
+DRGVER : I:DRG grouper version used on disch date
+ 625621
+ 0
+ 11.00
+ 12.00
+ 11.25
+ 0.43
+DRG10 : I:DRG, Version 10
+ 625621
+ 0
+ 1.00
+ 492.00
+ 267.52
+ 136.86
+MDC10 : I:MDC, Version 10
+ 625621
+ 0
+ 0.00
+ 25.00
+ 10.33
+ 5.80
+PAY1 : I:Primary expected payer, uniform
+ 622245
+ 3376
+ 1.00
+ 6.00
+ 2.33
+ 1.27
+TOTCHG : I:Total charges (cleaned)
+ 624963
+ 658
+ 1.00
+ 2046300.0
+ 7666.68
+ 16385.70
+PROCESS : I:HCUP-3 discharge processing ID number 625621
+ 0
+ 9.455E10
+ 9.4551E10
+ 9.455E10 180601.37
+YEAR : Calendar year
+ 625621
+ 0
+ 94.00
+ 94.00
+ 94.00
+ 0.00
+DSNUM : I:Data source ID number
+ 625621
+ 0
+ 7.00
+ 7.00
+ 7.00
+ 0.00
+DSTYPE : I:Data source type
+ 625621
+ 0
+ 1.00
+ 1.00
+ 1.00
+ 0.00
+ADAYWK : I:Admission day of week
+ 625621
+ 0
+ 1.00
+ 7.00
+ 3.93
+ 1.83
+AMONTH : I:Admission month
+ 625621
+ 0
+ 1.00
+ 12.00
+ 6.46
+ 3.45
+LOS_X : I:Length of stay (uncleaned)
+ 625621
+ 0
+ 0.00
+ 6846.00
+ 5.57
+ 24.50
+NEOMAT : I:Neonatal and/or maternal DX and/or PR
+ 625621
+ 0
+ 0.00
+ 3.00
+ 0.35
+ 0.67
+DXSYS : I:Diagnosis coding system
+ 625621
+ 0
+ 1.00
+ 1.00
+ 1.00
+ 0.00
+DSNDX : I:Max number of diagnoses from source
+ 625621
+ 0
+ 10.00
+ 10.00
+ 10.00
+ 0.00
+(Continued)
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+ 2
+Means of Continuous Data Elements
+ 09:28 Monday, August 22, 2005
+N
+Variable / Label
+N
+ Miss
+ Minimum Maximum Mean
+ Std Dev
+PRSYS : I:Procedure coding system
+ 625621
+ 0
+ 1.00
+ 1.00
+ 1.00
+ 0.00
+DSNPR : I:Max number of procedures from source 625621
+ 0
+ 6.00
+ 6.00
+ 6.00
+ 0.00
+PRDAY1 : I:No. of days from admission to PR1
+ 291562 334059
+ -3.00
+ 366.00
+ 1.28
+ 3.36
+PAY1_N : I:Primary expected payer, nonuniform
+ 622245
+ 3376
+ 1.00
+ 12.00
+ 3.18
+ 2.41
+PAY2 : I:Secondary expected payer, uniform
+ 315797 309824
+ 1.00
+ 6.00
+ 3.12
+ 0.82
+PAY2_N : I:Secondary expected payer, nonuniform 315797 309824
+ 1.00
+ 12.00
+ 4.28
+ 1.79
+TOTCHG_X : I:Total charges (from data source)
+ 625437
+ 184
+ 1.00
+ 2046300.0 7676.24 16552.11
+DXV2 : I:Validity flag: diagnosis 2
+ 540934
+ 84687
+ 0.00
+ 1.00
+ 0.00
+ 0.00
+DXV3 : I:Validity flag: diagnosis 3
+ 424787 200834
+ 0.00
+ 0.00
+ 0.00
+ 0.00
+DXV4 : I:Validity flag: diagnosis 4
+ 333449 292172
+ 0.00
+ 0.00
+ 0.00
+ 0.00
+DXV5 : I:Validity flag: diagnosis 5
+ 256101 369520
+ 0.00
+ 1.00
+ 0.00
+ 0.00
+DXV6 : I:Validity flag: diagnosis 6
+ 164188 461433
+ 0.00
+ 0.00
+ 0.00
+ 0.00
+DXV7 : I:Validity flag: diagnosis 7
+ 121374 504247
+ 0.00
+ 0.00
+ 0.00
+ 0.00
+DXV8 : I:Validity flag: diagnosis 8
+ 89899 535722
+ 0.00
+ 0.00
+ 0.00
+ 0.00
+DXV9 : I:Validity flag: diagnosis 9
+ 63026 562595
+ 0.00
+ 0.00
+ 0.00
+ 0.00
+DXV10 : I:Validity flag: diagnosis 10
+ 9347 616274
+ 0.00
+ 1.00
+ 0.00
+ 0.02
+DCCHPR2 : I:CCHPR: diagnosis 2
+ 541101
+ 84520
+ 1.00
+ 260.00
+ 125.58
+ 68.90
+DCCHPR3 : I:CCHPR: diagnosis 3
+ 424929 200692
+ 1.00
+ 260.00
+ 123.58
+ 67.30
+DCCHPR4 : I:CCHPR: diagnosis 4
+ 333536 292085
+ 1.00
+ 260.00
+ 121.27
+ 66.93
+DCCHPR5 : I:CCHPR: diagnosis 5
+ 256149 369472
+ 1.00
+ 260.00
+ 122.11
+ 68.19
+DCCHPR6 : I:CCHPR: diagnosis 6
+ 164205 461416
+ 1.00
+ 260.00
+ 123.31
+ 69.75
+DCCHPR7 : I:CCHPR: diagnosis 7
+ 121386 504235
+ 1.00
+ 260.00
+ 122.36
+ 69.42
+DCCHPR8 : I:CCHPR: diagnosis 8
+ 89906 535715
+ 1.00
+ 260.00
+ 124.75
+ 71.33
+DCCHPR9 : I:CCHPR: diagnosis 9
+ 63033 562588
+ 1.00
+ 260.00
+ 132.60
+ 76.95
+DCCHPR10 : I:CCHPR: diagnosis 10
+ 9344 616277
+ 260.00
+ 260.00
+ 260.00
+ 0.00
+PRV2 : I:Validity flag: procedure 2
+ 210979 414642
+ 0.00
+ 1.00
+ 0.00
+ 0.06
+PRV3 : I:Validity flag: procedure 3
+ 120253 505368
+ 0.00
+ 1.00
+ 0.01
+ 0.08
+PRV4 : I:Validity flag: procedure 4
+ 49794 575827
+ 0.00
+ 1.00
+ 0.01
+ 0.07
+PRV5 : I:Validity flag: procedure 5
+ 27886 597735
+ 0.00
+ 1.00
+ 0.00
+ 0.05
+PRV6 : I:Validity flag: procedure 6
+ 17080 608541
+ 0.00
+ 1.00
+ 0.00
+ 0.05
+PCCHPR2 : I:CCHPR: procedure 2
+ 210354 415267
+ 1.00
+ 231.00
+ 125.40
+ 62.39
+PCCHPR3 : I:CCHPR: procedure 3
+ 119561 506060
+ 1.00
+ 231.00
+ 123.45
+ 66.39
+PCCHPR4 : I:CCHPR: procedure 4
+ 49550 576071
+ 1.00
+ 231.00
+ 124.03
+ 68.99
+PCCHPR5 : I:CCHPR: procedure 5
+ 27818 597803
+ 1.00
+ 231.00
+ 127.61
+ 72.38
+(Continued)
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+ 3
+Means of Continuous Data Elements
+ 09:28 Monday, August 22, 2005
+Variable / Label
+PCCHPR6 : I:CCHPR: procedure 6
+AYEAR : Admission year
+DMONTH : Discharge month
+BMONTH : Birth month
+BYEAR : Birth year
+N
+N
+ Miss
+ Minimum Maximum Mean
+ Std Dev
+17049 608572
+ 1.00
+ 231.00
+ 130.17
+ 74.54
+625621
+ 0
+ 1975.00
+ 1994.00 1993.99
+ 0.13
+625621
+ 0
+ 1.00
+ 12.00
+ 6.46
+ 3.45
+625621
+ 0
+ 1.00
+ 12.00
+ 6.49
+ 3.42
+625621
+ 0
+ 1808.00
+ 1994.00 1948.29
+ 28.14
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+ 4
+Frequency Distribution for ADAYWK
+ 09:28 Monday, August 22, 2005
+Percent
+of
+ADAYWK
+ Frequency Total
+1: Sunday
+ 60221
+ 9.63
+2: Monday
+ 109790
+ 17.55
+3: Tuesday
+ 105912
+ 16.93
+4: Wednesday 100606
+ 16.08
+5: Thursday
+ 97408
+ 15.57
+6: Friday
+ 92437
+ 14.78
+7: Saturday
+ 59247
+ 9.47
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+ 5
+Frequency Distribution for AGE
+ 09:28 Monday, August 22, 2005
+Percent
+of
+AGE Frequency Total
+A
+ <= 10
+ **.**
+C
+ 424
+ 0.07
+0
+ 76703
+ 12.26
+1
+ 3784
+ 0.60
+2
+ 2461
+ 0.39
+3
+ 1880
+ 0.30
+4
+ 1646
+ 0.26
+5
+ 1363
+ 0.22
+6
+ 1399
+ 0.22
+7
+ 1325
+ 0.21
+8
+ 1296
+ 0.21
+9
+ 1377
+ 0.22
+10
+ 1321
+ 0.21
+11
+ 1538
+ 0.25
+12
+ 1790
+ 0.29
+13
+ 2358
+ 0.38
+14
+ 2992
+ 0.48
+15
+ 3898
+ 0.62
+16
+ 4569
+ 0.73
+17
+ 5037
+ 0.81
+18
+ 5337
+ 0.85
+19
+ 5671
+ 0.91
+20
+ 5850
+ 0.94
+21
+ 5940
+ 0.95
+22
+ 6324
+ 1.01
+23
+ 7187
+ 1.15
+24
+ 7141
+ 1.14
+25
+ 7307
+ 1.17
+26
+ 7679
+ 1.23
+27
+ 8202
+ 1.31
+28
+ 8868
+ 1.42
+29
+ 9229
+ 1.48
+30
+ 9290
+ 1.48
+31
+ 9302
+ 1.49
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+ 6
+Frequency Distribution for AGE
+ 09:28 Monday, August 22, 2005
+AGE32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+Frequency8975
+8508
+7885
+7673
+7261
+6737
+6450
+6310
+6014
+5717
+5526
+5273
+5344
+5397
+5358
+5686
+4564
+4706
+5163
+5477
+4919
+4736
+4853
+4926
+5269
+5278
+5427
+5569
+5659
+5874
+6359
+6719
+7083
+7715
+Percent
+of
+Total
+1.43
+1.36
+1.26
+1.23
+1.16
+1.08
+1.03
+1.01
+0.96
+0.91
+0.88
+0.84
+0.85
+0.86
+0.86
+0.91
+0.73
+0.75
+0.83
+0.88
+0.79
+0.76
+0.78
+0.79
+0.84
+0.84
+0.87
+0.89
+0.90
+0.94
+1.02
+1.07
+1.13
+1.23
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+ 7
+Frequency Distribution for AGE
+ 09:28 Monday, August 22, 2005
+AGE66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+Frequency8168
+8542
+8404
+8836
+9022
+9123
+9390
+9383
+9613
+8898
+9360
+9287
+9085
+8844
+8713
+8189
+7640
+7109
+6509
+6082
+5459
+4632
+4170
+3511
+3004
+2629
+1980
+1545
+1107
+848
+649
+434
+278
+180
+Percent
+of
+Total
+1.31
+1.37
+1.34
+1.41
+1.44
+1.46
+1.50
+1.50
+1.54
+1.42
+1.50
+1.48
+1.45
+1.41
+1.39
+1.31
+1.22
+1.14
+1.04
+0.97
+0.87
+0.74
+0.67
+0.56
+0.48
+0.42
+0.32
+0.25
+0.18
+0.14
+0.10
+0.07
+0.04
+0.03
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+ 8
+Frequency Distribution for AGE
+ 09:28 Monday, August 22, 2005
+Percent
+of
+AGE Frequency Total
+100
+ 36
+ 0.01
+101
+ 29
+ 0.00
+102
+ 19
+ 0.00
+103
+ <= 10
+ **.**
+104
+ <= 10
+ **.**
+105
+ <= 10
+ **.**
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+ 9
+Frequency Distribution for AGEDAY
+ 09:28 Monday, August 22, 2005
+Percent
+of
+AGEDAY
+ Frequency Total
+.: Missing
+ 548494
+ 87.67
+.C: Inconsistent 424
+ 0.07
+0 days
+ 67032
+ 10.71
+1 day
+ 294
+ 0.05
+2 days
+ 137
+ 0.02
+3 days
+ 309
+ 0.05
+4 days
+ 299
+ 0.05
+5 days
+ 167
+ 0.03
+6 days
+ 122
+ 0.02
+7 days
+ 87
+ 0.01
+8 days
+ 72
+ 0.01
+9 days
+ 61
+ 0.01
+10 days
+ 58
+ 0.01
+11 - 30 days
+ 1159
+ 0.19
+31 - 60 days
+ 1401
+ 0.22
+61 - 90 days
+ 855
+ 0.14
+91 - 120 days
+ 703
+ 0.11
+121 - 150 days
+ 599
+ 0.10
+151 - 180 days
+ 533
+ 0.09
+181 - 210 days
+ 519
+ 0.08
+211 - 240 days
+ 434
+ 0.07
+241 - 270 days
+ 483
+ 0.08
+271 - 300 days
+ 472
+ 0.08
+301 - 330 days
+ 436
+ 0.07
+331 - 364 days
+ 471
+ 0.08
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+ 10
+Frequency Distribution for AMONTH
+ 09:28 Monday, August 22, 2005
+Percent
+of
+AMONTH
+ Frequency Total
+1: January
+ 54591
+ 8.73
+2: February
+ 48577
+ 7.76
+3: March
+ 56261
+ 8.99
+4: April
+ 52082
+ 8.32
+5: May
+ 53241
+ 8.51
+6: June
+ 51688
+ 8.26
+7: July
+ 50691
+ 8.10
+8: August
+ 53229
+ 8.51
+9: September
+ 51199
+ 8.18
+10: October
+ 51657
+ 8.26
+11: November 50915
+ 8.14
+12: December 51490
+ 8.23
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+ 11
+Frequency Distribution for ASOURCE
+ 09:28 Monday, August 22, 2005
+Percent
+of
+ASOURCE
+ Frequency Total
+.: Missing
+ 3370
+ 0.54
+.A: Invalid
+ <= 10
+ **.**
+1: Emergency department
+ 207720
+ 33.20
+2: Another hospital
+ 19785
+ 3.16
+3: Other health facility, including LTC 5691
+ 0.91
+4: Court/law enforcement
+ 9382
+ 1.50
+5: Routine, birth, and oher
+ 379672
+ 60.69
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+ 12
+Frequency Distribution for ATYPE
+ 09:28 Monday, August 22, 2005
+Percent
+of
+ATYPE
+ Frequency Total
+1: Emergency 141120
+ 22.56
+2: Urgent
+ 274149
+ 43.82
+3: Elective
+ 143936
+ 23.01
+4: Newborn
+ 66416
+ 10.62
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+ 13
+Frequency Distribution for AYEAR
+ 09:28 Monday, August 22, 2005
+Percent
+of
+AYEAR Frequency Total
+1975
+ <= 10
+ **.**
+1980
+ <= 10
+ **.**
+1981
+ <= 10
+ **.**
+1983
+ <= 10
+ **.**
+1984
+ <= 10
+ **.**
+1985
+ <= 10
+ **.**
+1986
+ <= 10
+ **.**
+1987
+ <= 10
+ **.**
+1988
+ <= 10
+ **.**
+1989
+ <= 10
+ **.**
+1990
+ <= 10
+ **.**
+1991
+ 14
+ 0.00
+1992
+ 55
+ 0.01
+1993
+ 8969
+ 1.43
+1994
+ 616555
+ 98.55
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+ 14
+Frequency Distribution for BYEAR
+ 09:28 Monday, August 22, 2005
+BYEAR1808
+1889
+1890
+1891
+1892
+1893
+1894
+1895
+1896
+1897
+1898
+1899
+1900
+1901
+1902
+1903
+1904
+1905
+1906
+1907
+1908
+1909
+1910
+1911
+1912
+1913
+1914
+1915
+1916
+1917
+1918
+1919
+1920
+1921
+Frequency<= 10
+<= 10
+<= 10
+13
+20
+30
+109
+208
+382
+533
+755
+966
+1344
+1781
+2293
+2850
+3265
+3879
+4450
+4804
+5955
+6298
+6904
+7206
+8071
+8310
+8921
+8905
+9290
+9273
+9202
+9255
+9329
+9515
+Percent
+of
+Total
+**.**
+**.**
+**.**
+0.00
+0.00
+0.00
+0.02
+0.03
+0.06
+0.09
+0.12
+0.15
+0.21
+0.28
+0.37
+0.46
+0.52
+0.62
+0.71
+0.77
+0.95
+1.01
+1.10
+1.15
+1.29
+1.33
+1.43
+1.42
+1.48
+1.48
+1.47
+1.48
+1.49
+1.52
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+ 15
+Frequency Distribution for BYEAR
+ 09:28 Monday, August 22, 2005
+BYEAR1922
+1923
+1924
+1925
+1926
+1927
+1928
+1929
+1930
+1931
+1932
+1933
+1934
+1935
+1936
+1937
+1938
+1939
+1940
+1941
+1942
+1943
+1944
+1945
+1946
+1947
+1948
+1949
+1950
+1951
+1952
+1953
+1954
+1955
+Frequency9254
+8987
+9116
+8608
+8294
+8657
+7874
+7241
+6851
+6658
+6074
+5664
+5759
+5463
+5244
+5358
+5083
+4777
+4815
+4822
+5342
+5351
+4879
+4560
+5086
+5678
+5324
+5302
+5296
+5401
+5638
+6004
+6001
+6492
+Percent
+of
+Total
+1.48
+1.44
+1.46
+1.38
+1.33
+1.38
+1.26
+1.16
+1.10
+1.06
+0.97
+0.91
+0.92
+0.87
+0.84
+0.86
+0.81
+0.76
+0.77
+0.77
+0.85
+0.86
+0.78
+0.73
+0.81
+0.91
+0.85
+0.85
+0.85
+0.86
+0.90
+0.96
+0.96
+1.04
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+ 16
+Frequency Distribution for BYEAR
+ 09:28 Monday, August 22, 2005
+BYEAR1956
+1957
+1958
+1959
+1960
+1961
+1962
+1963
+1964
+1965
+1966
+1967
+1968
+1969
+1970
+1971
+1972
+1973
+1974
+1975
+1976
+1977
+1978
+1979
+1980
+1981
+1982
+1983
+1984
+1985
+1986
+1987
+1988
+1989
+Frequency6504
+7140
+7302
+7805
+8256
+8771
+9224
+9227
+9362
+8968
+8559
+8068
+7328
+7140
+7347
+6717
+6025
+5913
+5792
+5576
+5094
+4892
+4237
+3321
+2712
+2011
+1664
+1380
+1399
+1339
+1283
+1407
+1360
+1467
+Percent
+of
+Total
+1.04
+1.14
+1.17
+1.25
+1.32
+1.40
+1.47
+1.47
+1.50
+1.43
+1.37
+1.29
+1.17
+1.14
+1.17
+1.07
+0.96
+0.95
+0.93
+0.89
+0.81
+0.78
+0.68
+0.53
+0.43
+0.32
+0.27
+0.22
+0.22
+0.21
+0.21
+0.22
+0.22
+0.23
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+ 17
+Frequency Distribution for BYEAR
+ 09:28 Monday, August 22, 2005
+Percent
+of
+BYEAR Frequency Total
+1990
+ 1862
+ 0.30
+1991
+ 2224
+ 0.36
+1992
+ 3295
+ 0.53
+1993
+ 6476
+ 1.04
+1994
+ 72093
+ 11.52
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+Frequency Distribution for DCCHPR1
+ 09:28 Monday, AugustPercent
+of
+DCCHPR1
+ Frequency Total
+.: Missing
+ <= 10
+ **.**
+.A: Invalid
+ <= 10
+ **.**
+1: Tuberculosis
+ 103
+ 0.02
+2: Septicemia (except in labor)
+ 4094
+ 0.65
+3: Bacterial infection, unspecified site
+ 220
+ 0.04
+4: Mycoses
+ 325
+ 0.05
+5: HIV infection
+ 121
+ 0.02
+6: Hepatitis
+ 253
+ 0.04
+7: Viral infections
+ 2047
+ 0.33
+8: Other infections, including parasitic
+ 231
+ 0.04
+9: Sexually transmitted infections (not HIV or hepatitis)
+ 124
+ 0.02
+10: Immunizations and screening for infectious diseases
+ 17
+ 0.00
+11: Cancer of head and neck
+ 515
+ 0.08
+12: Cancer of esophagus
+ 188
+ 0.03
+13: Cancer of stomach
+ 390
+ 0.06
+14: Cancer of colon
+ 2013
+ 0.32
+15: Cancer of rectum and anus
+ 802
+ 0.13
+16: Cancer of liver and intrahepatic bile duct
+ 171
+ 0.03
+17: Cancer of pancreas
+ 473
+ 0.08
+18: Cancer of other GI organs, peritoneum
+ 360
+ 0.06
+19: Cancer of bronchus, lung
+ 2091
+ 0.33
+20: Cancer, other respiratory and intrathoracic
+ 56
+ 0.01
+21: Cancer of bone and connective tissue
+ 182
+ 0.03
+22: Melanomas of skin
+ 86
+ 0.01
+23: Other non-epithelial cancer of skin
+ 90
+ 0.01
+24: Cancer of breast
+ 2922
+ 0.47
+25: Cancer of uterus
+ 713
+ 0.11
+26: Cancer of cervix
+ 486
+ 0.08
+27: Cancer of ovary
+ 456
+ 0.07
+28: Cancer of other female genital organs
+ 118
+ 0.02
+29: Cancer of prostate
+ 2217
+ 0.35
+30: Cancer of testis
+ 54
+ 0.01
+31: Cancer of other male genital organs
+ 18
+ 0.00
+32: Cancer of bladder
+ 1001
+ 0.16
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+22,18
+2005
+HCUP Summary Statistics Report: WI SID 1994 - COREFrequency Distribution for DCCHPR1
+DCCHPR1
+33: Cancer of kidney and renal pelvis
+34: Cancer of other urinary organs
+35: Cancer of brain and nervous system
+36: Cancer of thyroid
+37: Hodgkin's disease
+38: Non-Hodgkin's lymphoma
+39: Leukemias
+40: Multiple myeloma
+41: Cancer, other Unspecified primary
+42: Secondary malignancies
+43: Malignant neoplasm without specification of site
+44: Neoplasms of unspecified nature or uncertain behavior
+45: Maintenance chemotherapy, radiotherapy
+46: Benign neoplasm of uterus
+47: Other unspecified benign neoplasm
+48: Thyroid disorders
+49: Diabetes mellitus without complication
+50: Diabetes mellitus with complications
+51: Other endocrine disorders
+52: Nutritional deficiencies
+53: Lipidosis
+54: Gout and other crystal arthropathies
+55: Fluid and electrolyte disorders
+56: Cystic fibrosis
+57: Immunity disorders
+58: Other nutritional, endocrine, and metabolic disorders
+59: Anemia
+60: Acute posthemorrhagic anemia
+61: Sickle cell anemia
+62: Coagulation and hemorrhagic disorders
+63: Disease of white blood cells
+64: Other hematologic conditions
+65: Mental retardation
+66: Alcohol-related mental disorders
+File
+09:2819
+Monday, August 22, 2005
+Frequency543
+66
+558
+340
+114
+845
+684
+267
+174
+4529
+126
+636
+6018
+2791
+2644
+587
+288
+6478
+571
+218
+<= 10
+196
+8105
+58
+11
+867
+1515
+153
+1037
+627
+621
+132
+47
+16486
+Percent
+of
+Total
+0.09
+0.01
+0.09
+0.05
+0.02
+0.14
+0.11
+0.04
+0.03
+0.72
+0.02
+0.10
+0.96
+0.45
+0.42
+0.09
+0.05
+1.04
+0.09
+0.03
+**.**
+0.03
+1.30
+0.01
+0.00
+0.14
+0.24
+0.02
+0.17
+0.10
+0.10
+0.02
+0.01
+2.64
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+ 20
+Frequency Distribution for DCCHPR1
+ 09:28 Monday, August 22, 2005
+Percent
+of
+DCCHPR1
+ Frequency Total
+67: Substance-related mental disorders
+ 5705
+ 0.91
+68: Senility and organic mental disorders
+ 3472
+ 0.55
+69: Affective disorders
+ 15604
+ 2.49
+70: Schizophrenia and related disorders
+ 5067
+ 0.81
+71: Other psychoses
+ 1723
+ 0.28
+72: Anxiety, somatoform, dissociative, and personality disorders
+ 2689
+ 0.43
+73: Preadult disorders
+ 1362
+ 0.22
+74: Other mental conditions
+ 7284
+ 1.16
+75: Personal history of mental disorder, mental and behavioral problems, observation and
+ 62
+ 0.01
+screening for mental condition
+76: Meningitis (except that caused by tuberculosis or sexually transmitted infections)
+ 578
+ 0.09
+77: Encephalitis (except that caused by tuberculosis and sexually transmitted diseases)
+ 185
+ 0.03
+78: Other CNS infection and poliomyelitis
+ 85
+ 0.01
+79: Parkinson's disease
+ 637
+ 0.10
+80: Multiple sclerosis
+ 386
+ 0.06
+81: Other hereditary and degenerative nervous system conditions
+ 633
+ 0.10
+82: Paralysis
+ 200
+ 0.03
+83: Epilepsy, convulsions
+ 3503
+ 0.56
+84: Headache, including migraine
+ 859
+ 0.14
+85: Coma, stupor, and brain damage
+ 290
+ 0.05
+86: Cataract
+ 48
+ 0.01
+87: Retinal detachments, defects, vascular occlusion, and retinopathy
+ 648
+ 0.10
+88: Glaucoma
+ 55
+ 0.01
+89: Blindness and vision defects
+ 37
+ 0.01
+90: Inflammation, infection of eye (except that caused by tuberculosis and sexually transmitted
+ 332
+ 0.05
+diseases)
+91: Other eye disorders
+ 254
+ 0.04
+92: Otitis media and related conditions
+ 361
+ 0.06
+93: Conditions associated with dizziness or vertigo
+ 1725
+ 0.28
+94: Other ear and sense organ disorders
+ 161
+ 0.03
+95: Other nervous system disorders
+ 1671
+ 0.27
+96: Heart valve disorders
+ 1275
+ 0.20
+97: Peri-, endo-, and myocarditis, cardiomyopathy (except that caused by tuberculosis and
+ 1153
+ 0.18
+sexually transmitted diseases)
+98: Essential hypertension
+ 565
+ 0.09
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+ 21
+Frequency Distribution for DCCHPR1
+ 09:28 Monday, August 22, 2005
+DCCHPR1
+99: Hypertension with complications and secondary hypertension
+100: Acute myocardial infarction
+101: Coronary atherosclerosis and other heart diseases
+102: Nonspecific chest pain
+103: Pulmonary heart disease
+104: Other and ill-defined heart disease
+105: Conduction disorders
+106: Cardiac dysrhythmias
+107: Cardiac arrest and ventricular fibrillation
+108: Congestive heart failure, nonhypertensive
+109: Acute cerebrovascular disease
+110: Occlusion or stenosis of precerebral arteries
+111: Other and ill-defined cerebrovascular disease
+112: Transient cerebral ischemia
+113: Late effects of cerebrovascular disease
+114: Peripheral and visceral atherosclerosis
+115: Aortic, peripheral, and visceral artery aneurysms
+116: Aortic and peripheral arterial embolism or thrombosis
+117: Other circulatory disease
+118: Phlebitis, thrombophlebitis and thromboembolism
+119: Varicose veins of lower extremity
+120: Hemorrhoids
+121: Other disease of veins and lymphatics
+122: Pneumonia (except that caused by tuberculosis and sexually transmitted123: Influenza
+124: Acute and chronic tonsillitis
+125: Acute bronchitis
+126: Other upper respiratory infections
+127: Chronic obstructive pulmonary disease and bronchiectasis
+128: Asthma
+129: Aspiration pneumonitis, food/vomitus
+130: Pleurisy, pneumothorax, pulmonary collapse
+131: Respiratory failure, insufficiency, arrest (adult)
+132: Lung disease due to external agents
+diseases)Frequency2505
+11728
+21225
+8180
+1441
+75
+1235
+9014
+391
+14912
+10112
+1992
+381
+2652
+<= 10
+2357
+1551
+846
+1510
+3446
+497
+600
+182
+18666
+459
+772
+3106
+1880
+6183
+6164
+1576
+1431
+1498
+171
+Percent
+of
+Total
+0.40
+1.87
+3.39
+1.31
+0.23
+0.01
+0.20
+1.44
+0.06
+2.38
+1.62
+0.32
+0.06
+0.42
+**.**
+0.38
+0.25
+0.14
+0.24
+0.55
+0.08
+0.10
+0.03
+2.98
+0.07
+0.12
+0.50
+0.30
+0.99
+0.99
+0.25
+0.23
+0.24
+0.03
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - COREFrequency Distribution for DCCHPR1
+DCCHPR1
+133: Other lower respiratory disease
+134: Other upper respiratory disease
+135: Intestinal infection
+136: Disorders of teeth and jaw
+137: Disease of mouth, excluding dental
+138: Esophageal disorders
+139: Gastroduodenal ulcer (except hemorrhage)
+140: Gastritis and duodenitis
+141: Other disorders of stomach and duodenum
+142: Appendicitis and other appendiceal conditions
+143: Abdominal hernia
+144: Regional enteritis and ulcerative colitis
+145: Intestinal obstruction without hernia
+146: Diverticulosis and diverticulitis
+147: Anal and rectal conditions
+148: Peritonitis and intestinal abscess
+149: Biliary tract disease
+150: Liver disease, alcohol-related
+151: Other Liver diseases
+152: Pancreatic disorders (not diabetes)
+153: Gastrointestinal hemorrhage
+154: Noninfectious gastroenteritis
+155: Other gastrointestinal disorders
+156: Nephritis, nephrosis, renal sclerosis
+157: Acute and unspecified renal failure
+158: Chronic renal failure
+159: Urinary tract infections
+160: Calculus of urinary tract
+161: Other disease of kidney and ureters
+162: Other disease of bladder and urethra
+163: Genitourinary symptoms and ill-defined conditions
+164: Hyperplasia of prostate
+165: Inflammatory conditions of male genital organs
+166: Other male genital disorders
+File
+09:2822
+Monday, August 22, 2005
+Frequency3176
+1330
+2696
+765
+329
+2533
+1103
+2378
+674
+4747
+3502
+1165
+4635
+3319
+823
+348
+9978
+820
+1043
+3059
+5494
+2854
+2567
+258
+991
+366
+5517
+3827
+688
+591
+543
+2871
+378
+271
+Percent
+of
+Total
+0.51
+0.21
+0.43
+0.12
+0.05
+0.40
+0.18
+0.38
+0.11
+0.76
+0.56
+0.19
+0.74
+0.53
+0.13
+0.06
+1.59
+0.13
+0.17
+0.49
+0.88
+0.46
+0.41
+0.04
+0.16
+0.06
+0.88
+0.61
+0.11
+0.09
+0.09
+0.46
+0.06
+0.04
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+ 23
+Frequency Distribution for DCCHPR1
+ 09:28 Monday, August 22, 2005
+DCCHPR1
+167: Nonmalignant breast conditions
+168: Inflammatory disease of female pelvic organs
+169: Endometriosis
+170: Prolapse of female genital organs
+171: Menstrual disorders
+172: Ovarian cyst
+173: Menopausal disorders
+174: Female infertility
+175: Other female genital disorders
+176: Contraceptive and procreative management
+178: Induced abortion
+179: Postabortion complications
+180: Ectopic pregnancy
+181: Other complications of pregnancy
+182: Hemorrhage during pregnancy, abruptio placenta, placenta previa
+183: Hypertension complicating pregnancy, childbirth and the puerperium
+184: Early or threatened labor
+185: Prolonged pregnancy
+186: Diabetes or abnormal glucose tolerance complicating pregnancy, childbirth, or the
+puerperium
+187: Malposition, malpresentation
+188: Fetopelvic disproportion, obstruction
+189: Previous C-section
+190: Fetal distress and abnormal forces of labor
+191: Polyhydramnios and other problems of amniotic cavity
+192: Umbilical cord complication
+193: Trauma to perineum and vulva
+194: Forceps delivery
+195: Other complications of birth, puerperium affecting management of the mother
+196: Normal pregnancy and/or delivery
+197: Skin and subcutaneous tissue infections
+198: Other inflammatory condition of skin
+199: Chronic ulcer of skin
+200: Other skin disorders
+Frequency728
+1121
+1438
+2859
+1621
+989
+176
+23
+2081
+61
+574
+60
+627
+5220
+1123
+2731
+5733
+2003
+1163
+2631
+2663
+4030
+8082
+3372
+4433
+12539
+1247
+7229
+10331
+5509
+205
+977
+274
+Percent
+of
+Total
+0.12
+0.18
+0.23
+0.46
+0.26
+0.16
+0.03
+0.00
+0.33
+0.01
+0.09
+0.01
+0.10
+0.83
+0.18
+0.44
+0.92
+0.32
+0.19
+0.42
+0.43
+0.64
+1.29
+0.54
+0.71
+2.00
+0.20
+1.16
+1.65
+0.88
+0.03
+0.16
+0.04
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+ 24
+Frequency Distribution for DCCHPR1
+ 09:28 Monday, August 22, 2005
+DCCHPR1
+201: Infective arthritis and osteomyelitis (except that caused by tuberculosis and sexually
+transmitted disease)
+202: Rheumatoid arthritis and related disease
+203: Osteoarthritis
+204: Other non-traumatic joint disorders
+205: Spondylosis, intervertebral disc disorders, other back problems
+206: Osteoporosis
+207: Pathological fracture
+208: Acquired foot deformities
+209: Other acquired deformities
+210: Systemic lupus erythematosus and connective tissue disorders
+211: Other connective tissue disease
+212: Other bone disease and musculoskeletal deformities
+213: Cardiac and circulatory congenital anomalies
+214: Digestive congenital anomalies
+215: Genitourinary congenital anomalies
+216: Nervous system congenital anomalies
+217: Other congenital anomalies
+218: Liveborn
+219: Short gestation, low birth weight, and fetal growth retardation
+220: Intrauterine hypoxia and birth asphyxia
+221: Respiratory distress syndrome
+222: Hemolytic jaundice and perinatal jaundice
+223: Birth trauma
+224: Other perinatal conditions
+225: Joint disorders and dislocations, trauma-related
+226: Fracture of neck of femur (hip)
+227: Spinal cord injury
+228: Skull and face fractures
+229: Fracture of upper limb
+230: Fracture of lower limb
+231: Other fractures
+232: Sprains and strains
+233: Intracranial injury
+Frequency1014
+632
+9694
+1059
+10937
+32
+1560
+303
+655
+251
+2638
+1732
+683
+406
+209
+127
+1170
+66428
+278
+19
+175
+737
+17
+687
+2041
+5903
+236
+952
+2699
+5940
+3467
+3793
+2970
+Percent
+of
+Total
+0.16
+0.10
+1.55
+0.17
+1.75
+0.01
+0.25
+0.05
+0.10
+0.04
+0.42
+0.28
+0.11
+0.06
+0.03
+0.02
+0.19
+10.62
+0.04
+0.00
+0.03
+0.12
+0.00
+0.11
+0.33
+0.94
+0.04
+0.15
+0.43
+0.95
+0.55
+0.61
+0.47
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+ 25
+Frequency Distribution for DCCHPR1
+ 09:28 Monday, August 22, 2005
+DCCHPR1
+234: Crushing injury or internal injury
+235: Open wounds of head, neck, and trunk
+236: Open wounds of extremities
+237: Complication of device, implant or graft
+238: Complications of surgical procedures or medical care
+239: Superficial injury, contusion
+240: Burns
+241: Poisoning by psychotropic agents
+242: Poisoning by other medications and drugs
+243: Poisoning by nonmedicinal substances
+244: Other injuries and conditions due to external causes
+245: Syncope
+246: Fever of unknown origin
+247: Lymphadenitis
+248: Gangrene
+249: Shock
+250: Nausea and vomiting
+251: Abdominal pain
+252: Malaise and fatigue
+253: Allergic reactions
+254: Rehabilitation care, fitting of prostheses, and adjustment of devices
+255: Administrative/social admission
+256: Medical examination/evaluation
+257: Other aftercare
+259: Residual codes, unclassified
+Frequency1605
+804
+1247
+8798
+6448
+1211
+663
+1424
+2597
+599
+1346
+2884
+1429
+423
+931
+128
+869
+3854
+616
+347
+7282
+215
+581
+782
+967
+Percent
+of
+Total
+0.26
+0.13
+0.20
+1.41
+1.03
+0.19
+0.11
+0.23
+0.42
+0.10
+0.22
+0.46
+0.23
+0.07
+0.15
+0.02
+0.14
+0.62
+0.10
+0.06
+1.16
+0.03
+0.09
+0.12
+0.15
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+ 26
+Frequency Distribution for DIED
+ 09:28 Monday, August 22, 2005
+Percent
+of
+DIED
+ Frequency Total
+0: Did not die in hospital 611811
+ 97.79
+1: Died in hospital
+ 13810
+ 2.21
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+ 27
+Frequency Distribution for DISP
+ 09:28 Monday, August 22, 2005
+Percent
+of
+DISP
+ Frequency Total
+1: Routine
+ 496481
+ 79.36
+2: Short-term Hsp 15758
+ 2.52
+3: SNF
+ 40573
+ 6.49
+4: ICF
+ 1597
+ 0.26
+5: Other Facility
+ 15938
+ 2.55
+6: Home Health
+ 36540
+ 5.84
+7: AMA
+ 4924
+ 0.79
+20: Died
+ 13810
+ 2.21
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+ 28
+Frequency Distribution for DMONTH
+ 09:28 Monday, August 22, 2005
+Percent
+of
+DMONTH Frequency Total
+1
+ 53631
+ 8.57
+2
+ 48724
+ 7.79
+3
+ 56619
+ 9.05
+4
+ 52730
+ 8.43
+5
+ 53392
+ 8.53
+6
+ 51306
+ 8.20
+7
+ 51521
+ 8.24
+8
+ 52428
+ 8.38
+9
+ 51545
+ 8.24
+10
+ 51384
+ 8.21
+11
+ 50514
+ 8.07
+12
+ 51827
+ 8.28
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+ 29
+Frequency Distribution for DQTR
+ 09:28 Monday, August 22, 2005
+Percent
+of
+DQTR
+ Frequency Total
+1: First quarter
+ 158974
+ 25.41
+2: Second quarter 157428
+ 25.16
+3: Third quarter
+ 155494
+ 24.85
+4: Fourth quarter 153725
+ 24.57
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - COREFrequency Distribution for DRG10
+DRG10
+1: CRANIOTOMY AGE >17 EXCEPT FOR TRAUMA
+2: CRANIOTOMY FOR TRAUMA AGE >17
+3: CRANIOTOMY AGE 0-17
+4: SPINAL PROCEDURES
+5: EXTRACRANIAL VASCULAR PROCEDURES
+6: CARPAL TUNNEL RELEASE
+7: PERIPH & CRANIAL NERVE & OTHER NERV SYST PROC W CC
+8: PERIPH & CRANIAL NERVE & OTHER NERV SYST PROC W/O CC
+9: SPINAL DISORDERS & INJURIES
+10: NERVOUS SYSTEM NEOPLASMS W CC
+11: NERVOUS SYSTEM NEOPLASMS W/O CC
+12: DEGENERATIVE NERVOUS SYSTEM DISORDERS
+13: MULTIPLE SCLEROSIS & CEREBELLAR ATAXIA
+14: SPECIFIC CEREBROVASCULAR DISORDERS EXCEPT TIA
+15: TRANSIENT ISCHEMIC ATTACK & PRECEREBRAL OCCLUSIONS
+16: NONSPECIFIC CEREBROVASCULAR DISORDERS W CC
+17: NONSPECIFIC CEREBROVASCULAR DISORDERS W/O CC
+18: CRANIAL & PERIPHERAL NERVE DISORDERS W CC
+19: CRANIAL & PERIPHERAL NERVE DISORDERS W/O CC
+20: NERVOUS SYSTEM INFECTION EXCEPT VIRAL MENINGITIS
+21: VIRAL MENINGITIS
+22: HYPERTENSIVE ENCEPHALOPATHY
+23: NONTRAUMATIC STUPOR & COMA
+24: SEIZURE & HEADACHE AGE >17 W CC
+25: SEIZURE & HEADACHE AGE >17 W/O CC
+26: SEIZURE & HEADACHE AGE 0-17
+27: TRAUMATIC STUPOR & COMA, COMA >1 HR
+28: TRAUMATIC STUPOR & COMA, COMA <1 HR AGE >17 W CC
+29: TRAUMATIC STUPOR & COMA, COMA <1 HR AGE >17 W/O CC
+30: TRAUMATIC STUPOR & COMA, COMA <1 HR AGE 0-17
+31: CONCUSSION AGE >17 W CC
+32: CONCUSSION AGE >17 W/O CC
+33: CONCUSSION AGE 0-17
+34: OTHER DISORDERS OF NERVOUS SYSTEM W CC
+File
+ 30
+09:28 Monday, August 22, 2005
+Frequency1592
+344
+379
+418
+1857
+26
+238
+244
+128
+709
+169
+1112
+430
+9015
+3204
+269
+136
+731
+398
+555
+357
+59
+248
+1831
+1553
+1036
+283
+486
+407
+498
+200
+218
+199
+601
+Percent
+of
+Total
+0.25
+0.05
+0.06
+0.07
+0.30
+0.00
+0.04
+0.04
+0.02
+0.11
+0.03
+0.18
+0.07
+1.44
+0.51
+0.04
+0.02
+0.12
+0.06
+0.09
+0.06
+0.01
+0.04
+0.29
+0.25
+0.17
+0.05
+0.08
+0.07
+0.08
+0.03
+0.03
+0.03
+0.10
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+ 31
+Frequency Distribution for DRG10
+ 09:28 Monday, August 22, 2005
+Percent
+of
+DRG10
+ Frequency Total
+35: OTHER DISORDERS OF NERVOUS SYSTEM W/O CC
+ 349
+ 0.06
+36: RETINAL PROCEDURES
+ 755
+ 0.12
+37: ORBITAL PROCEDURES
+ 150
+ 0.02
+38: PRIMARY IRIS PROCEDURES
+ 12
+ 0.00
+39: LENS PROCEDURES WITH OR WITHOUT VITRECTOMY
+ 88
+ 0.01
+40: EXTRAOCULAR PROCEDURES EXCEPT ORBIT AGE >17
+ 73
+ 0.01
+41: EXTRAOCULAR PROCEDURES EXCEPT ORBIT AGE 0-17
+ 25
+ 0.00
+42: INTRAOCULAR PROCEDURES EXCEPT RETINA, IRIS & LENS
+ 338
+ 0.05
+43: HYPHEMA
+ 37
+ 0.01
+44: ACUTE MAJOR EYE INFECTIONS
+ 127
+ 0.02
+45: NEUROLOGICAL EYE DISORDERS
+ 91
+ 0.01
+46: OTHER DISORDERS OF THE EYE AGE >17 W CC
+ 93
+ 0.01
+47: OTHER DISORDERS OF THE EYE AGE >17 W/O CC
+ 71
+ 0.01
+48: OTHER DISORDERS OF THE EYE AGE 0-17
+ 134
+ 0.02
+49: MAJOR HEAD & NECK PROCEDURES
+ 114
+ 0.02
+50: SIALOADENECTOMY
+ 264
+ 0.04
+51: SALIVARY GLAND PROCEDURES EXCEPT SIALOADENECTOMY
+ 22
+ 0.00
+52: CLEFT LIP & PALATE REPAIR
+ 171
+ 0.03
+53: SINUS & MASTOID PROCEDURES AGE >17
+ 333
+ 0.05
+54: SINUS & MASTOID PROCEDURES AGE 0-17
+ 41
+ 0.01
+55: MISCELLANEOUS EAR, NOSE, MOUTH & THROAT PROCEDURES
+ 225
+ 0.04
+56: RHINOPLASTY
+ 78
+ 0.01
+57: T&A PROC, EXCEPT TONSILLECTOMY &/OR ADENOIDECTOMY ONLY, AGE >17
+ 142
+ 0.02
+58: T&A PROC, EXCEPT TONSILLECTOMY &/OR ADENOIDECTOMY ONLY, AGE 0-17 124
+ 0.02
+59: TONSILLECTOMY &/OR ADENOIDECTOMY ONLY, AGE >17
+ 85
+ 0.01
+60: TONSILLECTOMY &/OR ADENOIDECTOMY ONLY, AGE 0-17
+ 208
+ 0.03
+61: MYRINGOTOMY W TUBE INSERTION AGE >17
+ 16
+ 0.00
+62: MYRINGOTOMY W TUBE INSERTION AGE 0-17
+ 84
+ 0.01
+63: OTHER EAR, NOSE, MOUTH & THROAT O.R. PROCEDURES
+ 978
+ 0.16
+64: EAR, NOSE, MOUTH & THROAT MALIGNANCY
+ 112
+ 0.02
+65: DYSEQUILIBRIUM
+ 1666
+ 0.27
+66: EPISTAXIS
+ 287
+ 0.05
+67: EPIGLOTTITIS
+ 71
+ 0.01
+68: OTITIS MEDIA & URI AGE >17 W CC
+ 718
+ 0.11
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - COREFrequency Distribution for DRG10
+DRG10
+69: OTITIS MEDIA & URI AGE >17 W/O CC
+70: OTITIS MEDIA & URI AGE 0-17
+71: LARYNGOTRACHEITIS
+72: NASAL TRAUMA & DEFORMITY
+73: OTHER EAR, NOSE, MOUTH & THROAT DIAGNOSES AGE >17
+74: OTHER EAR, NOSE, MOUTH & THROAT DIAGNOSES AGE 0-17
+75: MAJOR CHEST PROCEDURES
+76: OTHER RESP SYSTEM O.R. PROCEDURES W CC
+77: OTHER RESP SYSTEM O.R. PROCEDURES W/O CC
+78: PULMONARY EMBOLISM
+79: RESPIRATORY INFECTIONS & INFLAMMATIONS AGE >17 W CC
+80: RESPIRATORY INFECTIONS & INFLAMMATIONS AGE >17 W/O CC
+81: RESPIRATORY INFECTIONS & INFLAMMATIONS AGE 0-17
+82: RESPIRATORY NEOPLASMS
+83: MAJOR CHEST TRAUMA W CC
+84: MAJOR CHEST TRAUMA W/O CC
+85: PLEURAL EFFUSION W CC
+86: PLEURAL EFFUSION W/O CC
+87: PULMONARY EDEMA & RESPIRATORY FAILURE
+88: CHRONIC OBSTRUCTIVE PULMONARY DISEASE
+89: SIMPLE PNEUMONIA & PLEURISY AGE >17 W CC
+90: SIMPLE PNEUMONIA & PLEURISY AGE >17 W/O CC
+91: SIMPLE PNEUMONIA & PLEURISY AGE 0-17
+92: INTERSTITIAL LUNG DISEASE W CC
+93: INTERSTITIAL LUNG DISEASE W/O CC
+94: PNEUMOTHORAX W CC
+95: PNEUMOTHORAX W/O CC
+96: BRONCHITIS & ASTHMA AGE >17 W CC
+97: BRONCHITIS & ASTHMA AGE >17 W/O CC
+98: BRONCHITIS & ASTHMA AGE 0-17
+99: RESPIRATORY SIGNS & SYMPTOMS W CC
+100: RESPIRATORY SIGNS & SYMPTOMS W/O CC
+101: OTHER RESPIRATORY SYSTEM DIAGNOSES W CC
+102: OTHER RESPIRATORY SYSTEM DIAGNOSES W/O CC
+File
+09:2832
+Monday, August 22, 2005
+Frequency379
+806
+466
+37
+265
+156
+1698
+910
+160
+1127
+3076
+257
+226
+1748
+349
+108
+353
+57
+831
+6697
+10966
+1983
+2829
+331
+59
+449
+370
+2092
+2163
+4534
+1081
+1166
+810
+307
+Percent
+of
+Total
+0.06
+0.13
+0.07
+0.01
+0.04
+0.02
+0.27
+0.15
+0.03
+0.18
+0.49
+0.04
+0.04
+0.28
+0.06
+0.02
+0.06
+0.01
+0.13
+1.07
+1.75
+0.32
+0.45
+0.05
+0.01
+0.07
+0.06
+0.33
+0.35
+0.72
+0.17
+0.19
+0.13
+0.05
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+ 33
+Frequency Distribution for DRG10
+ 09:28 Monday, August 22, 2005
+Percent
+of
+DRG10
+ Frequency Total
+103: HEART TRANSPLANT
+ 89
+ 0.01
+104: CARDIAC VALVE PROCEDURES W CARDIAC CATH
+ 855
+ 0.14
+105: CARDIAC VALVE PROCEDURES W/O CARDIAC CATH
+ 828
+ 0.13
+106: CORONARY BYPASS W CARDIAC CATH
+ 3560
+ 0.57
+107: CORONARY BYPASS W/O CARDIAC CATH
+ 2572
+ 0.41
+108: OTHER CARDIOTHORACIC PROCEDURES
+ 587
+ 0.09
+110: MAJOR CARDIOVASCULAR PROCEDURES W CC
+ 1738
+ 0.28
+111: MAJOR CARDIOVASCULAR PROCEDURES W/O CC
+ 284
+ 0.05
+112: PERCUTANEOUS CARDIOVASCULAR PROCEDURES
+ 9538
+ 1.52
+113: AMPUTATION FOR CIRC SYSTEM DISORDERS EXCEPT UPPER LIMB & TOE
+ 1130
+ 0.18
+114: UPPER LIMB & TOE AMPUTATION FOR CIRC SYSTEM DISORDERS
+ 282
+ 0.05
+115: PERM CARDIAC PACEMAKER IMPLANT W AMI, HEART FAILURE OR SHOCK
+ 157
+ 0.03
+116: OTH PERM CARDIAC PACEMAKER IMPLANT OR AICD LEAD OR GENERATOR
+ 1852
+ 0.30
+PROC
+117: CARDIAC PACEMAKER REVISION EXCEPT DEVICE REPLACEMENT
+ 96
+ 0.02
+118: CARDIAC PACEMAKER DEVICE REPLACEMENT
+ 153
+ 0.02
+119: VEIN LIGATION & STRIPPING
+ 213
+ 0.03
+120: OTHER CIRCULATORY SYSTEM O.R. PROCEDURES
+ 632
+ 0.10
+121: CIRCULATORY DISORDERS W AMI & C.V. COMP DISCH ALIVE
+ 3975
+ 0.64
+122: CIRCULATORY DISORDERS W AMI W/O C.V. COMP DISCH ALIVE
+ 3548
+ 0.57
+123: CIRCULATORY DISORDERS W AMI, EXPIRED
+ 1031
+ 0.16
+124: CIRCULATORY DISORDERS EXCEPT AMI, W CARD CATH & COMPLEX DIAG
+ 3442
+ 0.55
+125: CIRCULATORY DISORDERS EXCEPT AMI, W CARD CATH W/O COMPLEX DIAG
+ 3425
+ 0.55
+126: ACUTE & SUBACUTE ENDOCARDITIS
+ 172
+ 0.03
+127: HEART FAILURE & SHOCK
+ 14732
+ 2.35
+128: DEEP VEIN THROMBOPHLEBITIS
+ 796
+ 0.13
+129: CARDIAC ARREST, UNEXPLAINED
+ 130
+ 0.02
+130: PERIPHERAL VASCULAR DISORDERS W CC
+ 2678
+ 0.43
+131: PERIPHERAL VASCULAR DISORDERS W/O CC
+ 1270
+ 0.20
+132: ATHEROSCLEROSIS W CC
+ 1070
+ 0.17
+133: ATHEROSCLEROSIS W/O CC
+ 150
+ 0.02
+134: HYPERTENSION
+ 764
+ 0.12
+135: CARDIAC CONGENITAL & VALVULAR DISORDERS AGE >17 W CC
+ 123
+ 0.02
+136: CARDIAC CONGENITAL & VALVULAR DISORDERS AGE >17 W/O CC
+ 24
+ 0.00
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+ 34
+Frequency Distribution for DRG10
+ 09:28 Monday, August 22, 2005
+Percent
+of
+DRG10
+ Frequency Total
+137: CARDIAC CONGENITAL & VALVULAR DISORDERS AGE 0-17
+ 49
+ 0.01
+138: CARDIAC ARRHYTHMIA & CONDUCTION DISORDERS W CC
+ 4739
+ 0.76
+139: CARDIAC ARRHYTHMIA & CONDUCTION DISORDERS W/O CC
+ 2604
+ 0.42
+140: ANGINA PECTORIS
+ 5702
+ 0.91
+141: SYNCOPE & COLLAPSE W CC
+ 2009
+ 0.32
+142: SYNCOPE & COLLAPSE W/O CC
+ 1209
+ 0.19
+143: CHEST PAIN
+ 6725
+ 1.07
+144: OTHER CIRCULATORY SYSTEM DIAGNOSES W CC
+ 1960
+ 0.31
+145: OTHER CIRCULATORY SYSTEM DIAGNOSES W/O CC
+ 399
+ 0.06
+146: RECTAL RESECTION W CC
+ 291
+ 0.05
+147: RECTAL RESECTION W/O CC
+ 89
+ 0.01
+148: MAJOR SMALL & LARGE BOWEL PROCEDURES W CC
+ 4901
+ 0.78
+149: MAJOR SMALL & LARGE BOWEL PROCEDURES W/O CC
+ 1011
+ 0.16
+150: PERITONEAL ADHESIOLYSIS W CC
+ 843
+ 0.13
+151: PERITONEAL ADHESIOLYSIS W/O CC
+ 405
+ 0.06
+152: MINOR SMALL & LARGE BOWEL PROCEDURES W CC
+ 214
+ 0.03
+153: MINOR SMALL & LARGE BOWEL PROCEDURES W/O CC
+ 184
+ 0.03
+154: STOMACH, ESOPHAGEAL & DUODENAL PROCEDURES AGE >17 W CC
+ 1380
+ 0.22
+155: STOMACH, ESOPHAGEAL & DUODENAL PROCEDURES AGE >17 W/O CC
+ 559
+ 0.09
+156: STOMACH, ESOPHAGEAL & DUODENAL PROCEDURES AGE 0-17
+ 281
+ 0.04
+157: ANAL & STOMAL PROCEDURES W CC
+ 525
+ 0.08
+158: ANAL & STOMAL PROCEDURES W/O CC
+ 746
+ 0.12
+159: HERNIA PROCEDURES EXCEPT INGUINAL & FEMORAL AGE >17 W CC
+ 697
+ 0.11
+160: HERNIA PROCEDURES EXCEPT INGUINAL & FEMORAL AGE >17 W/O CC
+ 834
+ 0.13
+161: INGUINAL & FEMORAL HERNIA PROCEDURES AGE >17 W CC
+ 507
+ 0.08
+162: INGUINAL & FEMORAL HERNIA PROCEDURES AGE >17 W/O CC
+ 506
+ 0.08
+163: HERNIA PROCEDURES AGE 0-17
+ 135
+ 0.02
+164: APPENDECTOMY W COMPLICATED PRINCIPAL DIAG W CC
+ 502
+ 0.08
+165: APPENDECTOMY W COMPLICATED PRINCIPAL DIAG W/O CC
+ 795
+ 0.13
+166: APPENDECTOMY W/O COMPLICATED PRINCIPAL DIAG W CC
+ 537
+ 0.09
+167: APPENDECTOMY W/O COMPLICATED PRINCIPAL DIAG W/O CC
+ 3118
+ 0.50
+168: MOUTH PROCEDURES W CC
+ 79
+ 0.01
+169: MOUTH PROCEDURES W/O CC
+ 86
+ 0.01
+170: OTHER DIGESTIVE SYSTEM O.R. PROCEDURES W CC
+ 468
+ 0.07
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+ 35
+Frequency Distribution for DRG10
+ 09:28 Monday, August 22, 2005
+Percent
+of
+DRG10
+ Frequency Total
+171: OTHER DIGESTIVE SYSTEM O.R. PROCEDURES W/O CC
+ 237
+ 0.04
+172: DIGESTIVE MALIGNANCY W CC
+ 836
+ 0.13
+173: DIGESTIVE MALIGNANCY W/O CC
+ 72
+ 0.01
+174: G.I. HEMORRHAGE W CC
+ 6354
+ 1.02
+175: G.I. HEMORRHAGE W/O CC
+ 957
+ 0.15
+176: COMPLICATED PEPTIC ULCER
+ 472
+ 0.08
+177: UNCOMPLICATED PEPTIC ULCER W CC
+ 368
+ 0.06
+178: UNCOMPLICATED PEPTIC ULCER W/O CC
+ 239
+ 0.04
+179: INFLAMMATORY BOWEL DISEASE
+ 783
+ 0.13
+180: G.I. OBSTRUCTION W CC
+ 2219
+ 0.35
+181: G.I. OBSTRUCTION W/O CC
+ 1011
+ 0.16
+182: ESOPHAGITIS, GASTROENT & MISC DIGEST DISORDERS AGE >17 W CC
+ 8080
+ 1.29
+183: ESOPHAGITIS, GASTROENT & MISC DIGEST DISORDERS AGE >17 W/O CC
+ 4880
+ 0.78
+184: ESOPHAGITIS, GASTROENT & MISC DIGEST DISORDERS AGE 0-17
+ 2524
+ 0.40
+185: DENTAL & ORAL DIS EXCEPT EXTRACTIONS & RESTORATIONS, AGE >17
+ 313
+ 0.05
+186: DENTAL & ORAL DIS EXCEPT EXTRACTIONS & RESTORATIONS, AGE 0-17
+ 106
+ 0.02
+187: DENTAL EXTRACTIONS & RESTORATIONS
+ 64
+ 0.01
+188: OTHER DIGESTIVE SYSTEM DIAGNOSES AGE >17 W CC
+ 1619
+ 0.26
+189: OTHER DIGESTIVE SYSTEM DIAGNOSES AGE >17 W/O CC
+ 481
+ 0.08
+190: OTHER DIGESTIVE SYSTEM DIAGNOSES AGE 0-17
+ 215
+ 0.03
+191: PANCREAS, LIVER & SHUNT PROCEDURES W CC
+ 481
+ 0.08
+192: PANCREAS, LIVER & SHUNT PROCEDURES W/O CC
+ 74
+ 0.01
+193: BILIARY TRACT PROC EXCEPT ONLY CHOLECYST W OR W/O C.D.E. W CC
+ 246
+ 0.04
+194: BILIARY TRACT PROC EXCEPT ONLY CHOLECYST W OR W/O C.D.E. W/O CC
+ 28
+ 0.00
+195: CHOLECYSTECTOMY W C.D.E. W CC
+ 345
+ 0.06
+196: CHOLECYSTECTOMY W C.D.E. W/O CC
+ 50
+ 0.01
+197: CHOLECYSTECTOMY W/O C.D.E. W CC
+ 3259
+ 0.52
+198: CHOLECYSTECTOMY W/O C.D.E. W/O CC
+ 4342
+ 0.69
+199: HEPATOBILIARY DIAGNOSTIC PROCEDURE FOR MALIGNANCY
+ 110
+ 0.02
+200: HEPATOBILIARY DIAGNOSTIC PROCEDURE FOR NON-MALIGNANCY
+ 67
+ 0.01
+201: OTHER HEPATOBILIARY OR PANCREAS O.R. PROCEDURES
+ 59
+ 0.01
+202: CIRRHOSIS & ALCOHOLIC HEPATITIS
+ 937
+ 0.15
+203: MALIGNANCY OF HEPATOBILIARY SYSTEM OR PANCREAS
+ 891
+ 0.14
+204: DISORDERS OF PANCREAS EXCEPT MALIGNANCY
+ 2651
+ 0.42
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+ 36
+Frequency Distribution for DRG10
+ 09:28 Monday, August 22, 2005
+Percent
+of
+DRG10
+ Frequency Total
+205: DISORDERS OF LIVER EXCEPT MALIG,CIRR,ALC HEPA W CC
+ 795
+ 0.13
+206: DISORDERS OF LIVER EXCEPT MALIG,CIRR,ALC HEPA W/O CC
+ 196
+ 0.03
+207: DISORDERS OF THE BILIARY TRACT W CC
+ 1254
+ 0.20
+208: DISORDERS OF THE BILIARY TRACT W/O CC
+ 784
+ 0.13
+209: MAJOR JOINT & LIMB REATTACHMENT PROCEDURES OF LOWER EXTREMITY
+ 12233
+ 1.96
+210: HIP & FEMUR PROCEDURES EXCEPT MAJOR JOINT AGE >17 W CC
+ 3206
+ 0.51
+211: HIP & FEMUR PROCEDURES EXCEPT MAJOR JOINT AGE >17 W/O CC
+ 800
+ 0.13
+212: HIP & FEMUR PROCEDURES EXCEPT MAJOR JOINT AGE 0-17
+ 493
+ 0.08
+213: AMPUTATION FOR MUSCULOSKELETAL SYSTEM & CONN TISSUE DISORDERS
+ 256
+ 0.04
+214: BACK & NECK PROCEDURES W CC
+ 2749
+ 0.44
+215: BACK & NECK PROCEDURES W/O CC
+ 5986
+ 0.96
+216: BIOPSIES OF MUSCULOSKELETAL SYSTEM & CONNECTIVE TISSUE
+ 260
+ 0.04
+217: WND DEBRID & SKN GRFT EXCEPT HAND,FOR MUSCSKELET & CONN TISS DIS
+ 990
+ 0.16
+218: LOWER EXTREM & HUMER PROC EXCEPT HIP,FOOT,FEMUR AGE >17 W CC
+ 1173
+ 0.19
+219: LOWER EXTREM & HUMER PROC EXCEPT HIP,FOOT,FEMUR AGE >17 W/O CC
+ 2885
+ 0.46
+220: LOWER EXTREM & HUMER PROC EXCEPT HIP,FOOT,FEMUR AGE 0-17
+ 601
+ 0.10
+221: KNEE PROCEDURES W CC
+ 298
+ 0.05
+222: KNEE PROCEDURES W/O CC
+ 2336
+ 0.37
+223: MAJOR SHOULDER/ELBOW PROC, OR OTHER UPPER EXTREMITY PROC W CC
+ 1964
+ 0.31
+224: SHOULDER,ELBOW OR FOREARM PROC,EXC MAJOR JOINT PROC, W/O CC
+ 1338
+ 0.21
+225: FOOT PROCEDURES
+ 681
+ 0.11
+226: SOFT TISSUE PROCEDURES W CC
+ 337
+ 0.05
+227: SOFT TISSUE PROCEDURES W/O CC
+ 956
+ 0.15
+228: MAJOR THUMB OR JOINT PROC,OR OTH HAND OR WRIST PROC W CC
+ 247
+ 0.04
+229: HAND OR WRIST PROC, EXCEPT MAJOR JOINT PROC, W/O CC
+ 427
+ 0.07
+230: LOCAL EXCISION & REMOVAL OF INT FIX DEVICES OF HIP & FEMUR
+ 214
+ 0.03
+231: LOCAL EXCISION & REMOVAL OF INT FIX DEVICES EXCEPT HIP & FEMUR
+ 1442
+ 0.23
+232: ARTHROSCOPY
+ 153
+ 0.02
+233: OTHER MUSCULOSKELET SYS & CONN TISS O.R. PROC W CC
+ 244
+ 0.04
+234: OTHER MUSCULOSKELET SYS & CONN TISS O.R. PROC W/O CC
+ 367
+ 0.06
+235: FRACTURES OF FEMUR
+ 362
+ 0.06
+236: FRACTURES OF HIP & PELVIS
+ 1477
+ 0.24
+237: SPRAINS, STRAINS, & DISLOCATIONS OF HIP, PELVIS & THIGH
+ 119
+ 0.02
+238: OSTEOMYELITIS
+ 224
+ 0.04
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+ 37
+Frequency Distribution for DRG10
+ 09:28 Monday, August 22, 2005
+Percent
+of
+DRG10
+ Frequency Total
+239: PATHOLOGICAL FRACTURES & MUSCULOSKELETAL & CONN TISS
+ 2106
+ 0.34
+MALIGNANCY
+240: CONNECTIVE TISSUE DISORDERS W CC
+ 441
+ 0.07
+241: CONNECTIVE TISSUE DISORDERS W/O CC
+ 239
+ 0.04
+242: SEPTIC ARTHRITIS
+ 127
+ 0.02
+243: MEDICAL BACK PROBLEMS
+ 4994
+ 0.80
+244: BONE DISEASES & SPECIFIC ARTHROPATHIES W CC
+ 416
+ 0.07
+245: BONE DISEASES & SPECIFIC ARTHROPATHIES W/O CC
+ 352
+ 0.06
+246: NON-SPECIFIC ARTHROPATHIES
+ 112
+ 0.02
+247: SIGNS & SYMPTOMS OF MUSCULOSKELETAL SYSTEM & CONN TISSUE
+ 656
+ 0.10
+248: TENDONITIS, MYOSITIS & BURSITIS
+ 430
+ 0.07
+249: AFTERCARE, MUSCULOSKELETAL SYSTEM & CONNECTIVE TISSUE
+ 404
+ 0.06
+250: FX, SPRN, STRN & DISL OF FOREARM, HAND, FOOT AGE >17 W CC
+ 160
+ 0.03
+251: FX, SPRN, STRN & DISL OF FOREARM, HAND, FOOT AGE >17 W/O CC
+ 206
+ 0.03
+252: FX, SPRN, STRN & DISL OF FOREARM, HAND, FOOT AGE 0-17
+ 171
+ 0.03
+253: FX, SPRN, STRN & DISL OF UPARM,LOWLEG EX FOOT AGE >17 W CC
+ 728
+ 0.12
+254: FX, SPRN, STRN & DISL OF UPARM,LOWLEG EX FOOT AGE >17 W/O CC
+ 705
+ 0.11
+255: FX, SPRN, STRN & DISL OF UPARM,LOWLEG EX FOOT AGE 0-17
+ 264
+ 0.04
+256: OTHER MUSCULOSKELETAL SYSTEM & CONNECTIVE TISSUE DIAGNOSES
+ 414
+ 0.07
+257: TOTAL MASTECTOMY FOR MALIGNANCY W CC
+ 1107
+ 0.18
+258: TOTAL MASTECTOMY FOR MALIGNANCY W/O CC
+ 1119
+ 0.18
+259: SUBTOTAL MASTECTOMY FOR MALIGNANCY W CC
+ 149
+ 0.02
+260: SUBTOTAL MASTECTOMY FOR MALIGNANCY W/O CC
+ 336
+ 0.05
+261: BREAST PROC FOR NON-MALIGNANCY EXCEPT BIOPSY & LOCAL EXCISION
+ 796
+ 0.13
+262: BREAST BIOPSY & LOCAL EXCISION FOR NON-MALIGNANCY
+ 32
+ 0.01
+263: SKIN GRAFT &/OR DEBRID FOR SKN ULCER OR CELLULITIS W CC
+ 665
+ 0.11
+264: SKIN GRAFT &/OR DEBRID FOR SKN ULCER OR CELLULITIS W/O CC
+ 172
+ 0.03
+265: SKIN GRAFT &/OR DEBRID EXCEPT FOR SKIN ULCER OR CELLULITIS W CC
+ 175
+ 0.03
+266: SKIN GRAFT &/OR DEBRID EXCEPT FOR SKIN ULCER OR CELLULITIS W/O CC
+ 352
+ 0.06
+267: PERIANAL & PILONIDAL PROCEDURES
+ 54
+ 0.01
+268: SKIN, SUBCUTANEOUS TISSUE & BREAST PLASTIC PROCEDURES
+ 137
+ 0.02
+269: OTHER SKIN, SUBCUT TISS & BREAST PROC W CC
+ 349
+ 0.06
+270: OTHER SKIN, SUBCUT TISS & BREAST PROC W/O CC
+ 381
+ 0.06
+271: SKIN ULCERS
+ 379
+ 0.06
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+ 38
+Frequency Distribution for DRG10
+ 09:28 Monday, August 22, 2005
+Percent
+of
+DRG10
+ Frequency Total
+272: MAJOR SKIN DISORDERS W CC
+ 209
+ 0.03
+273: MAJOR SKIN DISORDERS W/O CC
+ 91
+ 0.01
+274: MALIGNANT BREAST DISORDERS W CC
+ 86
+ 0.01
+275: MALIGNANT BREAST DISORDERS W/O CC
+ <= 10
+ **.**
+276: NON-MALIGANT BREAST DISORDERS
+ 63
+ 0.01
+277: CELLULITIS AGE >17 W CC
+ 2424
+ 0.39
+278: CELLULITIS AGE >17 W/O CC
+ 1786
+ 0.29
+279: CELLULITIS AGE 0-17
+ 557
+ 0.09
+280: TRAUMA TO THE SKIN, SUBCUT TISS & BREAST AGE >17 W CC
+ 794
+ 0.13
+281: TRAUMA TO THE SKIN, SUBCUT TISS & BREAST AGE >17 W/O CC
+ 553
+ 0.09
+282: TRAUMA TO THE SKIN, SUBCUT TISS & BREAST AGE 0-17
+ 186
+ 0.03
+283: MINOR SKIN DISORDERS W CC
+ 218
+ 0.03
+284: MINOR SKIN DISORDERS W/O CC
+ 180
+ 0.03
+285: AMPUTAT OF LOWER LIMB FOR ENDOCRINE,NUTRIT,& METABOL DISORDERS 213
+ 0.03
+286: ADRENAL & PITUITARY PROCEDURES
+ 159
+ 0.03
+287: SKIN GRAFTS & WOUND DEBRID FOR ENDOC, NUTRIT & METAB DISORDERS
+ 162
+ 0.03
+288: O.R. PROCEDURES FOR OBESITY
+ 139
+ 0.02
+289: PARATHYROID PROCEDURES
+ 290
+ 0.05
+290: THYROID PROCEDURES
+ 931
+ 0.15
+291: THYROGLOSSAL PROCEDURES
+ 34
+ 0.01
+292: OTHER ENDOCRINE, NUTRIT & METAB O.R. PROC W CC
+ 112
+ 0.02
+293: OTHER ENDOCRINE, NUTRIT & METAB O.R. PROC W/O CC
+ 24
+ 0.00
+294: DIABETES AGE >35
+ 2508
+ 0.40
+295: DIABETES AGE 0-35
+ 1288
+ 0.21
+296: NUTRITIONAL & MISC METABOLIC DISORDERS AGE >17 W CC
+ 5417
+ 0.87
+297: NUTRITIONAL & MISC METABOLIC DISORDERS AGE >17 W/O CC
+ 1353
+ 0.22
+298: NUTRITIONAL & MISC METABOLIC DISORDERS AGE 0-17
+ 2052
+ 0.33
+299: INBORN ERRORS OF METABOLISM
+ 80
+ 0.01
+300: ENDOCRINE DISORDERS W CC
+ 449
+ 0.07
+301: ENDOCRINE DISORDERS W/O CC
+ 122
+ 0.02
+302: KIDNEY TRANSPLANT
+ 359
+ 0.06
+303: KIDNEY,URETER & MAJOR BLADDER PROCEDURES FOR NEOPLASM
+ 687
+ 0.11
+304: KIDNEY,URETER & MAJOR BLADDER PROC FOR NON-NEOPL W CC
+ 613
+ 0.10
+305: KIDNEY,URETER & MAJOR BLADDER PROC FOR NON-NEOPL W/O CC
+ 435
+ 0.07
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - COREFrequency Distribution for DRG10
+DRG10
+306: PROSTATECTOMY W CC
+307: PROSTATECTOMY W/O CC
+308: MINOR BLADDER PROCEDURES W CC
+309: MINOR BLADDER PROCEDURES W/O CC
+310: TRANSURETHRAL PROCEDURES W CC
+311: TRANSURETHRAL PROCEDURES W/O CC
+312: URETHRAL PROCEDURES, AGE >17 W CC
+313: URETHRAL PROCEDURES, AGE >17 W/O CC
+314: URETHRAL PROCEDURES, AGE 0-17
+315: OTHER KIDNEY & URINARY TRACT O.R. PROCEDURES
+316: RENAL FAILURE
+317: ADMIT FOR RENAL DIALYSIS
+318: KIDNEY & URINARY TRACT NEOPLASMS W CC
+319: KIDNEY & URINARY TRACT NEOPLASMS W/O CC
+320: KIDNEY & URINARY TRACT INFECTIONS AGE >17 W CC
+321: KIDNEY & URINARY TRACT INFECTIONS AGE >17 W/O CC
+322: KIDNEY & URINARY TRACT INFECTIONS AGE 0-17
+323: URINARY STONES W CC, &/OR ESW LITHOTRIPSY
+324: URINARY STONES W/O CC
+325: KIDNEY & URINARY TRACT SIGNS & SYMPTOMS AGE >17 W CC
+326: KIDNEY & URINARY TRACT SIGNS & SYMPTOMS AGE >17 W/O CC
+327: KIDNEY & URINARY TRACT SIGNS & SYMPTOMS AGE 0-17
+328: URETHRAL STRICTURE AGE >17 W CC
+329: URETHRAL STRICTURE AGE >17 W/O CC
+331: OTHER KIDNEY & URINARY TRACT DIAGNOSES AGE >17 W CC
+332: OTHER KIDNEY & URINARY TRACT DIAGNOSES AGE >17 W/O CC
+333: OTHER KIDNEY & URINARY TRACT DIAGNOSES AGE 0-17
+334: MAJOR MALE PELVIC PROCEDURES W CC
+335: MAJOR MALE PELVIC PROCEDURES W/O CC
+336: TRANSURETHRAL PROSTATECTOMY W CC
+337: TRANSURETHRAL PROSTATECTOMY W/O CC
+338: TESTES PROCEDURES, FOR MALIGNANCY
+339: TESTES PROCEDURES, NON-MALIGNANCY AGE >17
+340: TESTES PROCEDURES, NON-MALIGNANCY AGE 0-17
+File
+ 39
+09:28 Monday, August 22, 2005
+Frequency225
+85
+266
+158
+867
+736
+58
+50
+11
+574
+1278
+23
+193
+<= 10
+3314
+1219
+702
+1081
+1833
+194
+86
+28
+13
+<= 10
+1364
+321
+149
+824
+572
+1773
+1379
+179
+149
+79
+Percent
+of
+Total
+0.04
+0.01
+0.04
+0.03
+0.14
+0.12
+0.01
+0.01
+0.00
+0.09
+0.20
+0.00
+0.03
+**.**
+0.53
+0.19
+0.11
+0.17
+0.29
+0.03
+0.01
+0.00
+0.00
+**.**
+0.22
+0.05
+0.02
+0.13
+0.09
+0.28
+0.22
+0.03
+0.02
+0.01
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+ 40
+Frequency Distribution for DRG10
+ 09:28 Monday, August 22, 2005
+Percent
+of
+DRG10
+ Frequency Total
+341: PENIS PROCEDURES
+ 170
+ 0.03
+342: CIRCUMCISION AGE >17
+ <= 10
+ **.**
+343: CIRCUMCISION AGE 0-17
+ <= 10
+ **.**
+344: OTHER MALE REPRODUCTIVE SYSTEM O.R. PROCEDURES FOR MALIGNANCY
+ 105
+ 0.02
+345: OTHER MALE REPRODUCTIVE SYSTEM O.R. PROC EXCEPT FOR MALIGNANCY
+ 51
+ 0.01
+346: MALIGNANCY, MALE REPRODUCTIVE SYSTEM, W CC
+ 137
+ 0.02
+347: MALIGNANCY, MALE REPRODUCTIVE SYSTEM, W/O CC
+ <= 10
+ **.**
+348: BENIGN PROSTATIC HYPERTROPHY W CC
+ 53
+ 0.01
+349: BENIGN PROSTATIC HYPERTROPHY W/O CC
+ 19
+ 0.00
+350: INFLAMMATION OF THE MALE REPRODUCTIVE SYSTEM
+ 334
+ 0.05
+352: OTHER MALE REPRODUCTIVE SYSTEM DIAGNOSES
+ 47
+ 0.01
+353: PELVIC EVISCERATION, RADICAL HYSTERECTOMY & RADICAL VULVECTOMY 113
+ 0.02
+354: UTERINE,ADNEXA PROC FOR NON-OVARIAN/ADNEXAL MALIG W CC
+ 423
+ 0.07
+355: UTERINE,ADNEXA PROC FOR NON-OVARIAN/ADNEXAL MALIG W/O CC
+ 497
+ 0.08
+356: FEMALE REPRODUCTIVE SYSTEM RECONSTRUCTIVE PROCEDURES
+ 1531
+ 0.24
+357: UTERINE & ADNEXA PROC FOR OVARIAN OR ADNEXAL MALIGNANCY
+ 421
+ 0.07
+358: UTERINE & ADNEXA PROC FOR NON-MALIGNANCY W CC
+ 3313
+ 0.53
+359: UTERINE & ADNEXA PROC FOR NON-MALIGNANCY W/O CC
+ 6917
+ 1.11
+360: VAGINA, CERVIX & VULVA PROCEDURES
+ 455
+ 0.07
+361: LAPAROSCOPY & INCISIONAL TUBAL INTERRUPTION
+ 237
+ 0.04
+362: ENDOSCOPIC TUBAL INTERRUPTION
+ <= 10
+ **.**
+363: D&C, CONIZATION & RADIO-IMPLANT, FOR MALIGNANCY
+ 158
+ 0.03
+364: D&C, CONIZATION EXCEPT FOR MALIGNANCY
+ 119
+ 0.02
+365: OTHER FEMALE REPRODUCTIVE SYSTEM O.R. PROCEDURES
+ 168
+ 0.03
+366: MALIGNANCY, FEMALE REPRODUCTIVE SYSTEM W CC
+ 140
+ 0.02
+367: MALIGNANCY, FEMALE REPRODUCTIVE SYSTEM W/O CC
+ 18
+ 0.00
+368: INFECTIONS, FEMALE REPRODUCTIVE SYSTEM
+ 628
+ 0.10
+369: MENSTRUAL & OTHER FEMALE REPRODUCTIVE SYSTEM DISORDERS
+ 544
+ 0.09
+370: CESAREAN SECTION W CC
+ 2963
+ 0.47
+371: CESAREAN SECTION W/O CC
+ 7266
+ 1.16
+372: VAGINAL DELIVERY W COMPLICATING DIAGNOSES
+ 6332
+ 1.01
+373: VAGINAL DELIVERY W/O COMPLICATING DIAGNOSES
+ 46960
+ 7.51
+374: VAGINAL DELIVERY W STERILIZATION &/OR D&C
+ 2115
+ 0.34
+375: VAGINAL DELIVERY W O.R. PROC EXCEPT STERIL &/OR D&C
+ 50
+ 0.01
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+ 41
+Frequency Distribution for DRG10
+ 09:28 Monday, August 22, 2005
+Percent
+of
+DRG10
+ Frequency Total
+376: POSTPARTUM & POST ABORTION DIAGNOSES W/O O.R. PROCEDURE
+ 690
+ 0.11
+377: POSTPARTUM & POST ABORTION DIAGNOSES W O.R. PROCEDURE
+ 156
+ 0.02
+378: ECTOPIC PREGNANCY
+ 627
+ 0.10
+379: THREATENED ABORTION
+ 2343
+ 0.37
+380: ABORTION W/O D&C
+ 295
+ 0.05
+381: ABORTION W D&C, ASPIRATION CURETTAGE OR HYSTEROTOMY
+ 516
+ 0.08
+382: FALSE LABOR
+ 794
+ 0.13
+383: OTHER ANTEPARTUM DIAGNOSES W MEDICAL COMPLICATIONS
+ 3351
+ 0.54
+384: OTHER ANTEPARTUM DIAGNOSES W/O MEDICAL COMPLICATIONS
+ 1248
+ 0.20
+385: NEONATES, DIED OR TRANSFERRED TO ANOTHER ACUTE CARE FACILITY
+ 1164
+ 0.19
+386: EXTREME IMMATURITY OR RESPIRATORY DISTRESS SYNDROME, NEONATE 1158
+ 0.19
+387: PREMATURITY W MAJOR PROBLEMS
+ 1735
+ 0.28
+388: PREMATURITY W/O MAJOR PROBLEMS
+ 1635
+ 0.26
+389: FULL TERM NEONATE W MAJOR PROBLEMS
+ 4103
+ 0.66
+390: NEONATE W OTHER SIGNIFICANT PROBLEMS
+ 26934
+ 4.31
+391: NORMAL NEWBORN
+ 31624
+ 5.05
+392: SPLENECTOMY AGE >17
+ 193
+ 0.03
+393: SPLENECTOMY AGE 0-17
+ 41
+ 0.01
+394: OTHER O.R. PROCEDURES OF THE BLOOD AND BLOOD FORMING ORGANS
+ 132
+ 0.02
+395: RED BLOOD CELL DISORDERS AGE >17
+ 2218
+ 0.35
+396: RED BLOOD CELL DISORDERS AGE 0-17
+ 385
+ 0.06
+397: COAGULATION DISORDERS
+ 545
+ 0.09
+398: RETICULOENDOTHELIAL & IMMUNITY DISORDERS W CC
+ 730
+ 0.12
+399: RETICULOENDOTHELIAL & IMMUNITY DISORDERS W/O CC
+ 231
+ 0.04
+400: LYMPHOMA & LEUKEMIA W MAJOR O.R. PROCEDURE
+ 411
+ 0.07
+401: LYMPHOMA & NON-ACUTE LEUKEMIA W OTHER O.R. PROC W CC
+ 219
+ 0.04
+402: LYMPHOMA & NON-ACUTE LEUKEMIA W OTHER O.R. PROC W/O CC
+ 106
+ 0.02
+403: LYMPHOMA & NON-ACUTE LEUKEMIA W CC
+ 929
+ 0.15
+404: LYMPHOMA & NON-ACUTE LEUKEMIA W/O CC
+ 152
+ 0.02
+405: ACUTE LEUKEMIA W/O MAJOR O.R. PROCEDURE AGE 0-17
+ 62
+ 0.01
+406: MYELOPROLIF DISORD OR POORLY DIFF NEOPL W MAJ O.R.PROC W CC
+ 128
+ 0.02
+407: MYELOPROLIF DISORD OR POORLY DIFF NEOPL W MAJ O.R.PROC W/O CC
+ 56
+ 0.01
+408: MYELOPROLIF DISORD OR POORLY DIFF NEOPL W OTHER O.R.PROC
+ 137
+ 0.02
+409: RADIOTHERAPY
+ 153
+ 0.02
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+ 42
+Frequency Distribution for DRG10
+ 09:28 Monday, August 22, 2005
+Percent
+of
+DRG10
+ Frequency Total
+410: CHEMOTHERAPY W/O ACUTE LEUKEMIA AS SECONDARY DIAGNOSIS
+ 5341
+ 0.85
+411: HISTORY OF MALIGNANCY W/O ENDOSCOPY
+ <= 10
+ **.**
+412: HISTORY OF MALIGNANCY W ENDOSCOPY
+ <= 10
+ **.**
+413: OTHER MYELOPROLIF DIS OR POORLY DIFF NEOPL DIAG W CC
+ 285
+ 0.05
+414: OTHER MYELOPROLIF DIS OR POORLY DIFF NEOPL DIAG W/O CC
+ 62
+ 0.01
+415: O.R. PROCEDURE FOR INFECTIOUS & PARASITIC DISEASES
+ 1243
+ 0.20
+416: SEPTICEMIA AGE >17
+ 3569
+ 0.57
+417: SEPTICEMIA AGE 0-17
+ 240
+ 0.04
+418: POSTOPERATIVE & POST-TRAUMATIC INFECTIONS
+ 922
+ 0.15
+419: FEVER OF UNKNOWN ORIGIN AGE >17 W CC
+ 563
+ 0.09
+420: FEVER OF UNKNOWN ORIGIN AGE >17 W/O CC
+ 155
+ 0.02
+421: VIRAL ILLNESS AGE >17
+ 837
+ 0.13
+422: VIRAL ILLNESS & FEVER OF UNKNOWN ORIGIN AGE 0-17
+ 1537
+ 0.25
+423: OTHER INFECTIOUS & PARASITIC DISEASES DIAGNOSES
+ 400
+ 0.06
+424: O.R. PROCEDURE W PRINCIPAL DIAGNOSES OF MENTAL ILLNESS
+ 257
+ 0.04
+425: ACUTE ADJUST REACT & DISTURBANCES OF PSYCHOSOCIAL DYSFUNCTION 1711
+ 0.27
+426: DEPRESSIVE NEUROSES
+ 4811
+ 0.77
+427: NEUROSES EXCEPT DEPRESSIVE
+ 3161
+ 0.51
+428: DISORDERS OF PERSONALITY & IMPULSE CONTROL
+ 1022
+ 0.16
+429: ORGANIC DISTURBANCES & MENTAL RETARDATION
+ 2986
+ 0.48
+430: PSYCHOSES
+ 20554
+ 3.29
+431: CHILDHOOD MENTAL DISORDERS
+ 2375
+ 0.38
+432: OTHER MENTAL DISORDER DIAGNOSES
+ 173
+ 0.03
+433: ALCOHOL/DRUG ABUSE OR DEPENDENCE, LEFT AMA
+ 1970
+ 0.31
+434: ALC/DRUG ABUSE OR DEPEND, DETOX OR OTH SYMPT TREAT W CC
+ 2649
+ 0.42
+435: ALC/DRUG ABUSE OR DEPEND, DETOX OR OTH SYMPT TREAT W/O CC
+ 11448
+ 1.83
+436: ALC/DRUG DEPENDENCE W REHABILITATION THERAPY
+ 1883
+ 0.30
+437: ALC/DRUG DEPENDENCE, COMBINED REHAB & DETOX THERAPY
+ 4176
+ 0.67
+439: SKIN GRAFTS FOR INJURIES
+ 48
+ 0.01
+440: WOUND DEBRIDEMENTS FOR INJURIES
+ 371
+ 0.06
+441: HAND PROCEDURES FOR INJURIES
+ 174
+ 0.03
+442: OTHER O.R. PROCEDURES FOR INJURIES W CC
+ 600
+ 0.10
+443: OTHER O.R. PROCEDURES FOR INJURIES W/O CC
+ 441
+ 0.07
+444: TRAUMATIC INJURY AGE >17 W CC
+ 180
+ 0.03
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+Frequency Distribution for DRG10
+ 09:28DRG10
+445: TRAUMATIC INJURY AGE >17 W/O CC
+446: TRAUMATIC INJURY AGE 0-17
+447: ALLERGIC REACTIONS AGE >17
+448: ALLERGIC REACTIONS AGE 0-17
+449: POISONING & TOXIC EFFECTS OF DRUGS AGE >17 W CC
+450: POISONING & TOXIC EFFECTS OF DRUGS AGE >17 W/O CC
+451: POISONING & TOXIC EFFECTS OF DRUGS AGE 0-17
+452: COMPLICATIONS OF TREATMENT W CC
+453: COMPLICATIONS OF TREATMENT W/O CC
+454: OTHER INJURY, POISONING & TOXIC EFFECT DIAG W CC
+455: OTHER INJURY, POISONING & TOXIC EFFECT DIAG W/O CC
+456: BURNS, TRANSFERRED TO ANOTHER ACUTE CARE FACILITY
+457: EXTENSIVE BURNS W/O O.R. PROCEDURE
+458: NON-EXTENSIVE BURNS W SKIN GRAFT
+459: NON-EXTENSIVE BURNS W WOUND DEBRIDEMENT OR OTHER O.R. PROC
+460: NON-EXTENSIVE BURNS W/O O.R. PROCEDURE
+461: O.R. PROC W DIAGNOSES OF OTHER CONTACT W HEALTH SERVICES
+462: REHABILITATION
+463: SIGNS & SYMPTOMS W CC
+464: SIGNS & SYMPTOMS W/O CC
+465: AFTERCARE W HISTORY OF MALIGNANCY AS SECONDARY DIAGNOSIS
+466: AFTERCARE W/O HISTORY OF MALIGNANCY AS SECONDARY DIAGNOSIS
+467: OTHER FACTORS INFLUENCING HEALTH STATUS
+468: EXTENSIVE O.R. PROCEDURE UNRELATED TO PRINCIPAL DIAGNOSIS
+469: PRINCIPAL DIAGNOSIS INVALID AS DISCHARGE DIAGNOSIS
+470: UNGROUPABLE
+471: BILATERAL OR MULTIPLE MAJOR JOINT PROCS OF LOWER EXTREMITY
+472: EXTENSIVE BURNS W O.R. PROCEDURE
+473: ACUTE LEUKEMIA W/O MAJOR O.R. PROCEDURE AGE >17
+475: RESPIRATORY SYSTEM DIAGNOSIS WITH VENTILATOR SUPPORT
+476: PROSTATIC O.R. PROCEDURE UNRELATED TO PRINCIPAL DIAGNOSIS
+477: NON-EXTENSIVE O.R. PROCEDURE UNRELATED TO PRINCIPAL DIAGNOSIS
+478: OTHER VASCULAR PROCEDURES W CC
+479: OTHER VASCULAR PROCEDURES W/O CC
+43
+Monday, August 22, 2005
+Frequency232
+88
+231
+44
+2205
+1403
+973
+872
+381
+245
+221
+19
+15
+205
+45
+327
+463
+7121
+753
+251
+24
+382
+946
+2442
+<= 10
+242
+298
+21
+338
+1527
+179
+1366
+2686
+682
+Percent
+of
+Total
+0.04
+0.01
+0.04
+0.01
+0.35
+0.22
+0.16
+0.14
+0.06
+0.04
+0.04
+0.00
+0.00
+0.03
+0.01
+0.05
+0.07
+1.14
+0.12
+0.04
+0.00
+0.06
+0.15
+0.39
+**.**
+0.04
+0.05
+0.00
+0.05
+0.24
+0.03
+0.22
+0.43
+0.11
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+ 44
+Frequency Distribution for DRG10
+ 09:28 Monday, August 22, 2005
+Percent
+of
+DRG10
+ Frequency Total
+480: LIVER TRANSPLANT
+ 82
+ 0.01
+481: BONE MARROW TRANSPLANT
+ 204
+ 0.03
+482: TRACHEOSTOMY W MOUTH, LARYNX OR PHARYNX DISORDER
+ 259
+ 0.04
+483: TRACHEOSTOMY EXCEPT FOR MOUTH, LARYNX OR PHARYNX DISORDER
+ 1026
+ 0.16
+484: CRANIOTOMY FOR MULTIPLE SIGNIFICANT TRAUMA
+ 60
+ 0.01
+485: LIMB REATTACHMENT, HIP & FEMUR PROC FOR MULTIPLE SIGNIFICANT
+ 225
+ 0.04
+TRAUMA
+486: OTHER O.R. PROCEDURES FOR MULTIPLE SIGNIFICANT TRAUMA
+ 476
+ 0.08
+487: OTHER MULTIPLE SIGNIFICANT TRAUMA
+ 459
+ 0.07
+488: HIV W EXTENSIVE O.R. PROCEDURE
+ 43
+ 0.01
+489: HIV W MAJOR RELATED CONDITION
+ 446
+ 0.07
+490: HIV W OR W/O OTHER RELATED CONDITION
+ 163
+ 0.03
+491: MAJOR JOINT & LIMB REATTACHMENT PROCEDURES OF UPPER EXTREMITY
+ 286
+ 0.05
+492: CHEMOTHERAPY W ACUTE LEUKEMIA AS SECONDARY DIAGNOSIS
+ 435
+ 0.07
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+ 45
+Frequency Distribution for DRGVER
+ 09:28 Monday, August 22, 2005
+Percent
+of
+DRGVER Frequency Total
+11
+ 471896
+ 75.43
+12
+ 153725
+ 24.57
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+ 46
+Frequency Distribution for DSNDX
+ 09:28 Monday, August 22, 2005
+Percent
+of
+DSNDX Frequency Total
+10
+ 625621
+ 100.00
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+ 47
+Frequency Distribution for DSNPR
+ 09:28 Monday, August 22, 2005
+Percent
+of
+DSNPR Frequency Total
+6
+ 625621
+ 100.00
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+ 48
+Frequency Distribution for DSNUM
+ 09:28 Monday, August 22, 2005
+Percent
+of
+DSNUM Frequency Total
+7
+ 625621
+ 100.00
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+ 49
+Frequency Distribution for DSTYPE
+ 09:28 Monday, August 22, 2005
+Percent
+of
+DSTYPE Frequency Total
+1
+ 625621
+ 100.00
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+ 50
+Frequency Distribution for DX1
+ 09:28 Monday, August 22, 2005
+Percent
+of
+DX1
+ Frequency Total
+Blank
+ <= 10
+ **.**
+Valid DX 625615
+ 100.00
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+ 51
+Frequency Distribution for DXV1
+ 09:28 Monday, August 22, 2005
+Percent
+of
+DXV1
+ Frequency Total
+.: No dx
+ <= 10
+ **.**
+.C: Inconsistent 111
+ 0.02
+0: Valid dx
+ 625503
+ 99.98
+1: Invalid dx
+ <= 10
+ **.**
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+ 52
+Frequency Distribution for HOSPST
+ 09:28 Monday, August 22, 2005
+Percent
+of
+HOSPST Frequency Total
+WI
+ 625621
+ 100.00
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+Frequency Distribution for LOS
+ 09:28 Monday, AugustLOS
+ Frequency.C: Inconsistent 477
+0 days
+ 13291
+1 day
+ 118722
+2 days
+ 135210
+3 days
+ 85009
+4 days
+ 56330
+5 days
+ 41606
+6 days
+ 32114
+7 days
+ 27594
+8 days
+ 20430
+9 days
+ 15273
+10 days
+ 11927
+11 - 30 days
+ 58892
+31 - 60 days
+ 6628
+61 - 90 days
+ 1093
+91 - 120 days
+ 414
+121 - 150 days
+ 159
+151 - 180 days
+ 105
+181 - 210 days
+ 54
+211 - 240 days
+ 40
+241 - 270 days
+ 24
+271 - 300 days
+ 30
+301 - 330 days
+ 23
+331 - 365 days
+ 15
+365 - 1095 days 130
+1107
+ <= 10
+1113
+ <= 10
+1142
+ <= 10
+1147
+ <= 10
+1200
+ <= 10
+1394
+ <= 10
+1588
+ <= 10
+1623
+ <= 10
+1717
+ <= 10
+Percent
+of
+Total
+0.08
+2.12
+18.98
+21.61
+13.59
+9.00
+6.65
+5.13
+4.41
+3.27
+2.44
+1.91
+9.41
+1.06
+0.17
+0.07
+0.03
+0.02
+0.01
+0.01
+0.00
+0.00
+0.00
+0.00
+0.02
+**.**
+**.**
+**.**
+**.**
+**.**
+**.**
+**.**
+**.**
+**.**
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+22,53
+2005
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+ 54
+Frequency Distribution for LOS
+ 09:28 Monday, August 22, 2005
+LOS
+1925
+2163
+2164
+2334
+2339
+2355
+2457
+2666
+2689
+2743
+3043
+3054
+3319
+3374
+3700
+3878
+3968
+4354
+4881
+5296
+6846
+Frequency<= 10
+<= 10
+<= 10
+<= 10
+<= 10
+<= 10
+<= 10
+<= 10
+<= 10
+<= 10
+<= 10
+<= 10
+<= 10
+<= 10
+<= 10
+<= 10
+<= 10
+<= 10
+<= 10
+<= 10
+<= 10
+Percent
+of
+Total
+**.**
+**.**
+**.**
+**.**
+**.**
+**.**
+**.**
+**.**
+**.**
+**.**
+**.**
+**.**
+**.**
+**.**
+**.**
+**.**
+**.**
+**.**
+**.**
+**.**
+**.**
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+ 55
+Frequency Distribution for MDC10
+ 09:28 Monday, August 22, 2005
+Percent
+of
+MDC10
+ Frequency Total
+0
+ <= 10
+ **.**
+1: DISEASES & DISORDERS OF THE NERVOUS SYSTEM
+ 31221
+ 4.99
+2: DISEASES & DISORDERS OF THE EYE
+ 2026
+ 0.32
+3: DISEASES & DISORDERS OF THE EAR, NOSE, MOUTH & THROAT
+ 8852
+ 1.41
+4: DISEASES & DISORDERS OF THE RESPIRATORY SYSTEM
+ 49158
+ 7.86
+5: DISEASES & DISORDERS OF THE CIRCULATORY SYSTEM
+ 91554
+ 14.63
+6: DISEASES & DISORDERS OF THE DIGESTIVE SYSTEM
+ 51459
+ 8.23
+7: DISEASES & DISORDERS OF THE HEPATOBILIARY SYSTEM & PANCREAS
+ 16763
+ 2.68
+8: DISEASES & DISORDERS OF THE MUSCULOSKELETAL SYSTEM & CONN TISSUE
+ 58665
+ 9.38
+9: DISEASES & DISORDERS OF THE SKIN, SUBCUTANEOUS TISSUE & BREAST
+ 13554
+ 2.17
+10: ENDOCRINE, NUTRITIONAL & METABOLIC DISEASES & DISORDERS
+ 15597
+ 2.49
+11: DISEASES & DISORDERS OF THE KIDNEY & URINARY TRACT
+ 17256
+ 2.76
+12: DISEASES & DISORDERS OF THE MALE REPRODUCTIVE SYSTEM
+ 5916
+ 0.95
+13: DISEASES & DISORDERS OF THE FEMALE REPRODUCTIVE SYSTEM
+ 15737
+ 2.52
+14: PREGNANCY, CHILDBIRTH & THE PUERPERIUM
+ 75791
+ 12.11
+15: NEWBORNS & OTHER NEONATES WITH CONDTN ORIG IN PERINATAL PERIOD
+ 68361
+ 10.93
+16: DISEASES & DISORDERS OF BLOOD, BLOOD FORMING ORGANS, IMMUNOLOG
+ 4603
+ 0.74
+DISOR
+17: MYELOPROLIFERATIVE DISEASES & DISORDERS, POORLY DIFFERENTIATED
+ 8998
+ 1.44
+NEOPL
+18: INFECTIOUS & PARASITIC DISEASES, SYSTEMIC OR UNSPECIFIED SITES
+ 9503
+ 1.52
+19: MENTAL DISEASES & DISORDERS
+ 37052
+ 5.92
+20: ALCOHOL/DRUG USE & ALCOHOL/DRUG INDUCED ORGANIC MENTAL
+ 22184
+ 3.55
+DISORDERS
+21: INJURIES, POISONINGS & TOXIC EFFECTS OF DRUGS
+ 8904
+ 1.42
+22: BURNS
+ 642
+ 0.10
+23: FACTORS INFLUENCING HLTH STAT & OTHR CONTACTS WITH HLTH SERVCS
+ 9945
+ 1.59
+24: MULTIPLE SIGNIFICANT TRAUMA
+ 1221
+ 0.20
+25: HUMAN IMMUNODEFICIENCY VIRUS INFECTIONS
+ 652
+ 0.10
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+ 56
+Frequency Distribution for MRN_S
+ 09:28 Monday, August 22, 2005
+Percent
+of
+MRN_S
+ Frequency Total
+Blank
+ <= 10
+ **.**
+Non-blank 625620
+ 100.00
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+ 57
+Frequency Distribution for NDX
+ 09:28 Monday, August 22, 2005
+Percent
+of
+NDX Frequency Total
+0
+ <= 10
+ **.**
+1
+ 84511
+ 13.51
+2
+ 116175
+ 18.57
+3
+ 91393
+ 14.61
+4
+ 77385
+ 12.37
+5
+ 91946
+ 14.70
+6
+ 42819
+ 6.84
+7
+ 31480
+ 5.03
+8
+ 26873
+ 4.30
+9
+ 53686
+ 8.58
+10
+ 9347
+ 1.49
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+ 58
+Frequency Distribution for NEOMAT
+ 09:28 Monday, August 22, 2005
+Percent
+of
+NEOMAT
+ Frequency Total
+0: Not neonatal or maternal 478975
+ 76.56
+1: Maternal
+ 77151
+ 12.33
+2: Neonatal
+ 69484
+ 11.11
+3: Neonatal and maternal
+ 11
+ 0.00
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+ 59
+Frequency Distribution for NPR
+ 09:28 Monday, August 22, 2005
+Percent
+of
+NPR Frequency Total
+0
+ 239678
+ 38.31
+1
+ 174877
+ 27.95
+2
+ 90745
+ 14.50
+3
+ 70511
+ 11.27
+4
+ 21913
+ 3.50
+5
+ 10812
+ 1.73
+6
+ 17085
+ 2.73
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+ 60
+Frequency Distribution for PAY1
+ 09:28 Monday, August 22, 2005
+Percent
+of
+PAY1
+ Frequency Total
+.: Missing
+ 3370
+ 0.54
+.A: Invalid
+ <= 10
+ **.**
+1: Medicare
+ 226333
+ 36.18
+2: Medicaid
+ 80016
+ 12.79
+3: Private insurance 263416
+ 42.10
+4: Self-pay
+ 21729
+ 3.47
+6: Other
+ 30751
+ 4.92
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+ 61
+Frequency Distribution for PAY1_N
+ 09:28 Monday, August 22, 2005
+Percent
+of
+PAY1_N
+ Frequency Total
+.: Missing
+ 3370
+ 0.54
+.A: Invalid
+ <= 10
+ **.**
+1: Medicare
+ 226333
+ 36.18
+2: Medicaid
+ 80016
+ 12.79
+3: B.C.,B.C PPO
+ 24760
+ 3.96
+4: Comm. PPO
+ 137062
+ 21.91
+5: Alt. Del Sys
+ 101594
+ 16.24
+6: Self-pay
+ 21729
+ 3.47
+9: Worker's Comp
+ 6373
+ 1.02
+10: CHAMPUS,(VA) 1565
+ 0.25
+11: Other Gov.
+ 14538
+ 2.32
+12: Other
+ 8275
+ 1.32
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+ 62
+Frequency Distribution for PAY1_X
+ 09:28 Monday, August 22, 2005
+Percent
+of
+PAY1_X
+ Frequency Total
+Blank
+ <= 10
+ **.**
+Non-blank 625620
+ 100.00
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+ 63
+Frequency Distribution for PAY2
+ 09:28 Monday, August 22, 2005
+Percent
+of
+PAY2
+ Frequency Total
+C
+ 3644
+ 0.58
+.: Missing
+ 306180
+ 48.94
+1: Medicare
+ 7326
+ 1.17
+2: Medicaid
+ 44303
+ 7.08
+3: Private insurance 184640
+ 29.51
+4: Self-pay
+ 71399
+ 11.41
+6: Other
+ 8129
+ 1.30
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+ 64
+Frequency Distribution for PAY2_N
+ 09:28 Monday, August 22, 2005
+Percent
+of
+PAY2_N
+ Frequency Total
+.: Missing
+ 306180
+ 48.94
+.C: Inconsistent
+ 3644
+ 0.58
+1: Medicare
+ 7326
+ 1.17
+2: Medicaid
+ 44303
+ 7.08
+3: B.C., B.C PPO
+ 33358
+ 5.33
+4: Comm., PPO
+ 123381
+ 19.72
+5: Alt. Delvry
+ 27901
+ 4.46
+6: Self-pay
+ 71399
+ 11.41
+9: Worker's Comp
+ 118
+ 0.02
+10: CHAMPUS,(VA) 545
+ 0.09
+11: Other Gov.
+ 3296
+ 0.53
+12: Other
+ 4170
+ 0.67
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+ 65
+Frequency Distribution for PAY2_X
+ 09:28 Monday, August 22, 2005
+Percent
+of
+PAY2_X
+ Frequency Total
+Blank
+ 304285
+ 48.64
+Non-blank 321336
+ 51.36
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - COREFrequency Distribution for PCCHPR1
+PCCHPR1
+.: No PR code
+.A: Invalid PR
+1: Incision and excision of CNS
+2: Insertion, replacement, or removal of extracranial ventricular shunt
+3: Laminectomy, excision intervertebral disc
+4: Diagnostic spinal tap
+5: Insertion of catheter or spinal stimulator and injection into spinal canal
+6: Decompression peripheral nerve
+7: Other diagnostic nervous system procedures
+8: Other non-O.R. or closed therapeutic nervous system procedures
+9: Other O.R. therapeutic nervous system procedures
+10: Thyroidectomy, partial or complete
+11: Diagnostic endocrine procedures
+12: Other therapeutic endocrine procedures
+13: Corneal transplant
+14: Glaucoma procedures
+15: Lens and cataract procedures
+16: Repair of retinal tear, detachment
+17: Destruction of lesion of retina and choroid
+18: Diagnostic procedures on eye
+19: Other therapeutic procedures on eyelids, conjunctiva, cornea
+20: Other intraocular therapeutic procedures
+21: Other extraocular muscle and orbit therapeutic procedures
+22: Tympanoplasty
+23: Myringotomy
+24: Mastoidectomy
+25: Diagnostic procedures on ear
+26: Other therapeutic ear procedures
+27: Control of epistaxis
+28: Plastic procedures on nose
+29: Dental procedures
+30: Tonsillectomy and/or adenoidectomy
+31: Diagnostic procedures on nose, mouth and pharynx
+32: Other non-O.R. therapeutic procedures on nose, mouth and pharynx
+File
+ 66
+09:28 Monday, August 22, 2005
+Frequency239678
+239
+1209
+498
+6624
+3141
+1006
+83
+320
+191
+1198
+973
+35
+524
+99
+38
+113
+412
+20
+29
+342
+581
+154
+34
+83
+115
+<= 10
+274
+412
+203
+205
+479
+121
+308
+Percent
+of
+Total
+38.31
+0.04
+0.19
+0.08
+1.06
+0.50
+0.16
+0.01
+0.05
+0.03
+0.19
+0.16
+0.01
+0.08
+0.02
+0.01
+0.02
+0.07
+0.00
+0.00
+0.05
+0.09
+0.02
+0.01
+0.01
+0.02
+**.**
+0.04
+0.07
+0.03
+0.03
+0.08
+0.02
+0.05
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+ 67
+Frequency Distribution for PCCHPR1
+ 09:28 Monday, August 22, 2005
+Percent
+of
+PCCHPR1
+ Frequency Total
+33: Other O.R. therapeutic procedures on nose, mouth and pharynx
+ 1481
+ 0.24
+34: Tracheostomy, temporary and permanent
+ 722
+ 0.12
+35: Tracheoscopy and laryngoscopy with biopsy
+ 354
+ 0.06
+36: Lobectomy or pneumonectomy
+ 1100
+ 0.18
+37: Diagnostic bronchoscopy and biopsy of bronchus
+ 2070
+ 0.33
+38: Other diagnostic procedures on lung and bronchus
+ 281
+ 0.04
+39: Incision of pleura, thoracentesis, chest drainage
+ 2669
+ 0.43
+40: Other diagnostic procedures of respiratory tract and mediastinum
+ 323
+ 0.05
+41: Other non-O.R. therapeutic procedures on respiratory system
+ 240
+ 0.04
+42: Other O.R. therapeutic procedures on respiratory system
+ 747
+ 0.12
+43: Heart valve procedures
+ 1223
+ 0.20
+44: Coronary artery bypass graft (CABG)
+ 6525
+ 1.04
+45: Percutaneous coronary angioplasty (PTCA)
+ 8442
+ 1.35
+46: Coronary thrombolysis
+ 22
+ 0.00
+47: Diagnostic cardiac catheterization, coronary arteriography
+ 9614
+ 1.54
+48: Insertion, revision, replacement, removal of cardiac pacemaker or cardioverter/defibrillator
+ 2924
+ 0.47
+49: Other O.R. heart procedures
+ 1251
+ 0.20
+50: Extracorporeal circulation auxiliary to open heart procedures
+ 18
+ 0.00
+51: Endarterectomy, vessel of head and neck
+ 1813
+ 0.29
+52: Aortic resection, replacement or anastomosis
+ 837
+ 0.13
+53: Varicose vein stripping, lower limb
+ 206
+ 0.03
+54: Other vascular catheterization, not heart
+ 2790
+ 0.45
+55: Peripheral vascular bypass
+ 1588
+ 0.25
+56: Other vascular bypass and shunt, not heart
+ 194
+ 0.03
+57: Creation, revision and removal of arteriovenous fistula or vessel-to-vessel cannula for dialysis 586
+ 0.09
+58: Hemodialysis
+ 1371
+ 0.22
+59: Other O.R. procedures on vessels of head and neck
+ 87
+ 0.01
+60: Embolectomy and endarterectomy of lower limbs
+ 448
+ 0.07
+61: Other O.R. procedures on vessels other than head and neck
+ 2875
+ 0.46
+62: Other diagnostic cardiovascular procedures
+ 998
+ 0.16
+63: Other non-O.R. therapeutic cardiovascular procedures
+ 478
+ 0.08
+64: Bone marrow transplant
+ 186
+ 0.03
+65: Bone marrow biopsy
+ 1077
+ 0.17
+66: Procedures on spleen
+ 408
+ 0.07
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+Frequency Distribution for PCCHPR1
+ 09:28 Monday, AugustPCCHPR1
+67: Other therapeutic procedures, hemic and lymphatic system
+68: Injection or ligation of esophageal varices
+69: Esophageal dilatation
+70: Upper gastrointestinal endoscopy, biopsy
+71: Gastrostomy, temporary and permanent
+72: Colostomy, temporary and permanent
+73: Ileostomy and other enterostomy
+74: Gastrectomy, partial and total
+75: Small bowel resection
+76: Colonoscopy and biopsy
+77: Proctoscopy and anorectal biopsy
+78: Colorectal resection
+79: Local excision of large intestine lesion (not endoscopic)
+80: Appendectomy
+81: Hemorrhoid procedures
+82: Endoscopic cannulation of pancreas (ERCP)
+83: Biopsy of liver
+84: Cholecystectomy and common duct exploration
+85: Inguinal and femoral hernia repair
+86: Other hernia repair
+87: Laparoscopy
+88: Abdominal paracentesis
+89: Exploratory laparotomy
+90: Excision, lysis peritoneal adhesions
+91: Peritoneal dialysis
+92: Other bowel diagnostic procedures
+93: Other non-O.R. upper GI therapeutic procedures
+94: Other O.R. upper GI therapeutic procedures
+95: Other non-O.R. lower GI therapeutic procedures
+96: Other O.R. lower GI therapeutic procedures
+97: Other gastrointestinal diagnostic procedures
+98: Other non-O.R. gastrointestinal therapeutic procedures
+99: Other O.R. gastrointestinal therapeutic procedures
+100: Endoscopy and endoscopic biopsy of the urinary tract
+Frequency1035
+<= 10
+226
+9827
+954
+203
+69
+385
+792
+4250
+360
+4553
+24
+5140
+518
+732
+507
+8473
+1424
+1976
+379
+859
+501
+1117
+359
+105
+1567
+1755
+840
+2095
+314
+1286
+1694
+1590
+Percent
+of
+Total
+0.17
+**.**
+0.04
+1.57
+0.15
+0.03
+0.01
+0.06
+0.13
+0.68
+0.06
+0.73
+0.00
+0.82
+0.08
+0.12
+0.08
+1.35
+0.23
+0.32
+0.06
+0.14
+0.08
+0.18
+0.06
+0.02
+0.25
+0.28
+0.13
+0.33
+0.05
+0.21
+0.27
+0.25
+22,68
+2005
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - COREFrequency Distribution for PCCHPR1
+PCCHPR1
+101: Transurethral excision, drainage, or removal urinary obstruction
+102: Ureteral catheterization
+103: Nephrotomy and nephrostomy
+104: Nephrectomy, partial or complete
+105: Kidney transplant
+106: Genitourinary incontinence procedures
+107: Extracorporeal lithotripsy, urinary
+108: Indwelling catheter
+109: Procedures on the urethra
+110: Other diagnostic procedures of urinary tract
+111: Other non-O.R. therapeutic procedures of urinary tract
+112: Other O.R. therapeutic procedures of urinary tract
+113: Transurethral prostatectomy (TURP)
+114: Open prostatectomy
+115: Circumcision
+116: Diagnostic procedures, male genital
+117: Other non-O.R. therapeutic procedures, male genital
+118: Other O.R. therapeutic procedures, male genital
+119: Oophorectomy, unilateral and bilateral
+120: Other operations on ovary
+121: Ligation of fallopian tubes
+122: Removal ectopic pregnancy
+123: Other operations on fallopian tubes
+124: Hysterectomy, abdominal and vaginal
+125: Other excision of cervix and uterus
+127: Dilatation and curettage (D&C), aspiration after delivery or abortion
+128: Diagnostic dilatation and curettage (D&C)
+129: Repair of cystocele and rectocele, obliteration of vaginal vault
+130: Other diagnostic procedures female organs
+131: Other non-O.R. therapeutic procedures, female organs
+132: Other O.R. therapeutic procedures, female organs
+133: Episiotomy
+134: Cesarean section
+135: Forceps, vacuum, and breech delivery
+File
+09:28 Monday, August 22,Frequency1757
+654
+336
+795
+361
+959
+166
+800
+375
+563
+182
+996
+3676
+1356
+27686
+78
+93
+602
+1151
+494
+625
+379
+198
+9480
+317
+673
+169
+881
+149
+58
+861
+13710
+10182
+7009
+Percent
+of
+Total
+0.28
+0.10
+0.05
+0.13
+0.06
+0.15
+0.03
+0.13
+0.06
+0.09
+0.03
+0.16
+0.59
+0.22
+4.43
+0.01
+0.01
+0.10
+0.18
+0.08
+0.10
+0.06
+0.03
+1.52
+0.05
+0.11
+0.03
+0.14
+0.02
+0.01
+0.14
+2.19
+1.63
+1.12
+69
+2005
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+ 70
+Frequency Distribution for PCCHPR1
+ 09:28 Monday, August 22, 2005
+Percent
+of
+PCCHPR1
+ Frequency Total
+136: Artificial rupture of membranes to assist delivery
+ 788
+ 0.13
+137: Other procedures to assist delivery
+ 20794
+ 3.32
+138: Diagnostic amniocentesis
+ 133
+ 0.02
+139: Fetal monitoring
+ 3633
+ 0.58
+140: Repair of current obstetric laceration
+ 8834
+ 1.41
+141: Other therapeutic obstetrical procedures
+ 179
+ 0.03
+142: Partial excision bone
+ 928
+ 0.15
+143: Bunionectomy or repair of toe deformities
+ 199
+ 0.03
+144: Treatment, facial fracture or dislocation
+ 494
+ 0.08
+145: Treatment, fracture or dislocation of radius and ulna
+ 1188
+ 0.19
+146: Treatment, fracture or dislocation of hip and femur
+ 5056
+ 0.81
+147: Treatment, fracture or dislocation of lower extremity (other than hip or femur) 4336
+ 0.69
+148: Other fracture and dislocation procedure
+ 1644
+ 0.26
+149: Arthroscopy
+ 155
+ 0.02
+150: Division of joint capsule, ligament or cartilage
+ 113
+ 0.02
+151: Excision of semilunar cartilage of knee
+ 334
+ 0.05
+152: Arthroplasty knee
+ 8304
+ 1.33
+153: Hip replacement, total and partial
+ 6089
+ 0.97
+154: Arthroplasty other than hip or knee
+ 1914
+ 0.31
+155: Arthrocentesis
+ 711
+ 0.11
+156: Injections and aspirations of muscles, tendons, bursa, joints and soft tissue
+ 145
+ 0.02
+157: Amputation of lower extremity
+ 2078
+ 0.33
+158: Spinal fusion
+ 2205
+ 0.35
+159: Other diagnostic procedures on musculoskeletal system
+ 386
+ 0.06
+160: Other therapeutic procedures on muscles and tendons
+ 3231
+ 0.52
+161: Other O.R. therapeutic procedures on bone
+ 1056
+ 0.17
+162: Other O.R. therapeutic procedures on joints
+ 1561
+ 0.25
+163: Other non-O.R. therapeutic procedures on musculoskeletal system
+ 271
+ 0.04
+164: Other O.R. therapeutic procedures on musculoskeletal system
+ 978
+ 0.16
+165: Breast biopsy and other diagnostic procedures on breast
+ 81
+ 0.01
+166: Lumpectomy, quadrantectomy of breast
+ 539
+ 0.09
+167: Mastectomy
+ 2300
+ 0.37
+168: Incision and drainage, skin and subcutaneous tissue
+ 971
+ 0.16
+169: Debridement of wound, infection or burn
+ 2878
+ 0.46
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+Frequency Distribution for PCCHPR1
+ 09:28 Monday, AugustPercent
+of
+PCCHPR1
+ Frequency Total
+170: Excision of skin lesion
+ 516
+ 0.08
+171: Suture of skin and subcutaneous tissue
+ 1339
+ 0.21
+172: Skin graft
+ 697
+ 0.11
+173: Other diagnostic procedures on skin and subcutaneous tissue
+ 255
+ 0.04
+174: Other non-O.R. therapeutic procedures on skin and breast
+ 1920
+ 0.31
+175: Other O.R. therapeutic procedures on skin and breast
+ 1151
+ 0.18
+176: Other organ transplantation
+ 200
+ 0.03
+177: Computerized axial tomography (CT) scan head
+ 2662
+ 0.43
+178: CT scan chest
+ 253
+ 0.04
+179: CT scan abdomen
+ 871
+ 0.14
+180: Other CT scan
+ 267
+ 0.04
+181: Myelogram
+ 236
+ 0.04
+182: Mammography
+ 17
+ 0.00
+183: Routine chest X-ray
+ 114
+ 0.02
+184: Intraoperative cholangiogram
+ <= 10
+ **.**
+185: Upper gastrointestinal X-ray
+ 329
+ 0.05
+186: Lower gastrointestinal X-ray
+ 52
+ 0.01
+187: Intravenous pyelogram
+ 592
+ 0.09
+188: Cerebral arteriogram
+ 414
+ 0.07
+189: Contrast aortogram
+ 147
+ 0.02
+190: Contrast arteriogram of femoral and lower extremity arteries
+ 191
+ 0.03
+191: Arterio- or venogram (not heart and head)
+ 814
+ 0.13
+192: Diagnostic ultrasound of head and neck
+ 189
+ 0.03
+193: Diagnostic ultrasound of heart (echocardiogram)
+ 2000
+ 0.32
+194: Diagnostic ultrasound of gastrointestinal tract
+ 172
+ 0.03
+195: Diagnostic ultrasound of urinary tract
+ 200
+ 0.03
+196: Diagnostic ultrasound of abdomen or retroperitoneum
+ 568
+ 0.09
+197: Other diagnostic ultrasound
+ 683
+ 0.11
+198: Magnetic resonance imaging
+ 751
+ 0.12
+199: Electroencephalogram (EEG)
+ 268
+ 0.04
+200: Nonoperative urinary system measurements
+ <= 10
+ **.**
+201: Cardiac stress tests
+ 1031
+ 0.16
+202: Electrocardiogram
+ 270
+ 0.04
+203: Electrographic cardiac monitoring
+ 654
+ 0.10
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+22,71
+2005
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+Frequency Distribution for PCCHPR1
+ 09:28 Monday, AugustPercent
+of
+PCCHPR1
+ Frequency Total
+204: Swan-Ganz catheterization for monitoring
+ 335
+ 0.05
+205: Arterial blood gases
+ 252
+ 0.04
+206: Microscopic examination (bacterial smear, culture, toxicology)
+ 30
+ 0.00
+207: Radioisotope bone scan
+ 250
+ 0.04
+208: Radioisotope pulmonary scan
+ 453
+ 0.07
+209: Radioisotope scan and function studies
+ 443
+ 0.07
+210: Other radioisotope scan
+ 58
+ 0.01
+211: Therapeutic radiology
+ 1118
+ 0.18
+212: Diagnostic physical therapy
+ 39
+ 0.01
+213: Physical therapy exercises, manipulation, and other procedures
+ 3156
+ 0.50
+214: Traction, splints, and other wound care
+ 876
+ 0.14
+215: Other physical therapy and rehabilitation
+ 690
+ 0.11
+216: Respiratory intubation and mechanical ventilation
+ 4756
+ 0.76
+217: Other respiratory therapy
+ 2186
+ 0.35
+218: Psychological and psychiatric evaluation and therapy
+ 11878
+ 1.90
+219: Alcohol and drug rehabilitation/detoxification
+ 14467
+ 2.31
+220: Ophthalmologic and otologic diagnosis and treatment
+ 23
+ 0.00
+221: Nasogastric tube
+ 624
+ 0.10
+222: Blood transfusion
+ 1579
+ 0.25
+223: Enteral and parenteral nutrition
+ 379
+ 0.06
+224: Cancer chemotherapy
+ 5573
+ 0.89
+225: Conversion of cardiac rhythm
+ 1415
+ 0.23
+226: Other diagnostic radiology and related techniques
+ 583
+ 0.09
+227: Other diagnostic procedures (interview, evaluation, consultation) 944
+ 0.15
+228: Prophylactic vaccinations and inoculations
+ 3544
+ 0.57
+229: Nonoperative removal of foreign body
+ 102
+ 0.02
+231: Other therapeutic procedures
+ 6148
+ 0.98
+22,72
+2005
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+ 73
+Frequency Distribution for PR1
+ 09:28 Monday, August 22, 2005
+Percent
+of
+PR1
+ Frequency Total
+Blank
+ 239678
+ 38.31
+Valid PR 385943
+ 61.69
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+ 74
+Frequency Distribution for PRDAY1
+ 09:28 Monday, August 22, 2005
+Percent
+of
+PRDAY1
+ Frequency Total
+.: Missing
+ 334058
+ 53.40
+.C: Inconsistent <= 10
+ **.**
+-3 days
+ 13
+ 0.00
+-2 days
+ 25
+ 0.00
+-1 day
+ 436
+ 0.07
+0 days
+ 174880
+ 27.95
+1 day
+ 55108
+ 8.81
+2 days
+ 18235
+ 2.91
+3 days
+ 11456
+ 1.83
+4 days
+ 8060
+ 1.29
+5 days
+ 5563
+ 0.89
+6 - 30 days
+ 17387
+ 2.78
+31 - 60 days
+ 343
+ 0.05
+61 - 90 days
+ 34
+ 0.01
+91 - 120 days
+ 13
+ 0.00
+121 - 150 days
+ <= 10
+ **.**
+151 - 180 days
+ <= 10
+ **.**
+211 - 240 days
+ <= 10
+ **.**
+301 - 330 days
+ <= 10
+ **.**
+366
+ <= 10
+ **.**
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+ 75
+Frequency Distribution for PRSYS
+ 09:28 Monday, August 22, 2005
+Percent
+of
+PRSYS Frequency Total
+1
+ 625621
+ 100.00
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+ 76
+Frequency Distribution for PRV1
+ 09:28 Monday, August 22, 2005
+Percent
+of
+PRV1
+ Frequency Total
+.: No proc
+ 239678
+ 38.31
+.C: Inconsistent 55
+ 0.01
+0: Valid proc
+ 385649
+ 61.64
+1: Invalid proc
+ 239
+ 0.04
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+ 77
+Frequency Distribution for RACE
+ 09:28 Monday, August 22, 2005
+Percent
+of
+RACE
+ Frequency Total
+.: Missing
+ 16728
+ 2.67
+1: White
+ 536735
+ 85.79
+2: Black
+ 49978
+ 7.99
+3: Hispanic
+ 9590
+ 1.53
+4: Asian/Pacific Islander 5045
+ 0.81
+5: Native American
+ 4465
+ 0.71
+6: Other
+ 3080
+ 0.49
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+ 78
+Frequency Distribution for SEX
+ 09:28 Monday, August 22, 2005
+Percent
+of
+SEX
+ Frequency Total
+.C: Inconsistent 103
+ 0.02
+1: Male
+ 268260
+ 42.88
+2: Female
+ 357258
+ 57.10
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+ 79
+Frequency Distribution for TOTCHG
+ 09:28 Monday, August 22, 2005
+Percent
+of
+TOTCHG
+ Frequency Total
+.: Missing
+ 184
+ 0.03
+.C: Inconsistent
+ 474
+ 0.08
+$ 1-
+ $ 9
+ <= 10
+ **.**
+$10
+ <= 10
+ **.**
+$11-
+ $19
+ <= 10
+ **.**
+$25-
+ $1,000
+ 67843
+ 10.84
+$1,001-
+ $5,000
+ 291100
+ 46.53
+$5,001- $10,000
+ 144462
+ 23.09
+$10,001- $50,000
+ 113347
+ 18.12
+$50,001- $100,000
+ 5922
+ 0.95
+$100,001- $200,000
+ 1717
+ 0.27
+$200,001- $300,000
+ 353
+ 0.06
+$300,001- $400,000
+ 110
+ 0.02
+$400,001- $500,000
+ 41
+ 0.01
+$500,001-$1,000,000 53
+ 0.01
+>$1,000,000
+ <= 10
+ **.**
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+ 80
+Frequency Distribution for YEAR
+ 09:28 Monday, August 22, 2005
+Percent
+of
+YEAR Frequency Total
+94
+ 625621
+ 100.00
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+ 81
+Frequency Distribution for ZIP
+ 09:28 Monday, August 22, 2005
+Percent
+of
+ZIP
+ Frequency Total
+Missing
+ <= 10
+ **.**
+Numeric
+ 625272
+ 99.94
+A: Invalid <= 10
+ **.**
+F: Foreign 343
+ 0.05
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+Univariates of Selected Continuous Data Elements
+ 09:28 Monday, AugustThe UNIVARIATE Procedure
+Variable: AGE (I:Age in years at admission)
+Moments
+N
+ 625196 Sum Weights
+ 625196
+Mean
+ 45.2712749 Sum Observations
+ 28303420
+Std Deviation
+ 28.0337175 Variance
+ 785.889317
+Skewness
+ -0.1479073 Kurtosis
+ -1.1819417
+Uncorrected SS 1772665980 Corrected SS
+ 491334072
+Coeff Variation 61.9238525 Std Error Mean
+ 0.0354546
+Basic Statistical Measures
+Location
+ Variability
+Mean
+ 45.27127 Std Deviation
+ 28.03372
+Median 45.00000 Variance
+ 785.88932
+Mode
+ 0.00000 Range
+ 105.00000
+Interquartile Range
+ 47.00000
+Tests for Location: Mu0=0
+Test
+ Statistic
+ p Value
+Student's t
+ t
+ 1276.88 Pr > |t|
+ <.0001
+Sign
+ M
+ 274246.5 Pr >= |M| <.0001
+Signed Rank S
+ 7.521E10 Pr >= |S|
+ <.0001
+Quantiles (Definition 5)
+Quantile
+ Estimate
+100% Max
+ 105
+99%
+ 92
+95%
+ 85
+90%
+ 81
+75% Q3
+ 71
+50% Median
+ 45
+25% Q1
+ 24
+10%
+ 0
+5%
+ 0
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+22,82
+2005
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+ 83
+Univariates of Selected Continuous Data Elements
+ 09:28 Monday, August 22, 2005
+The UNIVARIATE Procedure
+Variable: AGE (I:Age in years at admission)
+Quantiles (Definition 5)
+Quantile
+ Estimate
+1%
+ 0
+0% Min
+ 0
+Missing Values
+Percent Of
+Missing
+ Missing
+Value Count All Obs
+ Obs
+A
+ 1
+ 0.00
+ 0.24
+C
+ 424
+ 0.07
+ 99.76
+Total
+ 425
+ 0.07
+ 100.00
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+Univariates of Selected Continuous Data Elements
+ 09:28 Monday, AugustThe UNIVARIATE Procedure
+Variable: LOS (I:Length of stay (cleaned))
+Moments
+N
+ 625144 Sum Weights
+ 625144
+Mean
+ 5.54685321 Sum Observations
+ 3467582
+Std Deviation
+ 24.3934107 Variance
+ 595.038485
+Skewness
+ 128.773624 Kurtosis
+ 24283.822
+Uncorrected SS 391218312 Corrected SS
+ 371984144
+Coeff Variation 439.770259 Std Error Mean
+ 0.03085194
+Basic Statistical Measures
+Location
+ Variability
+Mean
+ 5.546853 Std Deviation
+ 24.39341
+Median 3.000000 Variance
+ 595.03849
+Mode
+ 2.000000 Range
+ 6846
+Interquartile Range
+ 4.00000
+Tests for Location: Mu0=0
+Test
+ Statistic
+ p Value
+Student's t
+ t
+ 179.7894 Pr > |t|
+ <.0001
+Sign
+ M
+ 305926.5 Pr >= |M| <.0001
+Signed Rank S
+ 9.359E10 Pr >= |S|
+ <.0001
+Quantiles (Definition 5)
+Quantile
+ Estimate
+100% Max
+ 6846
+99%
+ 36
+95%
+ 16
+90%
+ 11
+75% Q3
+ 6
+50% Median
+ 3
+25% Q1
+ 2
+10%
+ 1
+5%
+ 1
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+22,84
+2005
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+ 85
+Univariates of Selected Continuous Data Elements
+ 09:28 Monday, August 22, 2005
+The UNIVARIATE Procedure
+Variable: LOS (I:Length of stay (cleaned))
+Quantiles (Definition 5)
+Quantile
+ Estimate
+1%
+ 0
+0% Min
+ 0
+Missing Values
+Percent Of
+Missing
+ Missing
+Value Count All Obs
+ Obs
+C
+ 477
+ 0.08
+ 100.00
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+Univariates of Selected Continuous Data Elements
+ 09:28 Monday, AugustThe UNIVARIATE Procedure
+Variable: LOS_X (I:Length of stay (uncleaned))
+Moments
+N
+ 625621 Sum Weights
+ 625621
+Mean
+ 5.56729234 Sum Observations
+ 3483015
+Std Deviation
+ 24.4963769 Variance
+ 600.072479
+Skewness
+ 127.289397 Kurtosis
+ 23867.575
+Uncorrected SS 394808307 Corrected SS
+ 375417344
+Coeff Variation 440.005219 Std Error Mean
+ 0.03097036
+Basic Statistical Measures
+Location
+ Variability
+Mean
+ 5.567292 Std Deviation
+ 24.49638
+Median 3.000000 Variance
+ 600.07248
+Mode
+ 2.000000 Range
+ 6846
+Interquartile Range
+ 4.00000
+Tests for Location: Mu0=0
+Test
+ Statistic
+ p Value
+Student's t
+ t
+ 179.762 Pr > |t|
+ <.0001
+Sign
+ M
+ 306147.5 Pr >= |M| <.0001
+Signed Rank S
+ 9.373E10 Pr >= |S|
+ <.0001
+Quantiles (Definition 5)
+Quantile
+ Estimate
+100% Max
+ 6846
+99%
+ 37
+95%
+ 16
+90%
+ 11
+75% Q3
+ 6
+50% Median
+ 3
+25% Q1
+ 2
+10%
+ 1
+5%
+ 1
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+22,86
+2005
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+ 87
+Univariates of Selected Continuous Data Elements
+ 09:28 Monday, August 22, 2005
+The UNIVARIATE Procedure
+Variable: LOS_X (I:Length of stay (uncleaned))
+Quantiles (Definition 5)
+Quantile
+ Estimate
+1%
+ 0
+0% Min
+ 0
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+Univariates of Selected Continuous Data Elements
+ 09:28 Monday, AugustThe UNIVARIATE Procedure
+Variable: TOTCHG (I:Total charges (cleaned))
+Moments
+N
+ 624963 Sum Weights
+ 624963
+Mean
+ 7666.67524 Sum Observations 4791388360
+Std Deviation
+ 16385.6987 Variance
+ 268491121
+Skewness
+ 24.7921991 Kurtosis
+ 1583.85896
+Uncorrected SS 2.04531E14 Corrected SS
+ 1.67797E14
+Coeff Variation 213.726265 Std Error Mean
+ 20.7270651
+Basic Statistical Measures
+Location
+ Variability
+Mean
+ 7666.675 Std Deviation
+ 16386
+Median 4170.000 Variance
+ 268491121
+Mode
+ 627.000 Range
+ 2046299
+Interquartile Range
+ 6113
+Tests for Location: Mu0=0
+Test
+ Statistic
+ p Value
+Student's t
+ t
+ 369.8872 Pr > |t|
+ <.0001
+Sign
+ M
+ 312481.5 Pr >= |M| <.0001
+Signed Rank S
+ 9.764E10 Pr >= |S|
+ <.0001
+Quantiles (Definition 5)
+Quantile
+ Estimate
+100% Max
+ 2046300
+99%
+ 57727
+95%
+ 23989
+90%
+ 15806
+75% Q3
+ 8136
+50% Median
+ 4170
+25% Q1
+ 2023
+10%
+ 943
+5%
+ 649
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+22,88
+2005
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+ 89
+Univariates of Selected Continuous Data Elements
+ 09:28 Monday, August 22, 2005
+The UNIVARIATE Procedure
+Variable: TOTCHG (I:Total charges (cleaned))
+Quantiles (Definition 5)
+Quantile
+ Estimate
+1%
+ 414
+0% Min
+ 1
+Missing Values
+Percent Of
+Missing
+ Missing
+Value Count All Obs
+ Obs
+.
+ 184
+ 0.03
+ 27.96
+C
+ 474
+ 0.08
+ 72.04
+Total
+ 658
+ 0.11
+ 100.00
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+Univariates of Selected Continuous Data Elements
+ 09:28 Monday, AugustThe UNIVARIATE Procedure
+Variable: TOTCHG_X (I:Total charges (from data source))
+Moments
+N
+ 625437 Sum Weights
+ 625437
+Mean
+ 7676.23967 Sum Observations 4801004310
+Std Deviation
+ 16552.1071 Variance
+ 273972248
+Skewness
+ 25.0298682 Kurtosis
+ 1572.78569
+Uncorrected SS 2.08206E14 Corrected SS
+ 1.71352E14
+Coeff Variation 215.627805 Std Error Mean
+ 20.9296276
+Basic Statistical Measures
+Location
+ Variability
+Mean
+ 7676.240 Std Deviation
+ 16552
+Median 4169.330 Variance
+ 273972248
+Mode
+ 627.000 Range
+ 2046299
+Interquartile Range
+ 6115
+Tests for Location: Mu0=0
+Test
+ Statistic
+ p Value
+Student's t
+ t
+ 366.7643 Pr > |t|
+ <.0001
+Sign
+ M
+ 312718.5 Pr >= |M| <.0001
+Signed Rank S
+ 9.779E10 Pr >= |S|
+ <.0001
+Quantiles (Definition 5)
+Quantile
+ Estimate
+100% Max
+ 2046300.00
+99%
+ 57750.54
+95%
+ 24028.35
+90%
+ 15819.10
+75% Q3
+ 8137.36
+50% Median
+ 4169.33
+25% Q1
+ 2021.86
+10%
+ 941.26
+5%
+ 648.00
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
+22,90
+2005
+HCUP Summary Statistics Report: WI SID 1994 - CORE File
+ 91
+Univariates of Selected Continuous Data Elements
+ 09:28 Monday, August 22, 2005
+The UNIVARIATE Procedure
+Variable: TOTCHG_X (I:Total charges (from data source))
+Quantiles (Definition 5)
+Quantile
+ Estimate
+1%
+ 411.52
+0% Min
+ 1.00
+Missing Values
+Percent Of
+Missing
+ Missing
+Value Count All Obs
+ Obs
+.
+ 184
+ 0.03
+ 100.00
+For more information about the coding of HCUP data elements,
+please refer to the section on Description of Data Elements.
