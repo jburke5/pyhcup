@@ -6,10 +6,12 @@ In the long run, much of this would be better if it tied in something like SQLAl
 """
 
 from sqlalchemy import MetaData
-from sqlalchemy.schema import Column, Table
+from sqlalchemy.sql.expression import insert as Insert
+from sqlalchemy.schema import Column, Index, Table
 from sqlalchemy.types import BigInteger, Boolean, Integer, Numeric, String
 import pandas as pd
 import datetime
+import hashlib
 import logging
 import os
 import re
@@ -134,12 +136,13 @@ def col_from_invalue(invalue):
     return result
 
 
-def table_sql(meta, table, schema=None, append_state=True,
-                pk_fields=None, ine=False, default_constraints=None):
+def table_gen(meta, table, schema=None, append_state=True,
+                pk_fields=None, default_constraints=None):
     """Generates SQL statement for creating a table based on columns in meta
     """
+
     if default_constraints == None:
-        default_constraints = ['NULL']
+        default_constraints = {'null': True}
         
     col_names = [x for x in meta.field.map(lambda x: x.lower()).values]
     column_clauses = [column_clause(x, default_constraints) for x in meta.T.to_dict().values()]
@@ -158,47 +161,27 @@ def table_sql(meta, table, schema=None, append_state=True,
                 col_names.append(f.lower())
                 # need to add this field to table columns, an int by default
                 f_dict = {'field': f, 'length': 9, 'data_type': 'int'}
-                f_clause = column_clause(f_dict)
+                f_clause = column_clause(f_dict, constraints={'primary_key': True})
                 column_clauses.append(f_clause)
     
-    sql = 'CREATE TABLE '
-    if ine:
-        sql += 'IF NOT EXISTS '
-    
-    if schema != None:
-        #schema = 'public'
-        sql += '%s.' % schema
-    
-    sql += '%s' % table
-    sql += '(%s' % ', '.join(column_clauses)
-    
-    if type(pk_fields) == list:
-        sql += ', PRIMARY KEY(%s)' % ', '.join(pk_fields)
-    
-    sql += ');'
-    
-    return sql
+    table = Table(table, MetaData(), *column_clauses, schema=schema)
+    if table
 
 
-def index_sql(field, table, schema=None):
-    """Generates SQL statement for creating an index
-    """
-    sql = 'CREATE INDEX ON '
-    if schema != None:
-        sql += '%s.' % schema
-    sql += '%s (%s);' % (table, field)
-    return sql
+def create_index(col, name=None):
+    if name is None:
+        name = "idx_%s_%s" % (col.name, hashlib.sha256(col.name + str(datetime.datetime.now())))
+    return Index(name, col)
 
-
-def create_table(cnxn, table_name, meta, schema=None, pk_fields=None,
+def create_table(eng, table_name, meta, schema=None, pk_fields=None,
                  ine=True, append_state=True, default_constraints=None,
                  index_pk_fields=True, indexes=None):
     """Wrapper to generate and execute SQL statements for table and index creation
     
     pk_fields should be a list of fields to use as a composite primary key on the new table
     """
-    create = table_sql(meta, table_name, schema, pk_fields=pk_fields, ine=ine, append_state=append_state, default_constraints=default_constraints)
-    cnxn.execute(create)
+    table = table_gen(meta, table_name, schema, pk_fields=pk_fields, ine=ine, append_state=append_state, default_constraints=default_constraints)
+    table.create(bind=eng, checkfirst=ine)
     
     if index_pk_fields:
         if type(indexes) == list:
@@ -206,12 +189,11 @@ def create_table(cnxn, table_name, meta, schema=None, pk_fields=None,
         else:
             indexes = pk_fields
     
-    if indexes != None:
-        for col in pk_fields:
-            index_stmt = index_sql(col, table_name, schema)
-            cnxn.execute(index_stmt)
-    
-    cnxn.commit()
+    if indexes:
+        indexes = [table.c[col] for col in indexes]
+        for col in indexes:
+            ind = create_index(col)
+            ind.create(bind=eng)
     
     return True
 
@@ -296,9 +278,7 @@ def long_table_sql(table_name, category, schema=None, ine=True, constraints=['DE
         # correct for NaN scale values so column_clause doesn't flip out
         fields_df.scale = fields_df.scale.map(lambda x: False if pd.isnull(x) else x)
     
-    sql = table_sql(fields_df, table_name, schema=schema, ine=True)
-    
-    return sql
+    return table_gen(fields_df, table_name, schema=schema)
 
 
 def cast_to_py(x):
