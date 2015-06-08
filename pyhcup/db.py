@@ -4,6 +4,9 @@ Tested only with PostgreSQL 9.3 and not recommended for generating SQL statement
 
 In the long run, much of this would be better if it tied in something like SQLAlchemy.
 """
+
+from sqlalchemy import MetaData
+from sqlalchemy.schema import Table
 import pandas as pd
 import datetime
 import logging
@@ -802,28 +805,14 @@ def pg_dteload(cnxn, handle, table_name):
     
     return (table_name, rowcount)
 
-
-def pg_getcols(cnxn, tbl_name):
-    col_sql = """
-    SELECT column_name
-    FROM information_schema.columns
-    WHERE table_name   = %s
-    """
-    
-    cursor = cnxn.cursor()
-    cursor.execute(col_sql, [tbl_name.lower()])
-    result = cursor.fetchall()
-    cols = [x[0] for x in result]
-    return cols
+def pg_getcols(eng, tbl_name):
+    table = Table(tbl_name, MetaData(), autoload=True, autoload_with=eng)
+    return table.c.keys()
 
 
-def pg_drop(cnxn, tbl_name):
-    cursor = cnxn.cursor()
-    stmt = 'DROP TABLE IF EXISTS %s;' % tbl_name
-    cursor.execute(stmt)
-    cnxn.commit()
-    
-    if cursor.statusmessage == 'DROP TABLE':
+def pg_drop(eng, tbl_name):
+    table = Table(tbl_name, MetaData(), autoload=True, autoload_with=eng)
+    if table.exists():
+        table.drop()
         return True
-    else:
-        return cursor.statusmessage
+    return False
