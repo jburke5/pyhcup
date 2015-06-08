@@ -6,7 +6,8 @@ In the long run, much of this would be better if it tied in something like SQLAl
 """
 
 from sqlalchemy import MetaData
-from sqlalchemy.schema import Table
+from sqlalchemy.schema import Column, Table
+from sqlalchemy.types import BigInteger, Boolean, Integer, Numeric, String
 import pandas as pd
 import datetime
 import logging
@@ -19,7 +20,7 @@ import parser
 MISSING_PATTERNS = parser.MISSING_PATTERNS
 
 def column_clause(dictionary, constraints=None, all_char_as_varchar=True):
-    """Builds a SQL column definition from information in a dictionary record
+    """Builds a SQLAlchemy column definition from information in a dictionary record
     
     Long-term, this should probably be replaced with functionality from a more mature library like SQLAlchemy.
     
@@ -31,6 +32,10 @@ def column_clause(dictionary, constraints=None, all_char_as_varchar=True):
     Optional keys:
         scale -> int, number of decimal places (e.g. 2 for values like 3.14)
     """
+
+    if constraints is None:
+        constraints = {}
+
     char_types = ['char', 'varchar', 'string', 's', 'alphanumeric', 'character']
     num_types = ['numeric', 'number', 'float', 'decimal', 'dec', 'd', 'f', 'numeric']
     int_types = ['int', 'integer', 'i']
@@ -41,40 +46,38 @@ def column_clause(dictionary, constraints=None, all_char_as_varchar=True):
     
     if dictionary['data_type'].lower() in char_types:
         if all_char_as_varchar:
-            data_type = 'VARCHAR'
+            data_type = String()
         else:
-            data_type = 'VARCHAR(%s)' % length
+            data_type = String(length)
     elif dictionary['data_type'].lower() in num_types:
         if 'scale' in dictionary:
             scale = dictionary['scale']
         else:
             scale = 0
         if scale < 1:
-            #super sloppy
+            #  super sloppy
+            #  KZ 06/08/2015: seems fine to me...
             if length > 9:
-                data_type = 'BIGINT'
+                data_type = BigInteger()
             else:
-                data_type = 'INT'
+                data_type = Integer()
         else:
-            data_type = 'NUMERIC(%d, %d)' % (int(length), int(scale))
+            data_type = Numeric(length, scale)
     elif dictionary['data_type'].lower() in int_types:
         if length > 9:
-            data_type = 'BIGINT'
+            data_type = BigInteger()
         else:
-            data_type = 'INT'
+            data_type = Integer()
     elif dictionary['data_type'].lower() in boolean_types:
-        data_type = 'BOOLEAN'
+        data_type = Boolean()
     else:
         raise Exception("Unable to cast column data type from data_type \"%s\"" % dictionary['data_type'])
     
-    clause = '%s %s' % (name, data_type)
-    if constraints is not None:
-        allowed_constraints = ['NULL', 'NOT NULL', 'PRIMARY KEY', 'UNIQUE', 'DEFAULT NULL']
-        constrained_by = [x for x in constraints if x.upper() in allowed_constraints]
-        if len(constrained_by) > 0:
-            clause = '%s %s' % (clause, ' '.join(constrained_by))
-    
-    return clause
+    return Column(name, data_type,
+        nullable=constraints.get('null'),
+        primary_key=constraints.get('primary_key'),
+        unique=constraints.get('unique')
+    )
 
 
 def col_from_invalue(invalue):
