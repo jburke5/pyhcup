@@ -8,7 +8,7 @@ In the long run, much of this would be better if it tied in something like SQLAl
 from sqlalchemy import MetaData
 from sqlalchemy.sql.expression import insert as Insert
 from sqlalchemy.schema import Column, Index, Table
-from sqlalchemy.types import BigInteger, Boolean, Integer, Numeric, String
+from sqlalchemy.types import BigInteger, Boolean, Integer, Numeric, String, Text
 import pandas as pd
 import datetime
 import hashlib
@@ -170,7 +170,7 @@ def table_gen(meta, table, schema=None, append_state=True,
 
 def create_index(col, name=None):
     if name is None:
-        name = "idx_%s_%s" % (col.name, hashlib.sha256(col.name + str(datetime.datetime.now())))
+        name = "idx_%s_%s" % (col.name, hashlib.sha256(col.name + str(datetime.datetime.now())).hexdigest())
     return Index(name, col)
 
 def create_table(eng, table_name, meta, schema=None, pk_fields=None,
@@ -302,45 +302,12 @@ def cast_to_py(x):
         return x
 
 
-def insert_sql(df, table, schema=None, placeholder="%s"):
-    """Returns a tuple (parameterized SQL, list of params) for an insert statement
-    
-    df: required
-        DataFrame to build the insert off of. df.columns will be used as column names in the insert statement.
-    
-    table: required
-        Name of table to build the insert into.
-    
-    schema: optional
-        Namespace for the table. If provided, will be prepended with dot notation as schema.table.
-    
-    placeholder: optional
-        String to use as placeholder in creating parameterized expression. Default is "%s" but "?" is also common.
-    """
-    param_strings = []
-    values = []
-    
-    for v in df.reset_index(drop=True).itertuples():
-        row = v[1:] # first item in the values tuple is the index, which we do not want to insert
-        param_subset = ', '.join(placeholder for x in row)
-        param_strings.append('(%s)' % param_subset)
-        values.extend([cast_to_py(y) for y in row])
-
-    param_placeholders = ', '.join(param_strings)
-    insert_sql = 'INSERT INTO '
-    if schema is not None:
-        insert_sql += '%s.' % str(schema)
-    insert_sql += '%s (%s) VALUES %s' % (table, ', '.join(df.columns.values), param_placeholders)
-    
-    return insert_sql, values
-
-
-def pg_rawload(cnxn, handle, meta_df, dummy_separator="\v", table_name=None):
+def pg_rawload(eng, handle, meta_df, dummy_separator="\v", table_name=None):
     """Uses psycopg2 methods to load raw data into a one-column table.
 
     Uses default schema; no support for specifying schema inside this function.
 
-    Returns the name of the created table. Any check of the COPY'd count versus the handle length will have to take place elsewhere.
+    Returns True on success. Any check of the COPY'd count versus the handle length will have to take place elsewhere.
 
     Parameters
     ==========
@@ -364,38 +331,33 @@ def pg_rawload(cnxn, handle, meta_df, dummy_separator="\v", table_name=None):
 
     """
     
-    try:
-        import psycopg2
-    except ImportError:
-        raise ImportError("The pg_rawload() function requires psycopg2 to be installed.")
+    if eng.driver == 'psycopg2':  
     
-    # get the filename sans extension for use in making a table name
-    base_filename = os.path.split(handle.name)[-1].split('.')[0]
-    
-    # make a timestamp in YYYYMMDDhhmmss format
-    # will be used as part of the table name
-    now = datetime.datetime.now()
-    timestamp = now.strftime('%Y%m%d%H%M%S')
-    
-    if table_name is None:
-        table_name = '%s%s_raw' % (base_filename, timestamp)
-    
-    # acquire a cursor from the connection object
-    cursor = cnxn.cursor()
-    
-    # proceed to table creation
-    # WARNING: this is a SQL injection vector, where a clever filename can
-    # execute arbitrary SQL commands
-    raw_table_create_sql = 'CREATE TABLE IF NOT EXISTS %s (line TEXT);' % table_name
-    cursor.execute(raw_table_create_sql)
-    cnxn.commit()
-    
-    
-    # load the data using psycopg2.cursor.copy_from() method
-    cursor.copy_from(handle, table_name, sep=dummy_separator)
-    cnxn.commit()
-    
-    return table_name
+        # get the filename sans extension for use in making a table name
+        base_filename = os.path.split(handle.name)[-1].split('.')[0]
+        
+        # make a timestamp in YYYYMMDDhhmmss format
+        # will be used as part of the table name
+        now = datetime.datetime.now()
+        timestamp = now.strftime('%Y%m%d%H%M%S')
+        
+        if table_name is None:
+            table_name = '%s%s_raw' % (base_filename, timestamp)
+        
+        # proceed to table creation
+        table = Table(table_name, Column('line', Text))
+        table.create(bind=eng)        
+        
+        conn = eng.raw_connection()
+        cursor = conn.cursor()  # acquire a cursor from the connection object
+        # load the data using psycopg2.cursor.copy_from() method
+        cursor.copy_from(handle, table_name, sep=dummy_separator)
+        conn.commit()
+        conn.close()
+        
+        return True
+    else:
+        raise Exception("The pg_rawload() function requires the psycopg2 driver.")
 
 
 def pg_staging(cnxn, raw_table_name, meta_df, state, year,
