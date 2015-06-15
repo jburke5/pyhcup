@@ -7,7 +7,7 @@ In the long run, much of this would be better if it tied in something like SQLAl
 
 from sqlalchemy import MetaData
 from sqlalchemy.sql import column
-from sqlalchemy.sql.expression import insert as Insert, select as Select
+from sqlalchemy.sql.expression import func, insert as Insert, select as Select
 from sqlalchemy.schema import Column, Index, Table
 from sqlalchemy.types import BigInteger, Boolean, Integer, Numeric, String, Text
 import pandas as pd
@@ -166,7 +166,8 @@ def table_gen(meta, table, schema=None, append_state=True,
                 column_clauses.append(f_clause)
     
     table = Table(table, MetaData(), *column_clauses, schema=schema)
-    if table
+    
+    return True
 
 
 def create_index(col, name=None):
@@ -659,7 +660,6 @@ def pg_shovel(eng, tbl_source, tbl_destination, fields_in, fields_out=None,
     If scalars is not None, must be a dictionary with key->value pairs to pass
     as constants for everything shoveled by this function.
     """
-    cursor = cnxn.cursor()
     
     if fields_out is not None:
         assert len(fields_out) == len(fields_in), \
@@ -697,17 +697,16 @@ def pg_shovel(eng, tbl_source, tbl_destination, fields_in, fields_out=None,
     return True
 
 
-def pg_dteload(cnxn, handle, table_name):
-    """Uses psycopg2 methods to load DaysToEvent data from a csv file into a database table.
-
+def pg_dteload(eng, handle, table_name):
+    """
+    Uses SQLAlchemy (and optionally psycopg2) to load DaysToEvent data from a csv file into a database table.
     Uses default schema; no support for specifying schema inside this function.
-
-    Returns the name of the created table. Any check of the COPY'd count versus the handle length will have to take place elsewhere.
+    Returns the row count of the newly created table.
 
     Parameters
     ==========
-    cnxn: required
-        Must be a connection created by psycopg2.connect().
+    eng: required
+        Must be a SQLAlchemy engine object.
     
     handle: required
         Must be a file-like object. I.e., returned by open(path).
@@ -716,30 +715,27 @@ def pg_dteload(cnxn, handle, table_name):
         Table name for the load.
     """
     
-    try:
-        import psycopg2
-    except ImportError:
-        raise ImportError("The pg_dteload() function requires psycopg2 to be installed.")
+    table = Table(table_name,
+        Column('key', BigInteger),
+        Column('visitlink', BigInteger),
+        Column('daystoevent', BigInteger)
+    )
+    table.create(eng, checkfirst=True)
+
+    if eng.driver == 'psycopg2':  # use Postgres COPY FROM
+        conn = eng.raw_connection()
+        cursor = conn.cursor()  # acquire a cursor from the connection object
+        cp_sql = "COPY %s FROM STDIN DELIMITER ',' CSV HEADER;" % (table_name)
+        cursor.copy_expert(cp_sql, handle)
+        conn.commit()
+        conn.close()
+    else:  # fall back to generic bulk insert
+        pass
+        #data = 
     
-    # acquire a cursor from the connection object
-    cursor = cnxn.cursor()
+    row_count = engine.execute(select([func.count()]).select_from(table)).fetchone()[0]
     
-    table_create_sql = 'CREATE TABLE IF NOT EXISTS %s (key BIGINT, visitlink BIGINT, daystoevent BIGINT);' % table_name
-    cursor.execute(table_create_sql)
-    cnxn.commit()
-    
-    cp_sql = "COPY %s FROM STDIN DELIMITER ',' CSV HEADER;" % (table_name)
-    cursor.copy_expert(cp_sql, handle)
-    cnxn.commit()
-    
-    count_sql = "SELECT COUNT(*) FROM %s LIMIT 1;" % (table_name)
-    cursor.execute(count_sql)
-    result = cursor.fetchone()
-    rowcount = int(result[0])
-    
-    cursor = None
-    
-    return (table_name, rowcount)
+    return row_count
 
 def pg_getcols(eng, tbl_name):
     table = Table(tbl_name, MetaData(), autoload=True, autoload_with=eng)
