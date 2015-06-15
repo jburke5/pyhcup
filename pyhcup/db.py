@@ -6,7 +6,8 @@ In the long run, much of this would be better if it tied in something like SQLAl
 """
 
 from sqlalchemy import MetaData
-from sqlalchemy.sql.expression import insert as Insert
+from sqlalchemy.sql import column
+from sqlalchemy.sql.expression import insert as Insert, select as Select
 from sqlalchemy.schema import Column, Index, Table
 from sqlalchemy.types import BigInteger, Boolean, Integer, Numeric, String, Text
 import pandas as pd
@@ -303,7 +304,7 @@ def cast_to_py(x):
 
 
 def pg_rawload(eng, handle, dummy_separator='\v', table_name=None):
-    """Uses psycopg2 methods to load raw data into a one-column table.
+    """Uses SQLalchemy (and optionally psycopg2) to load raw data into a one-column table.
 
     Uses default schema; no support for specifying schema inside this function.
 
@@ -352,9 +353,8 @@ def pg_rawload(eng, handle, dummy_separator='\v', table_name=None):
         conn.close()
         return True
     else:  # fall back to line-by-line insert
-        for line in handle:
-            l = line.strip()
-            table.insert().values(line=l).execute()
+        data = [{'line': l.strip()} for l in handle]
+        eng.execute(table.insert(), data)
         return True
 
 
@@ -648,60 +648,53 @@ def pg_wtl_shovel(cnxn, meta_df, category, tbl_source,
     return shoveled
 
 
-def pg_shovel(cnxn, tbl_source, tbl_destination, fields_in, fields_out=False,
+def pg_shovel(eng, tbl_source, tbl_destination, fields_in, fields_out=None,
               where_not_null=None, preserve_source=True, scalars=None):
-    """Attempts to move everything in tbl_source to tbl_destination using cnxn.
-    
-    The SQL used here is supported for sure in PostgreSQL but untested in other engines.
-
-    fields_out must either be False or a list with length len(fields_in). These will be used as "SELECT {field_in} AS {field_out}" to map values to differently named columns.
-    
+    """
+    Attempts to move everything in tbl_source to tbl_destination.
+    fields_out must either be None or a list with length len(fields_in).
+    These will be used as "SELECT {field_in} AS {field_out}" to map values
+    to differently named columns.
     If preserve_source is False, the table will be dropped after the transfer.
-    
-    If scalars is not None, must be a dictionary with key->value pairs to pass as constants for everything shoveled by this function.
+    If scalars is not None, must be a dictionary with key->value pairs to pass
+    as constants for everything shoveled by this function.
     """
     cursor = cnxn.cursor()
     
-    if fields_out:
+    if fields_out is not None:
         assert len(fields_out) == len(fields_in), \
             "If provided, fields_out must have the same length as fields_in."
-        select_fields = ', '.join(['%s AS %s' % cols for cols in zip(fields_in, fields_out)])
-        #print "fields_out %s" % fields_out
-        insert_fields = ', '.join(fields_out)
+        select_fields = [column(c[0]).label(c[1]) for c in zip(fields_in, fields_out)]
+        insert_fields = fields_out
     else:
-        select_fields = ', '.join(fields_in)
-        insert_fields = ', '.join(fields_in)
+        select_fields = [column(c) for c in fields_in]
+        insert_fields = fields_in
     
     if scalars is not None:
         assert isinstance(scalars, dict), \
             "If provided, scalars must be a simple key->value dictionary."
         try:
-            select_fields += ', ' + ', '.join(["'%s' AS %s" % (v, k) for k, v in scalars.iteritems()])
-            insert_fields += ', ' + ', '.join(['%s' % k for k in scalars.keys()])
+            select_fields.extend([column(v).label(k) for k, v in scalars.iteritems()])
+            insert_fields.extend([str(k) for k in scalars.keys()])
         except:
             raise Exception("Unable to tack on select_fields and insert_fields for scalars. Does scalars look like a simple key->value map? (Got %s)" % scalars)
     
-    stmt = '''
-        INSERT INTO %s (%s)
-            SELECT %s FROM %s
-        ''' % (str(tbl_destination), insert_fields, select_fields, str(tbl_source))
-    
+    sel = select(select_fields).select_from(Table(tbl_source))
+
     if where_not_null is not None:
         assert isinstance(where_not_null, list), \
             "If provided, where_not_null must be a list (got %s)." % (type(where_not_null))
         
         assert all([x in fields_in for x in where_not_null]), \
             "If provided, all items in where_not_null must be items in fields_in (got %s and %s, respectively)." % (where_not_null, fields_in)
-        
-        stmt += 'WHERE (%s)' % (' AND '.join(['%s IS NOT NULL' % wnn for wnn in where_not_null]))
     
-    cursor.execute(stmt)
-    cnxn.commit()
-    
-    if cursor.rowcount > 0:
-        return cursor.rowcount
-    else:
-        return False
+    for wnn in where_not_null:
+        sel = sel.where(column(wnn) != None)
+
+    tbl_destination = Table(tbl_destination, MetaData(), autoload=True, autoload_with=eng)
+    tbl_destination.insert().select_from(insert_fields, sel).execute()
+
+    return True
 
 
 def pg_dteload(cnxn, handle, table_name):
