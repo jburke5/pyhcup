@@ -13,7 +13,7 @@ import re
 # move these into local namespace
 import meta as pyhcup_meta
 import parser
-MISSING_PATTERNS = parser.MISSING_PATTERNS
+from .config import MISSING_PATTERNS, LONG_TABLE_DEFINITIONS
 
 def column_clause(dictionary, constraints=None, all_char_as_varchar=True):
     """Builds a SQL column definition from information in a dictionary record
@@ -112,7 +112,7 @@ def col_from_invalue(invalue):
             result['scale'] = 0
         else:
             result['scale'] = int(groups['scale'])
-        
+    
         if result['scale'] > 0:
             result['type'] = 'numeric'
         else:
@@ -206,7 +206,6 @@ def create_table(cnxn, table_name, meta, schema=None, pk_fields=None,
             cnxn.execute(index_stmt)
     
     cnxn.commit()
-    
     return True
 
 
@@ -230,56 +229,7 @@ def long_table_sql(table_name, category, schema=None, ine=True, constraints=['DE
     # these are the base fields to start with for any long table
     # though, PUDF will typically not have visitlink records, I don't think.
     # So, those will have to be added back in in a separate step :(
-    fields = [
-        dict(field='KEY', length=18, data_type='numeric'),
-        dict(field='VISITLINK', length=18, data_type='numeric'),
-        dict(field='DAYSTOEVENT', length=18, data_type='numeric'),
-        dict(field='YEAR', length=5, data_type='numeric'),
-        dict(field='STATE', length=2, data_type='char'),
-    ]
-    
-    if category == 'CHGS':
-        fields += [
-            dict(field='UNITS', length=11, data_type='numeric', scale=2),
-            dict(field='REVCODE', length=4, data_type='char'),
-            dict(field='RATE', length=9, data_type='numeric', scale=2),
-            dict(field='CHARGE', length=12, data_type='numeric', scale=2),
-            dict(field='CPTHCPCS', length=5, data_type='char'),
-            dict(field='CPTMOD1', length=2, data_type='char'),
-            dict(field='CPTMOD2', length=2, data_type='char'),
-            dict(field='GROUP_NUMBER', length=5, data_type='numeric'),
-        ]
-    
-    elif category == 'DX':
-        fields += [
-            dict(field='DX', length=10, data_type='char'),
-            dict(field='DXV', length=2, data_type='char'),
-            dict(field='DXCCS', length=5, data_type='char'),
-            dict(field='DXPOA', length=1, data_type='char'),
-            dict(field='DXatAdmit', length=1, data_type='char'),
-            dict(field='TMDX', length=1, data_type='char'),
-            dict(field='GROUP_NUMBER', length=5, data_type='numeric'),
-        ]
-    
-    elif category == 'PR':
-        fields += [
-            dict(field='PR', length=10, data_type='char'),
-            dict(field='PRCCS', length=5, data_type='char'),
-            dict(field='PRDATE', length=6, data_type='char'),
-            dict(field='PRDAY', length=2, data_type='char'),
-            dict(field='PRMONTH', length=2, data_type='char'),
-            dict(field='PRYEAR', length=4, data_type='char'),
-            dict(field='PRV', length=2, data_type='char'),
-            dict(field='PCLASS', length=1, data_type='char'),
-            dict(field='PRMCCS', length=8, data_type='char'),
-            dict(field='GROUP_NUMBER', length=5, data_type='numeric'),
-        ]
-    
-    elif category == 'UFLAGS':
-        fields += [
-            dict(field='NAME', length=50, data_type='char'),
-            dict(field='VALUE', length=2, data_type='numeric'),
-        ]
+    fields = LONG_TABLE_DEFINITIONS[category]
     
     else:
         raise Exception("At present only long charges (CHGS), long diagnosis (DX), long procedure (PR), and long uflag (UFLAGS) category tables are supported. (Got %s)" % category)
