@@ -23,6 +23,9 @@ setup(
                     'data/uflags/*.*',
                     'data/maps/*.*',
                     'data/summary_stats/*.*',
+                    # cannot include datafile samples
+                    # not even for testing
+                    # sorry
                     ]
                     },
 )

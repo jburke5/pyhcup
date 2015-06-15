@@ -10,35 +10,7 @@ from pandas import DataFrame
 na_value = numpy.NaN
 re_match = re.match
 
-from .config import BUNDLED_UFLAGDEF
-
-
-# Some files have bonus content, which should be skipped for loading
-SKIP_ROWS = {
-        ('SID', 'AR', 2010, 'AHAL'): 2,
-        ('SID', 'AR', 2010, 'CHGS'): 2,
-        ('SID', 'AR', 2010, 'CORE'): 2,
-        ('SID', 'AR', 2010, 'DX_PR_GRPS'): 2,
-        ('SID', 'AR', 2010, 'SEVERITY'): 2,
-        ('SID', 'AR', 2011, 'AHAL'): 2,
-        ('SID', 'AR', 2011, 'CHGS'): 2,
-        ('SID', 'AR', 2011, 'CORE'): 2,
-        ('SID', 'AR', 2011, 'DX_PR_GRPS'): 2,
-        ('SID', 'AR', 2011, 'SEVERITY'): 2,
-    }
-
-
-# definitions for replacing missing values down the line
-MISSING_PATTERNS = {
-        'missing':        '-9*\.?9*[^-\.]| |\.',
-        'invalid':        '-8*\.?8*[^-\.]|A',
-        'unavailable':    '-7*\.?7*[^-\.]',
-        'inconsistent':   '-6*\.?6*[^-\.]',
-        'notapplicable':  '-5*\.?5*[^-\.]',
-        'tx_cell_too_sm': '-?999+8',
-        'tx_invalid':     '\*',
-        'tx_missing':     '\.|`',
-        }
+from .config import BUNDLED_UFLAGDEF, SKIP_ROWS, MISSING_PATTERNS
 
 # pre-compile for later use, or for accessing this via dot notation
 # e.g. from pyhcup.parser import COMPILED_MISSING_PATTERNS
