@@ -302,7 +302,7 @@ def cast_to_py(x):
         return x
 
 
-def pg_rawload(eng, handle, meta_df, dummy_separator="\v", table_name=None):
+def pg_rawload(eng, handle, dummy_separator='\v', table_name=None):
     """Uses psycopg2 methods to load raw data into a one-column table.
 
     Uses default schema; no support for specifying schema inside this function.
@@ -311,14 +311,11 @@ def pg_rawload(eng, handle, meta_df, dummy_separator="\v", table_name=None):
 
     Parameters
     ==========
-    cnxn: required
-        Must be a connection created by psycopg2.connect().
+    eng: required
+        Must be a SQLAlchemy engine object.
     
     handle: required
         Must be a file-like object. I.e., returned by pyhcup.parser._open().
-
-    meta_df: required
-        Must be a pandas DataFrame with meta data on the file in question. I.e., returned by pyhcup.meta.get().
 
     dummy_separator: required (default: "\v")
         Must be a character not found in the data to be loaded. The
@@ -330,34 +327,35 @@ def pg_rawload(eng, handle, meta_df, dummy_separator="\v", table_name=None):
         Table name for the load. Will be generated automatically if not provided.
 
     """
+
+    # get the filename sans extension for use in making a table name
+    base_filename = os.path.split(handle.name)[-1].split('.')[0]
     
-    if eng.driver == 'psycopg2':  
+    # make a timestamp in YYYYMMDDhhmmss format
+    # will be used as part of the table name
+    now = datetime.datetime.now()
+    timestamp = now.strftime('%Y%m%d%H%M%S')
     
-        # get the filename sans extension for use in making a table name
-        base_filename = os.path.split(handle.name)[-1].split('.')[0]
-        
-        # make a timestamp in YYYYMMDDhhmmss format
-        # will be used as part of the table name
-        now = datetime.datetime.now()
-        timestamp = now.strftime('%Y%m%d%H%M%S')
-        
-        if table_name is None:
-            table_name = '%s%s_raw' % (base_filename, timestamp)
-        
-        # proceed to table creation
-        table = Table(table_name, Column('line', Text))
-        table.create(bind=eng)        
-        
+    if table_name is None:
+        table_name = '%s%s_raw' % (base_filename, timestamp)
+    
+    # proceed to table creation
+    table = Table(table_name, Column('line', Text))
+    table.create(bind=eng)
+    
+    if eng.driver == 'psycopg2':  # use Postgres COPY FROM
         conn = eng.raw_connection()
         cursor = conn.cursor()  # acquire a cursor from the connection object
         # load the data using psycopg2.cursor.copy_from() method
         cursor.copy_from(handle, table_name, sep=dummy_separator)
         conn.commit()
         conn.close()
-        
         return True
-    else:
-        raise Exception("The pg_rawload() function requires the psycopg2 driver.")
+    else:  # fall back to line-by-line insert
+        for line in handle:
+            l = line.strip()
+            table.insert().values(line=l).execute()
+        return True
 
 
 def pg_staging(cnxn, raw_table_name, meta_df, state, year,
