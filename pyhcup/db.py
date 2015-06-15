@@ -139,7 +139,7 @@ def col_from_invalue(invalue):
 
 def table_gen(meta, table, schema=None, append_state=True,
                 pk_fields=None, default_constraints=None):
-    """Generates SQL statement for creating a table based on columns in meta
+    """Generates a SQLAlchemy table object based on columns in meta
     """
 
     if default_constraints == None:
@@ -166,14 +166,14 @@ def table_gen(meta, table, schema=None, append_state=True,
                 column_clauses.append(f_clause)
     
     table = Table(table, MetaData(), *column_clauses, schema=schema)
-    
-    return True
+    return table
 
 
 def create_index(col, name=None):
     if name is None:
         name = "idx_%s_%s" % (col.name, hashlib.sha256(col.name + str(datetime.datetime.now())).hexdigest())
     return Index(name, col)
+
 
 def create_table(eng, table_name, meta, schema=None, pk_fields=None,
                  ine=True, append_state=True, default_constraints=None,
@@ -199,8 +199,8 @@ def create_table(eng, table_name, meta, schema=None, pk_fields=None,
     return True
 
 
-def long_table_sql(table_name, category, schema=None, ine=True, constraints=['DEFAULT NULL']):
-    """Wraps table_sql(). Generates CREATE TABLE statement for a long table of the specified category.
+def long_table_gen(table_name, category, schema=None, ine=True, constraints=['DEFAULT NULL']):
+    """Wraps table_gen(). Generates CREATE TABLE statement for a long table of the specified category.
     
     Also creates indexes on KEY, VISITLINK, YEAR, and STATE.
     
@@ -470,11 +470,11 @@ def pg_castcoltype(archtype, length, scale=None, all_char_as_varchar=True):
     return data_type
 
 
-def pg_wtl_shovel(cnxn, meta_df, category, tbl_source,
+def pg_wtl_shovel(eng, meta_df, category, tbl_source,
         tbl_destination, extra_fields=['state', 'year', 'key'],
         preserve_source=True):
-    """Shovels wide things into long things
-    
+    """
+    Shovels wide things into long things
     category is 'CHGS' only, for now
     """
     lm = parser.LONG_MAPS[category]
@@ -585,14 +585,14 @@ def pg_wtl_shovel(cnxn, meta_df, category, tbl_source,
     shoveled = 0
     
     for sg in shovel_groups:
-        shovel_group = pg_shovel(cnxn, tbl_source, tbl_destination, sg['fields_in'],
+        shovel_group = pg_shovel(eng, tbl_source, tbl_destination, sg['fields_in'],
             sg['fields_out'], where_not_null=sg['where_not_null'],
             preserve_source=True, scalars=sg['scalars'])
         shoveled += shovel_group
     
     # if requested, drop the source table
     if not preserve_source:
-        dropped = pg_drop(cnxn, tbl_source)
+        dropped = pg_drop(eng, tbl_source)
         if not dropped:
             raise Exception("Failed to drop table %s as requested; got status message '%s'" % (tbl_source, dropped))
     
@@ -680,8 +680,15 @@ def pg_dteload(eng, handle, table_name):
         conn.commit()
         conn.close()
     else:  # fall back to generic bulk insert
-        pass
-        #data = 
+        data = []
+        for line in handle:
+            l = [int(x.strip()) for x in line.strip().split(',')]
+            data.append({
+                'key': l[0],
+                'visitlink': l[1],
+                'daystoevent': l[2]
+            })
+        eng.execute(table.insert(), data) 
     
     row_count = engine.execute(select([func.count()]).select_from(table)).fetchone()[0]
     
