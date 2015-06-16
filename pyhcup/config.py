@@ -1,10 +1,12 @@
 import re, os, zipfile
+from sqlalchemy.schema import Column
+from sqlalchemy.types import Integer, BigInteger, Boolean, String, Numeric
 
 here = os.path.abspath(__file__)
 dir_here = os.path.dirname(here)
-BUNDLED_LOADFILE_DIR = os.path.join(dir_path, 'data', 'loadfiles')
-BUNDLED_SID_SAMPLES_DIR = os.path.join(dir_path, 'data', 'sid_samples')
-BUNDLED_UFLAGDEF = os.path.join(dir_path, 'data', 'uflags', 'uflag_definitions.csv')
+BUNDLED_LOADFILE_DIR = os.path.join(dir_here, 'data', 'loadfiles')
+BUNDLED_SID_SAMPLES_DIR = os.path.join(dir_here, 'data', 'sid_samples')
+BUNDLED_UFLAGDEF = os.path.join(dir_here, 'data', 'uflags', 'uflag_definitions.csv')
 
 DEFAULT_DATA_SOURCES = [
     {
@@ -57,6 +59,12 @@ SKIP_ROWS = {
     }
 
 
+# these loading programs are simply not available, even from HCUP
+KNOWN_MISSING_LOADFILES = [
+    {'state_abbr': 'RI', 'year': '2009', 'category': 'AHAL', 'file': 'SID'}
+    ]
+
+
 # definitions for replacing missing values down the line
 MISSING_PATTERNS = {
         'missing':        '-9*\.?9*[^-\.]| |\.',
@@ -69,50 +77,50 @@ MISSING_PATTERNS = {
         'tx_missing':     '\.|`',
         }
 
+
 # long table definitions (static)
-# TODO: consider conversion to sqlalchemy column objects
-LONG_TABLE_BASE_FIELDS = [
-        dict(field='KEY', length=18, data_type='numeric'),
-        dict(field='VISITLINK', length=18, data_type='numeric'),
-        dict(field='DAYSTOEVENT', length=18, data_type='numeric'),
-        dict(field='YEAR', length=5, data_type='numeric'),
-        dict(field='STATE', length=2, data_type='char'),
+LONG_TABLE_BASE_COLUMNS = [
+        Column('KEY', BigInteger()),
+        Column('VISITLINK', BigInteger()),
+        Column('DAYSTOEVENT', BigInteger()),
+        Column('YEAR', Integer()),
+        Column('STATE', String(2))
     ]
 
 LONG_TABLE_DEFINITIONS = {
-    'CHGS': LONG_TABLE_BASE_FIELDS + [
-        dict(field='UNITS', length=11, data_type='numeric', scale=2),
-        dict(field='REVCODE', length=4, data_type='char'),
-        dict(field='RATE', length=9, data_type='numeric', scale=2),
-        dict(field='CHARGE', length=12, data_type='numeric', scale=2),
-        dict(field='CPTHCPCS', length=5, data_type='char'),
-        dict(field='CPTMOD1', length=2, data_type='char'),
-        dict(field='CPTMOD2', length=2, data_type='char'),
-        dict(field='GROUP_NUMBER', length=5, data_type='numeric')
+    'CHGS': LONG_TABLE_BASE_COLUMNS + [
+        Column('UNITS', Numeric(precision=11, scale=2)),
+        Column('REVCODE', String(4)),
+        Column('RATE', Numeric(precision=9, scale=2)),
+        Column('CHARGE', Numeric(precision=12, scale=2)),
+        Column('CPTHCPCS', String(5)),
+        Column('CPTMOD1', String(2)),
+        Column('CPTMOD2', String(2)),
+        Column('GROUP_NUMBER', Integer())
         ],
-    'DX': LONG_TABLE_BASE_FIELDS + [
-        dict(field='DX', length=10, data_type='char'),
-        dict(field='DXV', length=2, data_type='char'),
-        dict(field='DXCCS', length=5, data_type='char'),
-        dict(field='DXPOA', length=1, data_type='char'),
-        dict(field='DXatAdmit', length=1, data_type='char'),
-        dict(field='TMDX', length=1, data_type='char'),
-        dict(field='GROUP_NUMBER', length=5, data_type='numeric')
+    'DX': LONG_TABLE_BASE_COLUMNS + [
+        Column('DX', String(10)),
+        Column('DXV', String(2)),
+        Column('DXCCS', String(5)),
+        Column('DXPOA', String(1)),
+        Column('DXatAdmit', String(1)),
+        Column('TMDX', String(1)),
+        Column('GROUP_NUMBER', Integer())
         ],
-    'PR': LONG_TABLE_BASE_FIELDS + [
-        dict(field='PR', length=10, data_type='char'),
-        dict(field='PRCCS', length=5, data_type='char'),
-        dict(field='PRDATE', length=6, data_type='char'),
-        dict(field='PRDAY', length=2, data_type='char'),
-        dict(field='PRMONTH', length=2, data_type='char'),
-        dict(field='PRYEAR', length=4, data_type='char'),
-        dict(field='PRV', length=2, data_type='char'),
-        dict(field='PCLASS', length=1, data_type='char'),
-        dict(field='PRMCCS', length=8, data_type='char'),
-        dict(field='GROUP_NUMBER', length=5, data_type='numeric')
+    'PR': LONG_TABLE_BASE_COLUMNS + [
+        Column('PR', String(10)),
+        Column('PRCCS', String(5)),
+        Column('PRDATE', String(6)),
+        Column('PRDAY', String(2)),
+        Column('PRMONTH', String(2)),
+        Column('PRYEAR', String(4)),
+        Column('PRV', String(2)),
+        Column('PRCLASS', String(1)),
+        Column('PRMCCS', String(8)),
+        Column('GROUP_NUMBER', Integer()),
         ],
-    'UFLAGS': LONG_TABLE_BASE_FIELDS + [
-        dict(field='NAME', length=50, data_type='char'),
-        dict(field='VALUE', length=2, data_type='numeric')
+    'UFLAGS': LONG_TABLE_BASE_COLUMNS + [
+        Column('NAME', String(50)),
+        Column('VALUE', Integer())
         ]
     }

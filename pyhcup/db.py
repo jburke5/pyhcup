@@ -230,9 +230,6 @@ def long_table_sql(table_name, category, schema=None, ine=True, constraints=['DE
     # though, PUDF will typically not have visitlink records, I don't think.
     # So, those will have to be added back in in a separate step :(
     fields = LONG_TABLE_DEFINITIONS[category]
-    
-    else:
-        raise Exception("At present only long charges (CHGS), long diagnosis (DX), long procedure (PR), and long uflag (UFLAGS) category tables are supported. (Got %s)" % category)
 
     fields_df = pd.DataFrame(fields)
     
