@@ -44,39 +44,13 @@ def column_clause(dictionary, constraints=None, all_char_as_varchar=True):
     int_types = ['int', 'integer', 'i']
     boolean_types = ['boolean', 'truefalse', 'tf', 'truth']
     
-    name = dictionary['field']
-    length = int(dictionary['length'])
+    data_type = sqla_type_from_meta(
+        dictionary['data_type'].lower(),
+        int(dictionary['length'],
+        dictionary.get('scale')
+    )
     
-    if dictionary['data_type'].lower() in char_types:
-        if all_char_as_varchar:
-            data_type = String()
-        else:
-            data_type = String(length)
-    elif dictionary['data_type'].lower() in num_types:
-        if 'scale' in dictionary:
-            scale = dictionary['scale']
-        else:
-            scale = 0
-        if scale < 1:
-            #  super sloppy
-            #  KZ 06/08/2015: seems fine to me...
-            if length > 9:
-                data_type = BigInteger()
-            else:
-                data_type = Integer()
-        else:
-            data_type = Numeric(length, scale)
-    elif dictionary['data_type'].lower() in int_types:
-        if length > 9:
-            data_type = BigInteger()
-        else:
-            data_type = Integer()
-    elif dictionary['data_type'].lower() in boolean_types:
-        data_type = Boolean()
-    else:
-        raise Exception("Unable to cast column data type from data_type \"%s\"" % dictionary['data_type'])
-    
-    return Column(name, data_type,
+    return Column(dictionary['field'], data_type,
         nullable=constraints.get('null'),
         primary_key=constraints.get('primary_key'),
         unique=constraints.get('unique')
@@ -137,7 +111,7 @@ def col_from_invalue(invalue):
     return result
 
 
-def table_gen(meta, table, schema=None, append_state=True,
+def gen_table(meta, table, schema=None, append_state=True,
                 pk_fields=None, default_constraints=None):
     """Generates a SQLAlchemy table object based on columns in meta
     """
@@ -182,7 +156,7 @@ def create_table(eng, table_name, meta, schema=None, pk_fields=None,
     
     pk_fields should be a list of fields to use as a composite primary key on the new table
     """
-    table = table_gen(meta, table_name, schema, pk_fields=pk_fields, ine=ine, append_state=append_state, default_constraints=default_constraints)
+    table = gen_table(meta, table_name, schema, pk_fields=pk_fields, ine=ine, append_state=append_state, default_constraints=default_constraints)
     table.create(bind=eng, checkfirst=ine)
     
     if index_pk_fields:
@@ -199,10 +173,8 @@ def create_table(eng, table_name, meta, schema=None, pk_fields=None,
     return True
 
 
-def long_table_gen(table_name, category, schema=None, ine=True, constraints=['DEFAULT NULL']):
-    """Wraps table_gen(). Generates CREATE TABLE statement for a long table of the specified category.
-    
-    Also creates indexes on KEY, VISITLINK, YEAR, and STATE.
+def gen_long_table(table_name, category, schema=None, ine=True, constraints=['DEFAULT NULL']):
+    """Wraps gen_table(). Generates a SQLAlchemy Table object for a long table of the specified category.
     
     Parameters
     ===============
@@ -230,7 +202,7 @@ def long_table_gen(table_name, category, schema=None, ine=True, constraints=['DE
         # correct for NaN scale values so column_clause doesn't flip out
         fields_df.scale = fields_df.scale.map(lambda x: False if pd.isnull(x) else x)
     
-    return table_gen(fields_df, table_name, schema=schema)
+    return gen_table(fields_df, table_name, schema=schema)
 
 
 def cast_to_py(x):
@@ -254,7 +226,7 @@ def cast_to_py(x):
         return x
 
 
-def pg_rawload(eng, handle, dummy_separator='\v', table_name=None):
+def load_raw(eng, handle, dummy_separator='\v', table_name=None):
     """Uses SQLalchemy (and optionally psycopg2) to load raw data into a one-column table.
 
     Uses default schema; no support for specifying schema inside this function.
@@ -309,7 +281,7 @@ def pg_rawload(eng, handle, dummy_separator='\v', table_name=None):
         return True
 
 
-def pg_staging(cnxn, raw_table_name, meta_df, state, year,
+def stage_table(cnxn, raw_table_name, meta_df, state, year,
                pk_fields=['key', 'state', 'year'],
                replace_sentinels=True, table_name=None):
     """Uses PostgreSQL functions to split raw load table into columns, scrub missing data placeholders, load the results into a new table.
@@ -324,7 +296,7 @@ def pg_staging(cnxn, raw_table_name, meta_df, state, year,
         Must be a connection created by psycopg2.connect().
     
     raw_table_name: required
-        Must be a string; should be the name of a table created with pg_rawload().
+        Must be a string; should be the name of a table created with raw_load().
 
     meta_df: required
         Must be a pandas DataFrame with meta data on the file in question. I.e., returned by pyhcup.meta.get().
@@ -375,7 +347,7 @@ def pg_staging(cnxn, raw_table_name, meta_df, state, year,
     
     substr_clauses = ['''
         NULLIF(TRIM(REGEXP_REPLACE(SUBSTRING(line FROM %s FOR %s), '%s', '')), '')::%s AS %s
-        ''' % (row['position'], row['width'], missing_pattern, pg_castcoltype(row['data_type'], row['length'], row['scale']), row['field'])
+        ''' % (row['position'], row['width'], missing_pattern, cast_col_type(row['data_type'], row['length'], row['scale']), row['field'])
         for i, row in meta_df.T.iterkv()
         if row['field'].lower() not in ['state', 'year']
     ]
@@ -427,10 +399,12 @@ def pg_staging(cnxn, raw_table_name, meta_df, state, year,
     return table_name, affected_rows
 
 
-def pg_castcoltype(archtype, length, scale=None, all_char_as_varchar=True):
-    """Generates an explicit column casting from an archtype, length, and optional scale value.
+def sqla_type_from_meta(archtype, length, scale=None):
+    """Generates a SQLAlchemy Column object from an archtype,
+    length, and optional scale value.
 
-    These are typically values dictionaries from a meta_df object, accessed as meta_df.to_dict().values().
+    These are typically values dictionaries from a meta_df
+    object, accessed e.g. as meta_df.to_dict().values().
     """
     
     char_types = ['char', 'varchar', 'string', 's', 'alphanumeric', 'character']
@@ -441,36 +415,38 @@ def pg_castcoltype(archtype, length, scale=None, all_char_as_varchar=True):
     length = int(length)
     
     if archtype.lower() in char_types:
-        if all_char_as_varchar:
-            data_type = 'VARCHAR'
-        else:
-            data_type = 'VARCHAR(%s)' % length
+        return String(length)
     elif archtype.lower() in num_types:
         if not scale:
             scale = 0
-        
-        if scale < 1:
-            #super sloppy
-            if length > 9:
-                data_type = 'BIGINT'
-            else:
-                data_type = 'INT'
         else:
-            data_type = 'NUMERIC(%d, %d)' % (int(length), int(scale))
+            scale = int(scale)
+        
+        if scale == 0:
+            # sometimes the SAS informats say numeric
+            # but the data are really integers.
+            # for example, a scale of 0 means nothing to
+            # the right of the decimal, so we cast these
+            # as integers, ignoring the SAS informat.
+            
+            if length > 9:
+                return BigInteger()
+            else:
+                return Integer()
+        else:
+            return Numeric(precision=length, scale=scale)
     elif archtype.lower() in int_types:
         if length > 9:
-            data_type = 'BIGINT'
+            return BigInteger()
         else:
-            data_type = 'INT'
+            return Integer()
     elif archtype.lower() in boolean_types:
-        data_type = 'BOOLEAN'
-    else:
-        raise Exception("Unable to cast column data type from data_type \"%s\"" % archtype)
+        return Boolean()
     
-    return data_type
+    raise Exception("Unable to cast column data type from data_type \"%s\"" % archtype)
 
 
-def pg_wtl_shovel(eng, meta_df, category, tbl_source,
+def wtl_shovel(eng, meta_df, category, tbl_source,
         tbl_destination, extra_fields=['state', 'year', 'key'],
         preserve_source=True):
     """
@@ -585,21 +561,21 @@ def pg_wtl_shovel(eng, meta_df, category, tbl_source,
     shoveled = 0
     
     for sg in shovel_groups:
-        shovel_group = pg_shovel(eng, tbl_source, tbl_destination, sg['fields_in'],
+        shovel_group = shovel(eng, tbl_source, tbl_destination, sg['fields_in'],
             sg['fields_out'], where_not_null=sg['where_not_null'],
             preserve_source=True, scalars=sg['scalars'])
         shoveled += shovel_group
     
     # if requested, drop the source table
     if not preserve_source:
-        dropped = pg_drop(eng, tbl_source)
+        dropped = drop_table(eng, tbl_source)
         if not dropped:
             raise Exception("Failed to drop table %s as requested; got status message '%s'" % (tbl_source, dropped))
     
     return shoveled
 
 
-def pg_shovel(eng, tbl_source, tbl_destination, fields_in, fields_out=None,
+def shovel(eng, tbl_source, tbl_destination, fields_in, fields_out=None,
               where_not_null=None, preserve_source=True, scalars=None):
     """
     Attempts to move everything in tbl_source to tbl_destination.
@@ -647,7 +623,7 @@ def pg_shovel(eng, tbl_source, tbl_destination, fields_in, fields_out=None,
     return True
 
 
-def pg_dteload(eng, handle, table_name):
+def dte_load(eng, handle, table_name):
     """
     Uses SQLAlchemy (and optionally psycopg2) to load DaysToEvent data from a csv file into a database table.
     Uses default schema; no support for specifying schema inside this function.
@@ -694,12 +670,12 @@ def pg_dteload(eng, handle, table_name):
     
     return row_count
 
-def pg_getcols(eng, tbl_name):
+def get_cols(eng, tbl_name):
     table = Table(tbl_name, MetaData(), autoload=True, autoload_with=eng)
     return table.c.keys()
 
 
-def pg_drop(eng, tbl_name):
+def drop_table(eng, tbl_name):
     table = Table(tbl_name, MetaData(), autoload=True, autoload_with=eng)
     if table.exists():
         table.drop()
