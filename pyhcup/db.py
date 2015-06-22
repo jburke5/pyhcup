@@ -46,7 +46,7 @@ def column_clause(dictionary, constraints=None, all_char_as_varchar=True):
     
     data_type = sqla_type_from_meta(
         dictionary['data_type'].lower(),
-        int(dictionary['length'],
+        int(dictionary['length']),
         dictionary.get('scale')
     )
     
@@ -156,7 +156,7 @@ def create_table(eng, table_name, meta, schema=None, pk_fields=None,
     
     pk_fields should be a list of fields to use as a composite primary key on the new table
     """
-    table = gen_table(meta, table_name, schema, pk_fields=pk_fields, ine=ine, append_state=append_state, default_constraints=default_constraints)
+    table = gen_table(meta, table_name, schema, pk_fields=pk_fields, append_state=append_state, default_constraints=default_constraints)
     table.create(bind=eng, checkfirst=ine)
     
     if index_pk_fields:
@@ -170,7 +170,7 @@ def create_table(eng, table_name, meta, schema=None, pk_fields=None,
         for col in indexes:
             ind = create_index(col)
             ind.create(bind=eng)
-    return True
+    return table
 
 
 def gen_long_table(table_name, category, schema=None, ine=True, constraints=['DEFAULT NULL']):
@@ -185,13 +185,13 @@ def gen_long_table(table_name, category, schema=None, ine=True, constraints=['DE
         Category of long table to be created. Valid options for HCUP are 'CHGS', 'DX', 'PR'.
     """
     
-    if not isinstance(category, (str, unicode)):
-        raise Exception("category must be a str or unicode (got %s)" % type(category))
-    
     # these are the base fields to start with for any long table
     # though, PUDF will typically not have visitlink records, I don't think.
     # So, those will have to be added back in in a separate step :(
     fields = LONG_TABLE_DEFINITIONS[category]
+
+    if not isinstance(category, (str, unicode)):
+        raise Exception("category must be a str or unicode (got %s)" % type(category))
     
     else:
         raise Exception("At present only long charges (CHGS), long diagnosis (DX), long procedure (PR), and long uflag (UFLAGS) category tables are supported. (Got %s)" % category)
@@ -264,7 +264,7 @@ def load_raw(eng, handle, dummy_separator='\v', table_name=None):
         table_name = '%s%s_raw' % (base_filename, timestamp)
     
     # proceed to table creation
-    table = Table(table_name, Column('line', Text))
+    table = Table(table_name, MetaData(), Column('line', Text()))
     table.create(bind=eng)
     
     if eng.driver == 'psycopg2':  # use Postgres COPY FROM
@@ -274,11 +274,12 @@ def load_raw(eng, handle, dummy_separator='\v', table_name=None):
         cursor.copy_from(handle, table_name, sep=dummy_separator)
         conn.commit()
         conn.close()
-        return True
     else:  # fall back to line-by-line insert
         data = [{'line': l.strip()} for l in handle]
         eng.execute(table.insert(), data)
-        return True
+    
+    row_count = eng.execute(Select([func.count()]).select_from(table)).fetchone()[0]
+    return (table, row_count)
 
 
 def stage_table(cnxn, raw_table_name, meta_df, state, year,
@@ -666,7 +667,7 @@ def dte_load(eng, handle, table_name):
             })
         eng.execute(table.insert(), data) 
     
-    row_count = engine.execute(select([func.count()]).select_from(table)).fetchone()[0]
+    row_count = eng.execute(Select([func.count()]).select_from(table)).fetchone()[0]
     
     return row_count
 

@@ -1,7 +1,7 @@
 import re, os, zipfile
 
-here = os.path.abspath(__file__)
-dir_here = os.path.dirname(here)
+path = os.path.abspath(__file__)
+dir_path = os.path.dirname(path)
 BUNDLED_LOADFILE_DIR = os.path.join(dir_path, 'data', 'loadfiles')
 BUNDLED_SID_SAMPLES_DIR = os.path.join(dir_path, 'data', 'sid_samples')
 BUNDLED_UFLAGDEF = os.path.join(dir_path, 'data', 'uflags', 'uflag_definitions.csv')
