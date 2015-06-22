@@ -6,9 +6,9 @@ In the long run, much of this would be better if it tied in something like SQLAl
 """
 
 from sqlalchemy import MetaData
-from sqlalchemy.sql import column
-from sqlalchemy.sql.expression import func, insert as Insert, select as Select
-from sqlalchemy.schema import Column, Index, Table
+from sqlalchemy.sql import column, table
+from sqlalchemy.sql.expression import case, cast, column, func, insert, select, table, text
+from sqlalchemy.schema import Column, Index, PrimaryKeyConstraint, Table
 from sqlalchemy.types import BigInteger, Boolean, Integer, Numeric, String, Text
 import pandas as pd
 import datetime
@@ -149,31 +149,7 @@ def create_index(col, name=None):
     return Index(name, col)
 
 
-def create_table(eng, table_name, meta, schema=None, pk_fields=None,
-                 ine=True, append_state=True, default_constraints=None,
-                 index_pk_fields=True, indexes=None):
-    """Wrapper to generate and execute SQL statements for table and index creation
-    
-    pk_fields should be a list of fields to use as a composite primary key on the new table
-    """
-    table = gen_table(meta, table_name, schema, pk_fields=pk_fields, append_state=append_state, default_constraints=default_constraints)
-    table.create(bind=eng, checkfirst=ine)
-    
-    if index_pk_fields:
-        if type(indexes) == list:
-            indexes.extend(pk_fields)
-        else:
-            indexes = pk_fields
-    
-    if indexes:
-        indexes = [table.c[col] for col in indexes]
-        for col in indexes:
-            ind = create_index(col)
-            ind.create(bind=eng)
-    return table
-
-
-def gen_long_table(table_name, category, schema=None, ine=True, constraints=['DEFAULT NULL']):
+def gen_long_table(table_name, category, schema=None):
     """Wraps gen_table(). Generates a SQLAlchemy Table object for a long table of the specified category.
     
     Parameters
@@ -192,8 +168,7 @@ def gen_long_table(table_name, category, schema=None, ine=True, constraints=['DE
 
     if not isinstance(category, (str, unicode)):
         raise Exception("category must be a str or unicode (got %s)" % type(category))
-    
-    else:
+    elif category not in LONG_TABLE_DEFINITIONS.keys():
         raise Exception("At present only long charges (CHGS), long diagnosis (DX), long procedure (PR), and long uflag (UFLAGS) category tables are supported. (Got %s)" % category)
 
     fields_df = pd.DataFrame(fields)
@@ -278,14 +253,14 @@ def load_raw(eng, handle, dummy_separator='\v', table_name=None):
         data = [{'line': l.strip()} for l in handle]
         eng.execute(table.insert(), data)
     
-    row_count = eng.execute(Select([func.count()]).select_from(table)).fetchone()[0]
+    row_count = eng.execute(select([func.count()]).select_from(table)).fetchone()[0]
     return (table, row_count)
 
 
-def stage_table(cnxn, raw_table_name, meta_df, state, year,
-               pk_fields=['key', 'state', 'year'],
+def process_raw_table(eng, raw_table_name, meta_df, state, year,
+               index_fields=None,
                replace_sentinels=True, table_name=None):
-    """Uses PostgreSQL functions to split raw load table into columns, scrub missing data placeholders, load the results into a new table.
+    """Uses SQLAlchemy to split raw load table into columns, scrub missing data placeholders, load the results into a new table.
 
     Uses default schema; no support for specifying schema inside this function.
 
@@ -293,8 +268,8 @@ def stage_table(cnxn, raw_table_name, meta_df, state, year,
 
     Parameters
     ==========
-    cnxn: required
-        Must be a connection created by psycopg2.connect().
+    eng: required
+        Must be a SQLAlchemy engine object.
     
     raw_table_name: required
         Must be a string; should be the name of a table created with raw_load().
@@ -308,17 +283,15 @@ def stage_table(cnxn, raw_table_name, meta_df, state, year,
     year: required
         Should be the four digit year where the data are from, like 2009. Used to fill in the year value explicitly in the table.
     
-    pk_fields: required (list or None)
-        Will create a primary key and indexes using these fields. A list with length greater than 1 results in a compound primary key.
+    index_fields: required (list or None)
+        Will create an index on these fields.
     
     table_name: optional (default: None)
         Table name for the load. Will be generated automatically if not provided.
     """
     
-    try:
-        import psycopg2
-    except ImportError:
-        raise ImportError("The pg_staging() function requires psycopg2 to be installed.")
+    if index_fields = None:
+        index_fields = ['key', 'state', 'year']
     
     if table_name is None:
         # derive a name for this staging table
@@ -328,9 +301,6 @@ def stage_table(cnxn, raw_table_name, meta_df, state, year,
             table_name = raw_table_name.replace('raw', 'staging')
         else:
             table_name = raw_table_name + '_staging'
-    
-    # acquire a cursor from the connection object
-    cursor = cnxn.cursor()
     
     # augment this meta_df so we have access to more information regarding column contents
     # and can therefore derive explicit PostgreSQL column cast declarations.
@@ -342,36 +312,36 @@ def stage_table(cnxn, raw_table_name, meta_df, state, year,
     # replacement (substitutes NULL whenever a match is found down the line)
     missing_pattern = '|'.join(['^%s$' % val for k, val in MISSING_PATTERNS.iteritems()])
     
-    # construct clauses for deriving each of the columns
-    # WARNING: This is another potential site of SQL injection, as these values
-    # are not passed as bind parameters.
+    # Construct the SELECT FROM clause
     
-    substr_clauses = ['''
-        NULLIF(TRIM(REGEXP_REPLACE(SUBSTRING(line FROM %s FOR %s), '%s', '')), '')::%s AS %s
-        ''' % (row['position'], row['width'], missing_pattern, cast_col_type(row['data_type'], row['length'], row['scale']), row['field'])
-        for i, row in meta_df.T.iterkv()
-        if row['field'].lower() not in ['state', 'year']
-    ]
+    s = select(
+        [ # begin a list comprehension
+          # need to loop to get all columns
+            cast(
+                case([ # null value replacement part
+                   # which needs substring selection first
+                        (func.substr('line', meta_dict['position'], meta_dict['width']).op('~')(missing_pattern), None)
+                    ],
+                    # substring selection part has to appear both
+                    # in cases and in else for cases
+                    else_=func.substr('line', meta_dict['position'], meta_dict['width'])
+                ),
+                # data type casting part
+                # this can either be determined outside the select()
+                # or be done using a helper function inside
+                # e.g. sqla_type_from_meta_dict()
+                # or some other replacement to former pg_castcoltype()
+                sqla_type_from_meta(meta_dict['data_type'], meta_dict['length'], meta_dict['scale'])
+            ) for i, meta_dict in meta_df.T.iterkv() if meta_dict['field'].lower() not in ('state', 'year')
+        ] + [cast(column('YEAR'), Integer()), cast(column('STATE'), String())]
+    ).select_from(raw_table_name)
     
-    # add those year and state values as scalars
-    col_clauses = substr_clauses + ['%s::INT AS YEAR' % year, "'%s'::VARCHAR AS STATE" % state]
+    s = s.compile(bind=eng, compile_kwargs={"literal_binds": True})
     
+    # Create the table
     
-    # first create the table
-    
-    
-    # then do an INSERT INTO... SELECT... style statement to move it over
-    
-    # proceed to table creation
-    staging_table_create_sql = '''
-        CREATE TABLE %s AS
-            SELECT %s
-            FROM %s
-        ;
-        ''' % (table_name, ', '.join(col_clauses), raw_table_name)
-    cursor.execute(staging_table_create_sql)
-    cnxn.commit()
-    affected_rows = cursor.rowcount
+    t = text("CREATE TABLE :table_name AS :sq")
+    result = eng.execute(t, table_name=table_name, sq=s)
     
     # Really, the steps below may be unnecessary.
     # If this table will soon be selected into a master table with
@@ -381,23 +351,15 @@ def stage_table(cnxn, raw_table_name, meta_df, state, year,
     # is not truncating fields, and as a comparison of overall
     # loading speed.
     
-    if pk_fields is not None:
-        if isinstance(pk_fields, list) and len(pk_fields) > 0:
-            for col in pk_fields:
-                index_stmt = index_sql(col, table_name)
-                cursor.execute(index_stmt)
-                cnxn.commit()
+    if isinstance(index_fields, list):
+        if len(index_fields) > 0:
+            for col in index_fields:
+                idx = create_index(col)
+                idx.create(eng)
+    else:
+        raise TypeError("index_fields must either be None or a non-zero length list (got %s)." % type(pk_fields))
     
-            pk_sql = """
-                ALTER TABLE %s ADD PRIMARY KEY(%s);
-                """ % (table_name, ', '.join(pk_fields))
-            cursor.execute(pk_sql)
-            cnxn.commit()
-        
-        else:
-            raise TypeError("pk_fields must either be None or a non-zero length list (got %s)." % type(pk_fields))
-    
-    return table_name, affected_rows
+    return table_name, result.rowcount
 
 
 def sqla_type_from_meta(archtype, length, scale=None):
@@ -606,7 +568,7 @@ def shovel(eng, tbl_source, tbl_destination, fields_in, fields_out=None,
         except:
             raise Exception("Unable to tack on select_fields and insert_fields for scalars. Does scalars look like a simple key->value map? (Got %s)" % scalars)
     
-    sel = select(select_fields).select_from(Table(tbl_source))
+    sel = select(select_fields).select_from(Table(tbl_source, MetaData(), autoload_with=eng))
 
     if where_not_null is not None:
         assert isinstance(where_not_null, list), \
@@ -618,7 +580,7 @@ def shovel(eng, tbl_source, tbl_destination, fields_in, fields_out=None,
     for wnn in where_not_null:
         sel = sel.where(column(wnn) != None)
 
-    tbl_destination = Table(tbl_destination, MetaData(), autoload=True, autoload_with=eng)
+    tbl_destination = Table(tbl_destination, MetaData(), autoload_with=eng)
     tbl_destination.insert().select_from(insert_fields, sel).execute()
 
     return True
@@ -642,7 +604,7 @@ def dte_load(eng, handle, table_name):
         Table name for the load.
     """
     
-    table = Table(table_name,
+    table = Table(table_name, MetaData(),
         Column('key', BigInteger),
         Column('visitlink', BigInteger),
         Column('daystoevent', BigInteger)
@@ -667,17 +629,17 @@ def dte_load(eng, handle, table_name):
             })
         eng.execute(table.insert(), data) 
     
-    row_count = eng.execute(Select([func.count()]).select_from(table)).fetchone()[0]
+    row_count = eng.execute(select([func.count()]).select_from(table)).fetchone()[0]
     
     return row_count
 
 def get_cols(eng, tbl_name):
-    table = Table(tbl_name, MetaData(), autoload=True, autoload_with=eng)
+    table = Table(tbl_name, MetaData(), autoload_with=eng)
     return table.c.keys()
 
 
 def drop_table(eng, tbl_name):
-    table = Table(tbl_name, MetaData(), autoload=True, autoload_with=eng)
+    table = Table(tbl_name, MetaData(), autoload_with=eng)
     if table.exists():
         table.drop()
         return True
