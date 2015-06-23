@@ -2,7 +2,7 @@ import unittest
 import pandas as pd
 
 import pyhcup
-from pyhcup import hachoir, parser, sas, tx
+from pyhcup import hachoir, sas, tx
 from pyhcup.config import DEFAULT_DATA_SOURCES, BUNDLED_SID_SAMPLES_DIR, BUNDLED_LOADFILE_DIR, KNOWN_MISSING_LOADFILES
 
 DISCOVERED_LOADFILES = hachoir.discover(root_path=BUNDLED_LOADFILE_DIR)
@@ -11,9 +11,7 @@ CONTENT_SOURCES = [i for i in DEFAULT_DATA_SOURCES
 BUNDLED_SID_SAMPLES = hachoir.discover(root_path=BUNDLED_SID_SAMPLES_DIR,
                                         sources=CONTENT_SOURCES)
 
-
 # TODO: split these cases into separate files?
-# TODO: test database loading (replace with SQLA?)
 
 class TestDiscover(unittest.TestCase):
     def test_is_list_of_dicts(self):

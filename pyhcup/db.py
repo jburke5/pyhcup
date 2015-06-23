@@ -4,8 +4,15 @@ Tested only with PostgreSQL 9.3 and not recommended for generating SQL statement
 
 In the long run, much of this would be better if it tied in something like SQLAlchemy.
 """
+
+from sqlalchemy import MetaData
+from sqlalchemy.sql import column, table
+from sqlalchemy.sql.expression import case, cast, column, func, insert, select, table, text
+from sqlalchemy.schema import Column, Index, PrimaryKeyConstraint, Table
+from sqlalchemy.types import BigInteger, Boolean, Integer, Numeric, String, Text
 import pandas as pd
 import datetime
+import hashlib
 import logging
 import os
 import re
@@ -16,7 +23,7 @@ import parser
 from .config import MISSING_PATTERNS, LONG_TABLE_DEFINITIONS
 
 def column_clause(dictionary, constraints=None, all_char_as_varchar=True):
-    """Builds a SQL column definition from information in a dictionary record
+    """Builds a SQLAlchemy column definition from information in a dictionary record
     
     Long-term, this should probably be replaced with functionality from a more mature library like SQLAlchemy.
     
@@ -28,50 +35,26 @@ def column_clause(dictionary, constraints=None, all_char_as_varchar=True):
     Optional keys:
         scale -> int, number of decimal places (e.g. 2 for values like 3.14)
     """
+
+    if constraints is None:
+        constraints = {}
+
     char_types = ['char', 'varchar', 'string', 's', 'alphanumeric', 'character']
     num_types = ['numeric', 'number', 'float', 'decimal', 'dec', 'd', 'f', 'numeric']
     int_types = ['int', 'integer', 'i']
     boolean_types = ['boolean', 'truefalse', 'tf', 'truth']
     
-    name = dictionary['field']
-    length = int(dictionary['length'])
+    data_type = sqla_type_from_meta(
+        dictionary['data_type'].lower(),
+        int(dictionary['length']),
+        dictionary.get('scale')
+    )
     
-    if dictionary['data_type'].lower() in char_types:
-        if all_char_as_varchar:
-            data_type = 'VARCHAR'
-        else:
-            data_type = 'VARCHAR(%s)' % length
-    elif dictionary['data_type'].lower() in num_types:
-        if 'scale' in dictionary:
-            scale = dictionary['scale']
-        else:
-            scale = 0
-        if scale < 1:
-            #super sloppy
-            if length > 9:
-                data_type = 'BIGINT'
-            else:
-                data_type = 'INT'
-        else:
-            data_type = 'NUMERIC(%d, %d)' % (int(length), int(scale))
-    elif dictionary['data_type'].lower() in int_types:
-        if length > 9:
-            data_type = 'BIGINT'
-        else:
-            data_type = 'INT'
-    elif dictionary['data_type'].lower() in boolean_types:
-        data_type = 'BOOLEAN'
-    else:
-        raise Exception("Unable to cast column data type from data_type \"%s\"" % dictionary['data_type'])
-    
-    clause = '%s %s' % (name, data_type)
-    if constraints is not None:
-        allowed_constraints = ['NULL', 'NOT NULL', 'PRIMARY KEY', 'UNIQUE', 'DEFAULT NULL']
-        constrained_by = [x for x in constraints if x.upper() in allowed_constraints]
-        if len(constrained_by) > 0:
-            clause = '%s %s' % (clause, ' '.join(constrained_by))
-    
-    return clause
+    return Column(dictionary['field'], data_type,
+        nullable=constraints.get('null'),
+        primary_key=constraints.get('primary_key'),
+        unique=constraints.get('unique')
+    )
 
 
 def col_from_invalue(invalue):
@@ -128,12 +111,13 @@ def col_from_invalue(invalue):
     return result
 
 
-def table_sql(meta, table, schema=None, append_state=True,
-                pk_fields=None, ine=False, default_constraints=None):
-    """Generates SQL statement for creating a table based on columns in meta
+def gen_table(meta, table, schema=None, append_state=True,
+                pk_fields=None, default_constraints=None):
+    """Generates a SQLAlchemy table object based on columns in meta
     """
+
     if default_constraints == None:
-        default_constraints = ['NULL']
+        default_constraints = {'null': True}
         
     col_names = [x for x in meta.field.map(lambda x: x.lower()).values]
     column_clauses = [column_clause(x, default_constraints) for x in meta.T.to_dict().values()]
@@ -152,67 +136,21 @@ def table_sql(meta, table, schema=None, append_state=True,
                 col_names.append(f.lower())
                 # need to add this field to table columns, an int by default
                 f_dict = {'field': f, 'length': 9, 'data_type': 'int'}
-                f_clause = column_clause(f_dict)
+                f_clause = column_clause(f_dict, constraints={'primary_key': True})
                 column_clauses.append(f_clause)
     
-    sql = 'CREATE TABLE '
-    if ine:
-        sql += 'IF NOT EXISTS '
-    
-    if schema != None:
-        #schema = 'public'
-        sql += '%s.' % schema
-    
-    sql += '%s' % table
-    sql += '(%s' % ', '.join(column_clauses)
-    
-    if type(pk_fields) == list:
-        sql += ', PRIMARY KEY(%s)' % ', '.join(pk_fields)
-    
-    sql += ');'
-    
-    return sql
+    table = Table(table, MetaData(), *column_clauses, schema=schema)
+    return table
 
 
-def index_sql(field, table, schema=None):
-    """Generates SQL statement for creating an index
-    """
-    sql = 'CREATE INDEX ON '
-    if schema != None:
-        sql += '%s.' % schema
-    sql += '%s (%s);' % (table, field)
-    return sql
+def create_index(col, name=None):
+    if name is None:
+        name = "idx_%s_%s" % (col.name, hashlib.sha256(col.name + str(datetime.datetime.now())).hexdigest())
+    return Index(name, col)
 
 
-def create_table(cnxn, table_name, meta, schema=None, pk_fields=None,
-                 ine=True, append_state=True, default_constraints=None,
-                 index_pk_fields=True, indexes=None):
-    """Wrapper to generate and execute SQL statements for table and index creation
-    
-    pk_fields should be a list of fields to use as a composite primary key on the new table
-    """
-    create = table_sql(meta, table_name, schema, pk_fields=pk_fields, ine=ine, append_state=append_state, default_constraints=default_constraints)
-    cnxn.execute(create)
-    
-    if index_pk_fields:
-        if type(indexes) == list:
-            indexes.extend(pk_fields)
-        else:
-            indexes = pk_fields
-    
-    if indexes != None:
-        for col in pk_fields:
-            index_stmt = index_sql(col, table_name, schema)
-            cnxn.execute(index_stmt)
-    
-    cnxn.commit()
-    return True
-
-
-def long_table_sql(table_name, category, schema=None, ine=True, constraints=['DEFAULT NULL']):
-    """Wraps table_sql(). Generates CREATE TABLE statement for a long table of the specified category.
-    
-    Also creates indexes on KEY, VISITLINK, YEAR, and STATE.
+def gen_long_table(table_name, category, schema=None):
+    """Wraps gen_table(). Generates a SQLAlchemy Table object for a long table of the specified category.
     
     Parameters
     ===============
@@ -223,13 +161,15 @@ def long_table_sql(table_name, category, schema=None, ine=True, constraints=['DE
         Category of long table to be created. Valid options for HCUP are 'CHGS', 'DX', 'PR'.
     """
     
-    if not isinstance(category, (str, unicode)):
-        raise Exception("category must be a str or unicode (got %s)" % type(category))
-    
     # these are the base fields to start with for any long table
     # though, PUDF will typically not have visitlink records, I don't think.
     # So, those will have to be added back in in a separate step :(
     fields = LONG_TABLE_DEFINITIONS[category]
+    
+    if not isinstance(category, (str, unicode)):
+        raise Exception("category must be a str or unicode (got %s)" % type(category))
+    elif category not in LONG_TABLE_DEFINITIONS.keys():
+        raise Exception("At present only long charges (CHGS), long diagnosis (DX), long procedure (PR), and long uflag (UFLAGS) category tables are supported. (Got %s)" % category)
 
     fields_df = pd.DataFrame(fields)
     
@@ -237,9 +177,7 @@ def long_table_sql(table_name, category, schema=None, ine=True, constraints=['DE
         # correct for NaN scale values so column_clause doesn't flip out
         fields_df.scale = fields_df.scale.map(lambda x: False if pd.isnull(x) else x)
     
-    sql = table_sql(fields_df, table_name, schema=schema, ine=True)
-    
-    return sql
+    return gen_table(fields_df, table_name, schema=schema)
 
 
 def cast_to_py(x):
@@ -263,56 +201,20 @@ def cast_to_py(x):
         return x
 
 
-def insert_sql(df, table, schema=None, placeholder="%s"):
-    """Returns a tuple (parameterized SQL, list of params) for an insert statement
-    
-    df: required
-        DataFrame to build the insert off of. df.columns will be used as column names in the insert statement.
-    
-    table: required
-        Name of table to build the insert into.
-    
-    schema: optional
-        Namespace for the table. If provided, will be prepended with dot notation as schema.table.
-    
-    placeholder: optional
-        String to use as placeholder in creating parameterized expression. Default is "%s" but "?" is also common.
-    """
-    param_strings = []
-    values = []
-    
-    for v in df.reset_index(drop=True).itertuples():
-        row = v[1:] # first item in the values tuple is the index, which we do not want to insert
-        param_subset = ', '.join(placeholder for x in row)
-        param_strings.append('(%s)' % param_subset)
-        values.extend([cast_to_py(y) for y in row])
-
-    param_placeholders = ', '.join(param_strings)
-    insert_sql = 'INSERT INTO '
-    if schema is not None:
-        insert_sql += '%s.' % str(schema)
-    insert_sql += '%s (%s) VALUES %s' % (table, ', '.join(df.columns.values), param_placeholders)
-    
-    return insert_sql, values
-
-
-def pg_rawload(cnxn, handle, meta_df, dummy_separator="\v", table_name=None):
-    """Uses psycopg2 methods to load raw data into a one-column table.
+def load_raw(eng, handle, dummy_separator='\v', table_name=None):
+    """Uses SQLalchemy (and optionally psycopg2) to load raw data into a one-column table.
 
     Uses default schema; no support for specifying schema inside this function.
 
-    Returns the name of the created table. Any check of the COPY'd count versus the handle length will have to take place elsewhere.
+    Returns True on success. Any check of the COPY'd count versus the handle length will have to take place elsewhere.
 
     Parameters
     ==========
-    cnxn: required
-        Must be a connection created by psycopg2.connect().
+    eng: required
+        Must be a SQLAlchemy engine object.
     
     handle: required
         Must be a file-like object. I.e., returned by pyhcup.parser._open().
-
-    meta_df: required
-        Must be a pandas DataFrame with meta data on the file in question. I.e., returned by pyhcup.meta.get().
 
     dummy_separator: required (default: "\v")
         Must be a character not found in the data to be loaded. The
@@ -324,12 +226,7 @@ def pg_rawload(cnxn, handle, meta_df, dummy_separator="\v", table_name=None):
         Table name for the load. Will be generated automatically if not provided.
 
     """
-    
-    try:
-        import psycopg2
-    except ImportError:
-        raise ImportError("The pg_rawload() function requires psycopg2 to be installed.")
-    
+
     # get the filename sans extension for use in making a table name
     base_filename = os.path.split(handle.name)[-1].split('.')[0]
     
@@ -341,28 +238,29 @@ def pg_rawload(cnxn, handle, meta_df, dummy_separator="\v", table_name=None):
     if table_name is None:
         table_name = '%s%s_raw' % (base_filename, timestamp)
     
-    # acquire a cursor from the connection object
-    cursor = cnxn.cursor()
-    
     # proceed to table creation
-    # WARNING: this is a SQL injection vector, where a clever filename can
-    # execute arbitrary SQL commands
-    raw_table_create_sql = 'CREATE TABLE IF NOT EXISTS %s (line TEXT);' % table_name
-    cursor.execute(raw_table_create_sql)
-    cnxn.commit()
+    table = Table(table_name, MetaData(), Column('line', Text()))
+    table.create(bind=eng)
     
+    if eng.driver == 'psycopg2':  # use Postgres COPY FROM
+        conn = eng.raw_connection()
+        cursor = conn.cursor()  # acquire a cursor from the connection object
+        # load the data using psycopg2.cursor.copy_from() method
+        cursor.copy_from(handle, table_name, sep=dummy_separator)
+        conn.commit()
+        conn.close()
+    else:  # fall back to line-by-line insert
+        data = [{'line': l.strip()} for l in handle]
+        eng.execute(table.insert(), data)
     
-    # load the data using psycopg2.cursor.copy_from() method
-    cursor.copy_from(handle, table_name, sep=dummy_separator)
-    cnxn.commit()
-    
-    return table_name
+    row_count = eng.execute(select([func.count()]).select_from(table)).fetchone()[0]
+    return (table, row_count)
 
 
-def pg_staging(cnxn, raw_table_name, meta_df, state, year,
-               pk_fields=['key', 'state', 'year'],
+def process_raw_table(eng, raw_table_name, meta_df, state, year,
+               index_fields=None,
                replace_sentinels=True, table_name=None):
-    """Uses PostgreSQL functions to split raw load table into columns, scrub missing data placeholders, load the results into a new table.
+    """Uses SQLAlchemy to split raw load table into columns, scrub missing data placeholders, load the results into a new table.
 
     Uses default schema; no support for specifying schema inside this function.
 
@@ -370,11 +268,11 @@ def pg_staging(cnxn, raw_table_name, meta_df, state, year,
 
     Parameters
     ==========
-    cnxn: required
-        Must be a connection created by psycopg2.connect().
+    eng: required
+        Must be a SQLAlchemy engine object.
     
     raw_table_name: required
-        Must be a string; should be the name of a table created with pg_rawload().
+        Must be a string; should be the name of a table created with raw_load().
 
     meta_df: required
         Must be a pandas DataFrame with meta data on the file in question. I.e., returned by pyhcup.meta.get().
@@ -385,17 +283,15 @@ def pg_staging(cnxn, raw_table_name, meta_df, state, year,
     year: required
         Should be the four digit year where the data are from, like 2009. Used to fill in the year value explicitly in the table.
     
-    pk_fields: required (list or None)
-        Will create a primary key and indexes using these fields. A list with length greater than 1 results in a compound primary key.
+    index_fields: required (list or None)
+        Will create an index on these fields.
     
     table_name: optional (default: None)
         Table name for the load. Will be generated automatically if not provided.
     """
     
-    try:
-        import psycopg2
-    except ImportError:
-        raise ImportError("The pg_staging() function requires psycopg2 to be installed.")
+    if index_fields = None:
+        index_fields = ['key', 'state', 'year']
     
     if table_name is None:
         # derive a name for this staging table
@@ -405,9 +301,6 @@ def pg_staging(cnxn, raw_table_name, meta_df, state, year,
             table_name = raw_table_name.replace('raw', 'staging')
         else:
             table_name = raw_table_name + '_staging'
-    
-    # acquire a cursor from the connection object
-    cursor = cnxn.cursor()
     
     # augment this meta_df so we have access to more information regarding column contents
     # and can therefore derive explicit PostgreSQL column cast declarations.
@@ -419,36 +312,36 @@ def pg_staging(cnxn, raw_table_name, meta_df, state, year,
     # replacement (substitutes NULL whenever a match is found down the line)
     missing_pattern = '|'.join(['^%s$' % val for k, val in MISSING_PATTERNS.iteritems()])
     
-    # construct clauses for deriving each of the columns
-    # WARNING: This is another potential site of SQL injection, as these values
-    # are not passed as bind parameters.
+    # Construct the SELECT FROM clause
     
-    substr_clauses = ['''
-        NULLIF(TRIM(REGEXP_REPLACE(SUBSTRING(line FROM %s FOR %s), '%s', '')), '')::%s AS %s
-        ''' % (row['position'], row['width'], missing_pattern, pg_castcoltype(row['data_type'], row['length'], row['scale']), row['field'])
-        for i, row in meta_df.T.iterkv()
-        if row['field'].lower() not in ['state', 'year']
-    ]
+    s = select(
+        [ # begin a list comprehension
+          # need to loop to get all columns
+            cast(
+                case([ # null value replacement part
+                   # which needs substring selection first
+                        (func.substr('line', meta_dict['position'], meta_dict['width']).op('~')(missing_pattern), None)
+                    ],
+                    # substring selection part has to appear both
+                    # in cases and in else for cases
+                    else_=func.substr('line', meta_dict['position'], meta_dict['width'])
+                ),
+                # data type casting part
+                # this can either be determined outside the select()
+                # or be done using a helper function inside
+                # e.g. sqla_type_from_meta_dict()
+                # or some other replacement to former pg_castcoltype()
+                sqla_type_from_meta(meta_dict['data_type'], meta_dict['length'], meta_dict['scale'])
+            ) for i, meta_dict in meta_df.T.iterkv() if meta_dict['field'].lower() not in ('state', 'year')
+        ] + [cast(column('YEAR'), Integer()), cast(column('STATE'), String())]
+    ).select_from(raw_table_name)
     
-    # add those year and state values as scalars
-    col_clauses = substr_clauses + ['%s::INT AS YEAR' % year, "'%s'::VARCHAR AS STATE" % state]
+    s = s.compile(bind=eng, compile_kwargs={"literal_binds": True})
     
+    # Create the table
     
-    # first create the table
-    
-    
-    # then do an INSERT INTO... SELECT... style statement to move it over
-    
-    # proceed to table creation
-    staging_table_create_sql = '''
-        CREATE TABLE %s AS
-            SELECT %s
-            FROM %s
-        ;
-        ''' % (table_name, ', '.join(col_clauses), raw_table_name)
-    cursor.execute(staging_table_create_sql)
-    cnxn.commit()
-    affected_rows = cursor.rowcount
+    t = text("CREATE TABLE :table_name AS :sq")
+    result = eng.execute(t, table_name=table_name, sq=s)
     
     # Really, the steps below may be unnecessary.
     # If this table will soon be selected into a master table with
@@ -458,29 +351,23 @@ def pg_staging(cnxn, raw_table_name, meta_df, state, year,
     # is not truncating fields, and as a comparison of overall
     # loading speed.
     
-    if pk_fields is not None:
-        if isinstance(pk_fields, list) and len(pk_fields) > 0:
-            for col in pk_fields:
-                index_stmt = index_sql(col, table_name)
-                cursor.execute(index_stmt)
-                cnxn.commit()
+    if isinstance(index_fields, list):
+        if len(index_fields) > 0:
+            for col in index_fields:
+                idx = create_index(col)
+                idx.create(eng)
+    else:
+        raise TypeError("index_fields must either be None or a non-zero length list (got %s)." % type(pk_fields))
     
-            pk_sql = """
-                ALTER TABLE %s ADD PRIMARY KEY(%s);
-                """ % (table_name, ', '.join(pk_fields))
-            cursor.execute(pk_sql)
-            cnxn.commit()
-        
-        else:
-            raise TypeError("pk_fields must either be None or a non-zero length list (got %s)." % type(pk_fields))
-    
-    return table_name, affected_rows
+    return table_name, result.rowcount
 
 
-def pg_castcoltype(archtype, length, scale=None, all_char_as_varchar=True):
-    """Generates an explicit column casting from an archtype, length, and optional scale value.
+def sqla_type_from_meta(archtype, length, scale=None):
+    """Generates a SQLAlchemy Column object from an archtype,
+    length, and optional scale value.
 
-    These are typically values dictionaries from a meta_df object, accessed as meta_df.to_dict().values().
+    These are typically values dictionaries from a meta_df
+    object, accessed e.g. as meta_df.to_dict().values().
     """
     
     char_types = ['char', 'varchar', 'string', 's', 'alphanumeric', 'character']
@@ -491,40 +378,42 @@ def pg_castcoltype(archtype, length, scale=None, all_char_as_varchar=True):
     length = int(length)
     
     if archtype.lower() in char_types:
-        if all_char_as_varchar:
-            data_type = 'VARCHAR'
-        else:
-            data_type = 'VARCHAR(%s)' % length
+        return String(length)
     elif archtype.lower() in num_types:
         if not scale:
             scale = 0
-        
-        if scale < 1:
-            #super sloppy
-            if length > 9:
-                data_type = 'BIGINT'
-            else:
-                data_type = 'INT'
         else:
-            data_type = 'NUMERIC(%d, %d)' % (int(length), int(scale))
+            scale = int(scale)
+        
+        if scale == 0:
+            # sometimes the SAS informats say numeric
+            # but the data are really integers.
+            # for example, a scale of 0 means nothing to
+            # the right of the decimal, so we cast these
+            # as integers, ignoring the SAS informat.
+            
+            if length > 9:
+                return BigInteger()
+            else:
+                return Integer()
+        else:
+            return Numeric(precision=length, scale=scale)
     elif archtype.lower() in int_types:
         if length > 9:
-            data_type = 'BIGINT'
+            return BigInteger()
         else:
-            data_type = 'INT'
+            return Integer()
     elif archtype.lower() in boolean_types:
-        data_type = 'BOOLEAN'
-    else:
-        raise Exception("Unable to cast column data type from data_type \"%s\"" % archtype)
+        return Boolean()
     
-    return data_type
+    raise Exception("Unable to cast column data type from data_type \"%s\"" % archtype)
 
 
-def pg_wtl_shovel(cnxn, meta_df, category, tbl_source,
+def wtl_shovel(eng, meta_df, category, tbl_source,
         tbl_destination, extra_fields=['state', 'year', 'key'],
         preserve_source=True):
-    """Shovels wide things into long things
-    
+    """
+    Shovels wide things into long things
     category is 'CHGS' only, for now
     """
     lm = parser.LONG_MAPS[category]
@@ -635,87 +524,78 @@ def pg_wtl_shovel(cnxn, meta_df, category, tbl_source,
     shoveled = 0
     
     for sg in shovel_groups:
-        shovel_group = pg_shovel(cnxn, tbl_source, tbl_destination, sg['fields_in'],
+        shovel_group = shovel(eng, tbl_source, tbl_destination, sg['fields_in'],
             sg['fields_out'], where_not_null=sg['where_not_null'],
             preserve_source=True, scalars=sg['scalars'])
         shoveled += shovel_group
     
     # if requested, drop the source table
     if not preserve_source:
-        dropped = pg_drop(cnxn, tbl_source)
+        dropped = drop_table(eng, tbl_source)
         if not dropped:
             raise Exception("Failed to drop table %s as requested; got status message '%s'" % (tbl_source, dropped))
     
     return shoveled
 
 
-def pg_shovel(cnxn, tbl_source, tbl_destination, fields_in, fields_out=False,
+def shovel(eng, tbl_source, tbl_destination, fields_in, fields_out=None,
               where_not_null=None, preserve_source=True, scalars=None):
-    """Attempts to move everything in tbl_source to tbl_destination using cnxn.
-    
-    The SQL used here is supported for sure in PostgreSQL but untested in other engines.
-
-    fields_out must either be False or a list with length len(fields_in). These will be used as "SELECT {field_in} AS {field_out}" to map values to differently named columns.
-    
-    If preserve_source is False, the table will be dropped after the transfer.
-    
-    If scalars is not None, must be a dictionary with key->value pairs to pass as constants for everything shoveled by this function.
     """
-    cursor = cnxn.cursor()
+    Attempts to move everything in tbl_source to tbl_destination.
+    fields_out must either be None or a list with length len(fields_in).
+    These will be used as "SELECT {field_in} AS {field_out}" to map values
+    to differently named columns.
+    If preserve_source is False, the table will be dropped after the transfer.
+    If scalars is not None, must be a dictionary with key->value pairs to pass
+    as constants for everything shoveled by this function.
+    """
     
-    if fields_out:
+    if fields_out is not None:
         assert len(fields_out) == len(fields_in), \
             "If provided, fields_out must have the same length as fields_in."
-        select_fields = ', '.join(['%s AS %s' % cols for cols in zip(fields_in, fields_out)])
-        #print "fields_out %s" % fields_out
-        insert_fields = ', '.join(fields_out)
+        select_fields = [column(c[0]).label(c[1]) for c in zip(fields_in, fields_out)]
+        insert_fields = fields_out
     else:
-        select_fields = ', '.join(fields_in)
-        insert_fields = ', '.join(fields_in)
+        select_fields = [column(c) for c in fields_in]
+        insert_fields = fields_in
     
     if scalars is not None:
         assert isinstance(scalars, dict), \
             "If provided, scalars must be a simple key->value dictionary."
         try:
-            select_fields += ', ' + ', '.join(["'%s' AS %s" % (v, k) for k, v in scalars.iteritems()])
-            insert_fields += ', ' + ', '.join(['%s' % k for k in scalars.keys()])
+            select_fields.extend([column(v).label(k) for k, v in scalars.iteritems()])
+            insert_fields.extend([str(k) for k in scalars.keys()])
         except:
             raise Exception("Unable to tack on select_fields and insert_fields for scalars. Does scalars look like a simple key->value map? (Got %s)" % scalars)
     
-    stmt = '''
-        INSERT INTO %s (%s)
-            SELECT %s FROM %s
-        ''' % (str(tbl_destination), insert_fields, select_fields, str(tbl_source))
-    
+    sel = select(select_fields).select_from(Table(tbl_source, MetaData(), autoload_with=eng))
+
     if where_not_null is not None:
         assert isinstance(where_not_null, list), \
             "If provided, where_not_null must be a list (got %s)." % (type(where_not_null))
         
         assert all([x in fields_in for x in where_not_null]), \
             "If provided, all items in where_not_null must be items in fields_in (got %s and %s, respectively)." % (where_not_null, fields_in)
-        
-        stmt += 'WHERE (%s)' % (' AND '.join(['%s IS NOT NULL' % wnn for wnn in where_not_null]))
     
-    cursor.execute(stmt)
-    cnxn.commit()
-    
-    if cursor.rowcount > 0:
-        return cursor.rowcount
-    else:
-        return False
+    for wnn in where_not_null:
+        sel = sel.where(column(wnn) != None)
+
+    tbl_destination = Table(tbl_destination, MetaData(), autoload_with=eng)
+    tbl_destination.insert().select_from(insert_fields, sel).execute()
+
+    return True
 
 
-def pg_dteload(cnxn, handle, table_name):
-    """Uses psycopg2 methods to load DaysToEvent data from a csv file into a database table.
-
+def dte_load(eng, handle, table_name):
+    """
+    Uses SQLAlchemy (and optionally psycopg2) to load DaysToEvent data from a csv file into a database table.
     Uses default schema; no support for specifying schema inside this function.
-
-    Returns the name of the created table. Any check of the COPY'd count versus the handle length will have to take place elsewhere.
+    Returns the row count of the newly created table.
 
     Parameters
     ==========
-    cnxn: required
-        Must be a connection created by psycopg2.connect().
+    eng: required
+        Must be a SQLAlchemy engine object.
     
     handle: required
         Must be a file-like object. I.e., returned by open(path).
@@ -724,53 +604,43 @@ def pg_dteload(cnxn, handle, table_name):
         Table name for the load.
     """
     
-    try:
-        import psycopg2
-    except ImportError:
-        raise ImportError("The pg_dteload() function requires psycopg2 to be installed.")
+    table = Table(table_name, MetaData(),
+        Column('key', BigInteger),
+        Column('visitlink', BigInteger),
+        Column('daystoevent', BigInteger)
+    )
+    table.create(eng, checkfirst=True)
+
+    if eng.driver == 'psycopg2':  # use Postgres COPY FROM
+        conn = eng.raw_connection()
+        cursor = conn.cursor()  # acquire a cursor from the connection object
+        cp_sql = "COPY %s FROM STDIN DELIMITER ',' CSV HEADER;" % (table_name)
+        cursor.copy_expert(cp_sql, handle)
+        conn.commit()
+        conn.close()
+    else:  # fall back to generic bulk insert
+        data = []
+        for line in handle:
+            l = [int(x.strip()) for x in line.strip().split(',')]
+            data.append({
+                'key': l[0],
+                'visitlink': l[1],
+                'daystoevent': l[2]
+            })
+        eng.execute(table.insert(), data) 
     
-    # acquire a cursor from the connection object
-    cursor = cnxn.cursor()
+    row_count = eng.execute(select([func.count()]).select_from(table)).fetchone()[0]
     
-    table_create_sql = 'CREATE TABLE IF NOT EXISTS %s (key BIGINT, visitlink BIGINT, daystoevent BIGINT);' % table_name
-    cursor.execute(table_create_sql)
-    cnxn.commit()
-    
-    cp_sql = "COPY %s FROM STDIN DELIMITER ',' CSV HEADER;" % (table_name)
-    cursor.copy_expert(cp_sql, handle)
-    cnxn.commit()
-    
-    count_sql = "SELECT COUNT(*) FROM %s LIMIT 1;" % (table_name)
-    cursor.execute(count_sql)
-    result = cursor.fetchone()
-    rowcount = int(result[0])
-    
-    cursor = None
-    
-    return (table_name, rowcount)
+    return row_count
+
+def get_cols(eng, tbl_name):
+    table = Table(tbl_name, MetaData(), autoload_with=eng)
+    return table.c.keys()
 
 
-def pg_getcols(cnxn, tbl_name):
-    col_sql = """
-    SELECT column_name
-    FROM information_schema.columns
-    WHERE table_name   = %s
-    """
-    
-    cursor = cnxn.cursor()
-    cursor.execute(col_sql, [tbl_name.lower()])
-    result = cursor.fetchall()
-    cols = [x[0] for x in result]
-    return cols
-
-
-def pg_drop(cnxn, tbl_name):
-    cursor = cnxn.cursor()
-    stmt = 'DROP TABLE IF EXISTS %s;' % tbl_name
-    cursor.execute(stmt)
-    cnxn.commit()
-    
-    if cursor.statusmessage == 'DROP TABLE':
+def drop_table(eng, tbl_name):
+    table = Table(tbl_name, MetaData(), autoload_with=eng)
+    if table.exists():
+        table.drop()
         return True
-    else:
-        return cursor.statusmessage
+    return False
