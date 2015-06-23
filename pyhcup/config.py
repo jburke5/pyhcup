@@ -1,9 +1,8 @@
-import re, os, zipfile
+import os
 from sqlalchemy.schema import Column
-from sqlalchemy.types import Integer, BigInteger, Boolean, String, Numeric
+from sqlalchemy.types import Integer, BigInteger, String, Numeric
 
-here = os.path.abspath(__file__)
-dir_here = os.path.dirname(here)
+dir_here = os.path.dirname(os.path.abspath(__file__))
 BUNDLED_LOADFILE_DIR = os.path.join(dir_here, 'data', 'loadfiles')
 BUNDLED_SID_SAMPLES_DIR = os.path.join(dir_here, 'data', 'sid_samples')
 BUNDLED_UFLAGDEF = os.path.join(dir_here, 'data', 'uflags', 'uflag_definitions.csv')
