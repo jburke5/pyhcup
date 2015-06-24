@@ -38,15 +38,10 @@ def column_clause(dictionary, constraints=None, all_char_as_varchar=True):
 
     if constraints is None:
         constraints = {}
-
-    char_types = ['char', 'varchar', 'string', 's', 'alphanumeric', 'character']
-    num_types = ['numeric', 'number', 'float', 'decimal', 'dec', 'd', 'f', 'numeric']
-    int_types = ['int', 'integer', 'i']
-    boolean_types = ['boolean', 'truefalse', 'tf', 'truth']
     
     data_type = sqla_type_from_meta(
-        dictionary['data_type'].lower(),
-        int(dictionary['length']),
+        dictionary['data_type'],
+        dictionary['length'],
         dictionary.get('scale')
     )
     
@@ -363,7 +358,7 @@ def process_raw_table(eng, raw_table_name, meta_df, state, year,
 
 
 def sqla_type_from_meta(archtype, length, scale=None):
-    """Generates a SQLAlchemy Column object from an archtype,
+    """Generates a SQLAlchemy data type object from an archtype,
     length, and optional scale value.
 
     These are typically values dictionaries from a meta_df
