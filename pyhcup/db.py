@@ -7,7 +7,7 @@ In the long run, much of this would be better if it tied in something like SQLAl
 
 from sqlalchemy import MetaData
 from sqlalchemy.sql import column
-from sqlalchemy.sql.expression import case, cast, func, select, text
+from sqlalchemy.sql.expression import case, cast, func, select, text, literal_column
 from sqlalchemy.schema import Column, Index, Table
 from sqlalchemy.types import BigInteger, Boolean, Integer, Numeric, String, Text
 import pandas as pd
@@ -252,8 +252,47 @@ def load_raw(eng, handle, dummy_separator='\v', table_name=None):
     return (table, row_count)
 
 
+def sqla_select_from_raw(eng, raw_table_name, meta_df, state, year):
+    # augment this meta_df so we have access to more information regarding column contents
+    # and can therefore derive explicit PostgreSQL column cast declarations.
+    # this is valuable since the table will be created using the same column casting in
+    # result of the SELECT statement.
+    meta_df = pyhcup_meta.augment(meta_df)
+    
+    # borrow the MISSING_PATTERNS definition in pyhcup to use for missing data
+    # replacement (substitutes NULL whenever a match is found down the line)
+    missing_pattern = '|'.join(['^%s$' % val for k, val in MISSING_PATTERNS.iteritems()])
+    
+    # Construct the SELECT FROM clause
+    
+    s = select(
+        [ # begin a list comprehension
+          # need to loop to get all columns
+            cast(
+                case([ # null value replacement part
+                   # which needs substring selection first
+                        (func.substr('line', int(meta_dict['position']), int(meta_dict['width'])).op('~')(missing_pattern), None)
+                    ],
+                    # substring selection part has to appear both
+                    # in cases and in else for cases
+                    else_=func.substr('line', int(meta_dict['position']), int(meta_dict['width']))
+                ),
+                # data type casting part
+                # this can either be determined outside the select()
+                # or be done using a helper function inside
+                # e.g. sqla_type_from_meta_dict()
+                # or some other replacement to former pg_castcoltype()
+                sqla_type_from_meta(meta_dict['data_type'], meta_dict['length'], meta_dict['scale'])
+            ).label(meta_dict['field'])
+            for i, meta_dict in meta_df.T.iterkv() if meta_dict['field'].lower() not in ('state', 'year')
+        ] + [cast(literal_column(year), Integer()).label('YEAR'),
+             cast(literal_column("'{0}'".format(state)), String()).label('STATE')]
+    ).select_from(raw_table_name)
+    
+    return s
+
 def process_raw_table(eng, raw_table_name, meta_df, state, year,
-               index_fields=None,
+               index_fields=['key', 'state', 'year'],
                replace_sentinels=True, table_name=None):
     """Uses SQLAlchemy to split raw load table into columns, scrub missing data placeholders, load the results into a new table.
 
@@ -285,9 +324,10 @@ def process_raw_table(eng, raw_table_name, meta_df, state, year,
         Table name for the load. Will be generated automatically if not provided.
     """
     
-    if index_fields is None:
-        index_fields = ['key', 'state', 'year']
+    stmt = sqla_select_from_raw(eng, raw_table_name, meta_df, state, year)
+    compiled = stmt.compile(bind=eng, compile_kwargs={"literal_binds": True})
     
+    # Create the table
     if table_name is None:
         # derive a name for this staging table
         # prefer to have it match the raw table name, but with staging instead of raw
@@ -297,45 +337,7 @@ def process_raw_table(eng, raw_table_name, meta_df, state, year,
         else:
             table_name = raw_table_name + '_staging'
     
-    # augment this meta_df so we have access to more information regarding column contents
-    # and can therefore derive explicit PostgreSQL column cast declarations.
-    # this is valuable since the table will be created using the same column casting in
-    # result of the SELECT statement.
-    meta_df = pyhcup_meta.augment(meta_df)
-    
-    # borrow the MISSING_PATTERNS definition in pyhcup to use for missing data
-    # replacement (substitutes NULL whenever a match is found down the line)
-    missing_pattern = '|'.join(['^%s$' % val for k, val in MISSING_PATTERNS.iteritems()])
-    
-    # Construct the SELECT FROM clause
-    
-    s = select(
-        [ # begin a list comprehension
-          # need to loop to get all columns
-            cast(
-                case([ # null value replacement part
-                   # which needs substring selection first
-                        (func.substr('line', meta_dict['position'], meta_dict['width']).op('~')(missing_pattern), None)
-                    ],
-                    # substring selection part has to appear both
-                    # in cases and in else for cases
-                    else_=func.substr('line', meta_dict['position'], meta_dict['width'])
-                ),
-                # data type casting part
-                # this can either be determined outside the select()
-                # or be done using a helper function inside
-                # e.g. sqla_type_from_meta_dict()
-                # or some other replacement to former pg_castcoltype()
-                sqla_type_from_meta(meta_dict['data_type'], meta_dict['length'], meta_dict['scale'])
-            ) for i, meta_dict in meta_df.T.iterkv() if meta_dict['field'].lower() not in ('state', 'year')
-        ] # + [cast(column('YEAR'), Integer()), cast(column('STATE'), String())]
-    ).select_from('"%s"' % raw_table_name)
-    
-    s = s.compile(bind=eng, compile_kwargs={"literal_binds": True})
-    
-    # Create the table
-    
-    t = text("CREATE TABLE %s AS %s" % (table_name, unicode(s)))
+    t = text("CREATE TABLE %s AS %s" % (table_name, unicode(compiled)))
     result = eng.execute(t)
     
     # Really, the steps below may be unnecessary.

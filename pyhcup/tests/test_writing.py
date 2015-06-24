@@ -5,34 +5,35 @@ from testconfig import config as test_config
 import pyhcup
 from config import BUNDLED_SID_SAMPLES, KNOWN_MISSING_LOADFILES
 
+ENGINES = [create_engine(d) for d in test_config['databases'].values()]
 
 class DatabaseTest(object):
 
     def setUp(self):
-        self.engine = create_engine(test_config['database']['engine'])
+        pass
 
     def tearDown(self):
-        self.engine.dispose()
-        self.engine = None
+        pass
 
 
 class TestCreateLongTable(DatabaseTest):
 
-    def create_long_table(self, table_name, category):
+    def create_long_table(self, engine, table_name, category):
         table = pyhcup.db.gen_long_table(table_name, category)
-        table.create(bind=self.engine)
-        success = table.exists(bind=self.engine)
-        table.drop(bind=self.engine)
+        table.create(bind=engine)
+        success = table.exists(bind=engine)
+        table.drop(bind=engine)
         assert success
 
     def test(self):
-        for k in pyhcup.config.LONG_TABLE_DEFINITIONS.keys():
-            yield self.create_long_table, k, k
+        for e in ENGINES:
+            for k in pyhcup.config.LONG_TABLE_DEFINITIONS.keys():
+                yield self.create_long_table, e, k, k
 
 
 class TestLoadRaw(DatabaseTest):
 
-    def load_raw(self, target):
+    def load_raw(self, engine, target):
         for missing in KNOWN_MISSING_LOADFILES:
             if all(missing[k] == target[k] for k in missing.keys()):
                 err = '''
@@ -44,9 +45,9 @@ class TestLoadRaw(DatabaseTest):
             target['year'],
             target['category']
         )
-        table, rc = pyhcup.db.load_raw(self.engine, handle)
-        success = table.exists(bind=self.engine) and rc > 0
-        table.drop(bind=self.engine)
+        table, rc = pyhcup.db.load_raw(engine, handle)
+        success = table.exists(bind=engine) and rc > 0
+        table.drop(bind=engine)
         assert success
 
     def test(self):
@@ -54,14 +55,15 @@ class TestLoadRaw(DatabaseTest):
                if x['source'] == 'HCUP'
                and x['content'] == 'contentnh_uncompressed'
                ]
-        for x in targets:
-            yield self.load_raw, x
+        for e in ENGINES:
+            for x in targets:
+                yield self.load_raw, e, x
 
 
 class TestProcessRawTable(DatabaseTest):
 
-    def process_raw_table(self, target):
-        if self.engine.name == 'sqlite':
+    def process_raw_table(self, engine, target):
+        if engine.name == 'sqlite':
             raise unittest.SkipTest('Test does not support SQLite')
         for missing in KNOWN_MISSING_LOADFILES:
             if all(missing[k] == target[k] for k in missing.keys()):
@@ -78,12 +80,12 @@ class TestProcessRawTable(DatabaseTest):
             target['year'],
             target['category']
         )
-        table, rc = pyhcup.db.load_raw(self.engine, handle)
-        p_table, rc = pyhcup.db.process_raw_table(self.engine, table.name,
+        table, rc = pyhcup.db.load_raw(engine, handle)
+        p_table, rc = pyhcup.db.process_raw_table(engine, table.name,
             meta, target['state_abbr'], target['year'])
-        success = p_table.exists(bind=self.engine) and rc > 0
-        table.drop(bind=self.engine)
-        p_table.drop(bind=self.engine)
+        success = p_table.exists(bind=engine) and rc > 0
+        table.drop(bind=engine)
+        p_table.drop(bind=engine)
         assert success
 
     def test(self):
@@ -91,5 +93,6 @@ class TestProcessRawTable(DatabaseTest):
                if x['source'] == 'HCUP'
                and x['content'] == 'contentnh_uncompressed'
                ]
-        for x in targets:
-            yield self.process_raw_table, x
+        for e in ENGINES:
+            for x in targets:
+                yield self.process_raw_table, e, x
