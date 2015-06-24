@@ -6,9 +6,9 @@ In the long run, much of this would be better if it tied in something like SQLAl
 """
 
 from sqlalchemy import MetaData
-from sqlalchemy.sql import column, table
-from sqlalchemy.sql.expression import case, cast, column, func, insert, select, table, text
-from sqlalchemy.schema import Column, Index, PrimaryKeyConstraint, Table
+from sqlalchemy.sql import column
+from sqlalchemy.sql.expression import case, cast, func, select, text
+from sqlalchemy.schema import Column, Index, Table
 from sqlalchemy.types import BigInteger, Boolean, Integer, Numeric, String, Text
 import pandas as pd
 import datetime
@@ -38,15 +38,10 @@ def column_clause(dictionary, constraints=None, all_char_as_varchar=True):
 
     if constraints is None:
         constraints = {}
-
-    char_types = ['char', 'varchar', 'string', 's', 'alphanumeric', 'character']
-    num_types = ['numeric', 'number', 'float', 'decimal', 'dec', 'd', 'f', 'numeric']
-    int_types = ['int', 'integer', 'i']
-    boolean_types = ['boolean', 'truefalse', 'tf', 'truth']
     
     data_type = sqla_type_from_meta(
-        dictionary['data_type'].lower(),
-        int(dictionary['length']),
+        dictionary['data_type'],
+        dictionary['length'],
         dictionary.get('scale')
     )
     
@@ -165,7 +160,7 @@ def gen_long_table(table_name, category, schema=None):
     # though, PUDF will typically not have visitlink records, I don't think.
     # So, those will have to be added back in in a separate step :(
     fields = LONG_TABLE_DEFINITIONS[category]
-    
+
     if not isinstance(category, (str, unicode)):
         raise Exception("category must be a str or unicode (got %s)" % type(category))
     elif category not in LONG_TABLE_DEFINITIONS.keys():
@@ -246,7 +241,7 @@ def load_raw(eng, handle, dummy_separator='\v', table_name=None):
         conn = eng.raw_connection()
         cursor = conn.cursor()  # acquire a cursor from the connection object
         # load the data using psycopg2.cursor.copy_from() method
-        cursor.copy_from(handle, table_name, sep=dummy_separator)
+        cursor.copy_from(handle, '"%s"' % table_name, sep=dummy_separator)
         conn.commit()
         conn.close()
     else:  # fall back to line-by-line insert
@@ -290,7 +285,7 @@ def process_raw_table(eng, raw_table_name, meta_df, state, year,
         Table name for the load. Will be generated automatically if not provided.
     """
     
-    if index_fields == None:
+    if index_fields is None:
         index_fields = ['key', 'state', 'year']
     
     if table_name is None:
@@ -333,15 +328,15 @@ def process_raw_table(eng, raw_table_name, meta_df, state, year,
                 # or some other replacement to former pg_castcoltype()
                 sqla_type_from_meta(meta_dict['data_type'], meta_dict['length'], meta_dict['scale'])
             ) for i, meta_dict in meta_df.T.iterkv() if meta_dict['field'].lower() not in ('state', 'year')
-        ] + [cast(column('YEAR'), Integer()), cast(column('STATE'), String())]
-    ).select_from(raw_table_name)
+        ] # + [cast(column('YEAR'), Integer()), cast(column('STATE'), String())]
+    ).select_from('"%s"' % raw_table_name)
     
     s = s.compile(bind=eng, compile_kwargs={"literal_binds": True})
     
     # Create the table
     
-    t = text("CREATE TABLE :table_name AS :sq")
-    result = eng.execute(t, table_name=table_name, sq=s)
+    t = text("CREATE TABLE %s AS %s" % (table_name, unicode(s)))
+    result = eng.execute(t)
     
     # Really, the steps below may be unnecessary.
     # If this table will soon be selected into a master table with
@@ -357,13 +352,13 @@ def process_raw_table(eng, raw_table_name, meta_df, state, year,
                 idx = create_index(col)
                 idx.create(eng)
     else:
-        raise TypeError("index_fields must either be None or a non-zero length list (got %s)." % type(pk_fields))
+        raise TypeError("index_fields must either be None or a non-zero length list (got %s)." % type(index_fields))
     
     return table_name, result.rowcount
 
 
 def sqla_type_from_meta(archtype, length, scale=None):
-    """Generates a SQLAlchemy Column object from an archtype,
+    """Generates a SQLAlchemy data type object from an archtype,
     length, and optional scale value.
 
     These are typically values dictionaries from a meta_df
