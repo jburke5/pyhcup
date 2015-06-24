@@ -290,7 +290,7 @@ def process_raw_table(eng, raw_table_name, meta_df, state, year,
         Table name for the load. Will be generated automatically if not provided.
     """
     
-    if index_fields = None:
+    if index_fields == None:
         index_fields = ['key', 'state', 'year']
     
     if table_name is None:
