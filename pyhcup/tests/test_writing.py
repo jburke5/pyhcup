@@ -77,7 +77,7 @@ class TestProcessRawTable(DatabaseTest):
                         datafile=target['file'])
         handle = pyhcup.parser._open(target['full_path'],
             target['state_abbr'],
-            target['year'],
+            int(target['year']),
             target['category']
         )
         table, rc = pyhcup.db.load_raw(engine, handle)
@@ -115,7 +115,7 @@ class TestProcessedTableIntegrity(DatabaseTest):
                         datafile=target['file'])
         handle = pyhcup.parser._open(target['full_path'],
             target['state_abbr'],
-            target['year'],
+            int(target['year']),
             target['category']
         )
         table, rc = pyhcup.db.load_raw(engine, handle)

@@ -254,56 +254,57 @@ def load_raw(eng, handle, dummy_separator='\v', table_name=None):
     return (table, row_count)
 
 
-def sqla_select_from_raw(eng, raw_table_name, meta_df, state, year):
-    # augment this meta_df so we have access to more information regarding column contents
-    # and can therefore derive explicit PostgreSQL column cast declarations.
-    # this is valuable since the table will be created using the same column casting in
-    # result of the SELECT statement.
+def sqla_select_processed_from_raw(eng, table, meta_df, state, year):
+    '''
+    Generates and returns a SQLAlchemy Select object that can
+    be used to slice the raw table into the appropriate columns.
+    
+    Unfortunately relies on a regexp_replace function not
+    available within all databases.
+    '''
     meta_df = pyhcup_meta.augment(meta_df)
     
-    # borrow the MISSING_PATTERNS definition in pyhcup to use for missing data
-    # replacement (substitutes NULL whenever a match is found down the line)
+    # for missing data replacement
+    # (substitutes NULL whenever a match is found down the line)
     missing_pattern = '|'.join(['^%s$' % val for k, val in MISSING_PATTERNS.iteritems()])
     
-    # Construct the SELECT FROM clause
-    
     s = select(
-        [ # begin a list comprehension
-          # need to loop to get all columns
-            cast(
-                # testing without regex null value replacement part
-                #func.substr(Column('line', Text()), int(meta_dict['position']), int(meta_dict['width'])), Text()
-                case([ # null value replacement part
-                       # which needs substring selection first
-                        (func.substr(Column('line', Text()),
-                                     int(meta_dict['position']),
-                                     int(meta_dict['width'])
-                                     ).op('~')(missing_pattern), None)
-                    ],
-                    # substring selection part has to appear both
-                    # in cases and in else for cases
-                    else_=func.substr(Column('line', Text()),
-                                      int(meta_dict['position']),
-                                      int(meta_dict['width'])
-                                      )
+        [
+        # begin a list comprehension
+        # (need to loop to get all columns)
+            cast( # ultimately cast this as the appropriate type
+                func.nullif(
+                    # replace with null if regexp_replace and trim
+                    # cut this down to nothing        
+                    func.trim(
+                        # whitespace
+                        func.regexp_replace(
+                            # matching known missing data regexp
+                            func.substr(
+                                Column('line', Text()),
+                                int(meta_dict['position']),
+                                int(meta_dict['width'])
+                            ),
+                            missing_pattern,
+                            ''
+                        )
+                    ),
+                    ''
                 ),
-                # data type casting part
-                # this can either be determined outside the select()
-                # or be done using a helper function inside
-                # e.g. sqla_type_from_meta_dict()
-                # or some other replacement to former pg_castcoltype()
                 sqla_type_from_meta(meta_dict['data_type'], meta_dict['length'], meta_dict['scale'])
             ).label(meta_dict['field'])
             for i, meta_dict in meta_df.T.iterkv() if meta_dict['field'].lower() not in ('state', 'year')
-        ] + [cast(literal_column(year), Integer()).label('YEAR'),
-             cast(literal_column("'{0}'".format(state)), String()).label('STATE')]
-    ).select_from(table(raw_table_name))
+        ] + [cast(literal_column(str(year)), Integer()).label('YEAR'),
+            cast(literal_column("'{0}'".format(state)), String()).label('STATE')]
+    ).select_from(table)
     
     return s
 
+
 def process_raw_table(eng, table, meta_df, state, year,
                index_fields=['key', 'state', 'year'],
-               replace_sentinels=True, table_name=None):
+               #replace_sentinels=True, # deprecated option
+               table_name=None):
     """Uses SQLAlchemy to split raw load table into columns, scrub missing data placeholders, load the results into a new table.
 
     Uses default schema; no support for specifying schema inside this function.
@@ -334,7 +335,7 @@ def process_raw_table(eng, table, meta_df, state, year,
         Table name for the load. Will be generated automatically if not provided.
     """
     raw_table_name = table.name
-    stmt = sqla_select_from_raw(eng, raw_table_name, meta_df, state, year)
+    stmt = sqla_select_processed_from_raw(eng, table, meta_df, state, year)
     compiled = stmt.compile(bind=eng, compile_kwargs={"literal_binds": True})
     
     # Create the table

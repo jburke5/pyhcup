@@ -63,6 +63,22 @@ SKIP_ROWS = {
         ('SID', 'AR', 2011, 'CORE'): 2,
         ('SID', 'AR', 2011, 'DX_PR_GRPS'): 2,
         ('SID', 'AR', 2011, 'SEVERITY'): 2,
+        ('SID', 'AR', 2012, 'CORE'): 2,
+        ('SID', 'AR', 2012, 'AHAL'): 2,
+        ('SID', 'AZ', 2012, 'AHAL'): 2,
+        ('SID', 'CO', 2012, 'AHAL'): 2,
+        ('SID', 'KY', 2012, 'AHAL'): 2,
+        ('SID', 'IA', 2012, 'AHAL'): 2,
+        ('SID', 'IA', 2012, 'CORE'): 2,
+        ('SID', 'MD', 2012, 'AHAL'): 2,
+        ('SID', 'NC', 2012, 'AHAL'): 2,
+        ('SID', 'NC', 2012, 'CORE'): 2,
+        ('SID', 'NC', 2012, 'SEVERITY'): 2,
+        ('SID', 'NJ', 2012, 'AHAL'): 2,
+        ('SID', 'RI', 2012, 'AHAL'): 2,
+        ('SID', 'WA', 2012, 'AHAL'): 2,
+        ('SID', 'WI', 2012, 'AHAL'): 2,
+        ('SID', 'WV', 2012, 'AHAL'): 2,
     }
 
 
