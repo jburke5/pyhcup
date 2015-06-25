@@ -7,7 +7,7 @@ In the long run, much of this would be better if it tied in something like SQLAl
 
 from sqlalchemy import MetaData
 from sqlalchemy.sql import column
-from sqlalchemy.sql.expression import case, cast, func, select, text, literal_column
+from sqlalchemy.sql.expression import case, cast, func, select, text, literal_column, table
 from sqlalchemy.schema import Column, Index, Table
 from sqlalchemy.types import BigInteger, Boolean, Integer, Numeric, String, Text
 import pandas as pd
@@ -231,7 +231,9 @@ def load_raw(eng, handle, dummy_separator='\v', table_name=None):
     timestamp = now.strftime('%Y%m%d%H%M%S')
     
     if table_name is None:
-        table_name = '%s%s_raw' % (base_filename, timestamp)
+        table_name = '%s_%s_raw' % (base_filename, timestamp)
+        # else SQLAlchemy will fail to reflect later (seems to coerce case-sensitive)
+        table_name = table_name.lower()
     
     # proceed to table creation
     table = Table(table_name, MetaData(), Column('line', Text()))
@@ -269,13 +271,21 @@ def sqla_select_from_raw(eng, raw_table_name, meta_df, state, year):
         [ # begin a list comprehension
           # need to loop to get all columns
             cast(
+                # testing without regex null value replacement part
+                #func.substr(Column('line', Text()), int(meta_dict['position']), int(meta_dict['width'])), Text()
                 case([ # null value replacement part
-                   # which needs substring selection first
-                        (func.substr('line', int(meta_dict['position']), int(meta_dict['width'])).op('~')(missing_pattern), None)
+                       # which needs substring selection first
+                        (func.substr(Column('line', Text()),
+                                     int(meta_dict['position']),
+                                     int(meta_dict['width'])
+                                     ).op('~')(missing_pattern), None)
                     ],
                     # substring selection part has to appear both
                     # in cases and in else for cases
-                    else_=func.substr('line', int(meta_dict['position']), int(meta_dict['width']))
+                    else_=func.substr(Column('line', Text()),
+                                      int(meta_dict['position']),
+                                      int(meta_dict['width'])
+                                      )
                 ),
                 # data type casting part
                 # this can either be determined outside the select()
@@ -287,11 +297,11 @@ def sqla_select_from_raw(eng, raw_table_name, meta_df, state, year):
             for i, meta_dict in meta_df.T.iterkv() if meta_dict['field'].lower() not in ('state', 'year')
         ] + [cast(literal_column(year), Integer()).label('YEAR'),
              cast(literal_column("'{0}'".format(state)), String()).label('STATE')]
-    ).select_from(raw_table_name)
+    ).select_from(table(raw_table_name))
     
     return s
 
-def process_raw_table(eng, raw_table_name, meta_df, state, year,
+def process_raw_table(eng, table, meta_df, state, year,
                index_fields=['key', 'state', 'year'],
                replace_sentinels=True, table_name=None):
     """Uses SQLAlchemy to split raw load table into columns, scrub missing data placeholders, load the results into a new table.
@@ -305,8 +315,8 @@ def process_raw_table(eng, raw_table_name, meta_df, state, year,
     eng: required
         Must be a SQLAlchemy engine object.
     
-    raw_table_name: required
-        Must be a string; should be the name of a table created with raw_load().
+    table: required
+        SQLAlchemy table object, usually created with raw_load().
 
     meta_df: required
         Must be a pandas DataFrame with meta data on the file in question. I.e., returned by pyhcup.meta.get().
@@ -323,7 +333,7 @@ def process_raw_table(eng, raw_table_name, meta_df, state, year,
     table_name: optional (default: None)
         Table name for the load. Will be generated automatically if not provided.
     """
-    
+    raw_table_name = table.name
     stmt = sqla_select_from_raw(eng, raw_table_name, meta_df, state, year)
     compiled = stmt.compile(bind=eng, compile_kwargs={"literal_binds": True})
     
@@ -337,8 +347,9 @@ def process_raw_table(eng, raw_table_name, meta_df, state, year,
         else:
             table_name = raw_table_name + '_staging'
     
-    t = text("CREATE TABLE %s AS %s" % (table_name, unicode(compiled)))
-    result = eng.execute(t)
+    sql = text("CREATE TABLE %s AS (%s)" % (table_name, unicode(compiled)))
+    result = eng.execute(sql)
+    t = Table(table_name, MetaData(bind=eng), autoload=True)
     
     # Really, the steps below may be unnecessary.
     # If this table will soon be selected into a master table with
@@ -348,15 +359,16 @@ def process_raw_table(eng, raw_table_name, meta_df, state, year,
     # is not truncating fields, and as a comparison of overall
     # loading speed.
     
-    if isinstance(index_fields, list):
-        if len(index_fields) > 0:
-            for col in index_fields:
-                idx = create_index(col)
-                idx.create(eng)
-    else:
-        raise TypeError("index_fields must either be None or a non-zero length list (got %s)." % type(index_fields))
+    # TODO: Failing as of 2015-06-25
+    #if isinstance(index_fields, list):
+    #    if len(index_fields) > 0:
+    #        for col in index_fields:
+    #            idx = create_index(Column(col))
+    #            idx.create(eng)
+    #else:
+    #    raise TypeError("index_fields must either be None or a non-zero length list (got %s)." % type(index_fields))
     
-    return table_name, result.rowcount
+    return t, result.rowcount
 
 
 def sqla_type_from_meta(archtype, length, scale=None):
