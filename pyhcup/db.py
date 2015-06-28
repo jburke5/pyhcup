@@ -196,12 +196,14 @@ def cast_to_py(x):
         return x
 
 
+def get_rowcount(table, engine):
+    return engine.execute(select([func.count()]).select_from(table)).fetchone()[0]
+
+
 def load_raw(eng, handle, dummy_separator='\v', table_name=None):
-    """Uses SQLalchemy (and optionally psycopg2) to load raw data into a one-column table.
-
-    Uses default schema; no support for specifying schema inside this function.
-
-    Returns True on success. Any check of the COPY'd count versus the handle length will have to take place elsewhere.
+    """
+    Uses SQLalchemy (and optionally psycopg2) to load raw data into a
+    one-column table. Returns SQLAlchemy Table object
 
     Parameters
     ==========
@@ -249,19 +251,19 @@ def load_raw(eng, handle, dummy_separator='\v', table_name=None):
     else:  # fall back to line-by-line insert
         data = [{'line': l.strip()} for l in handle]
         eng.execute(table.insert(), data)
-    
-    row_count = eng.execute(select([func.count()]).select_from(table)).fetchone()[0]
-    return (table, row_count)
+
+    return table
+
 
 
 def sqla_select_processed_from_raw(eng, table, meta_df, state, year):
-    '''
+    """
     Generates and returns a SQLAlchemy Select object that can
     be used to slice the raw table into the appropriate columns.
     
     Unfortunately relies on a regexp_replace function not
     available within all databases.
-    '''
+    """
     meta_df = pyhcup_meta.augment(meta_df)
     
     # for missing data replacement
@@ -305,11 +307,11 @@ def process_raw_table(eng, table, meta_df, state, year,
                index_fields=['key', 'state', 'year'],
                #replace_sentinels=True, # deprecated option
                table_name=None):
-    """Uses SQLAlchemy to split raw load table into columns, scrub missing data placeholders, load the results into a new table.
+    """
+    Uses SQLAlchemy to split raw load table into columns, scrub missing
+    data placeholders, and load sliced data into a new table.
 
-    Uses default schema; no support for specifying schema inside this function.
-
-    Returns a tuple containing the name of the created table and the number of affected rows.
+    Returns tuple: (created SQLAlchemy Table object, SQL used)
 
     Parameters
     ==========
@@ -369,7 +371,7 @@ def process_raw_table(eng, table, meta_df, state, year,
     #else:
     #    raise TypeError("index_fields must either be None or a non-zero length list (got %s)." % type(index_fields))
     
-    return t, result.rowcount
+    return t, sql
 
 
 def sqla_type_from_meta(archtype, length, scale=None):
